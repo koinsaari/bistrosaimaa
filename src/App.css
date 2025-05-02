@@ -40,3 +40,13 @@
 .read-the-docs {
   color: #888;
 }
+
+/* overwrite the default blue color */
+#contact a {
+  color: white !important;
+}
+
+#contact a:hover {
+  color: #34d399 !important;
+  text-decoration: underline;
+}
