@@ -8,7 +8,7 @@ import Navigation from './components/Navigation';
 import Footer from './components/Footer';
 import FeatureCard from './components/FeatureCard';
 import Button from './components/Button';
-import MenuCard from './components/MenuCard';
+import Menu from './components/Menu';
 
 function App() {
   const features = [
@@ -38,32 +38,16 @@ function App() {
 
   return (
     <div className="min-h-screen font-sans">
-      {/* Temporary banner */}
-      <div className="bg-yellow-100 border-b border-yellow-300">
-        <div className="container mx-auto px-4 py-3">
-          <div className="flex items-center justify-center">
-            <div className="flex items-center">
-              <span className="text-xl mr-2" aria-hidden="true">
-                🚧
-              </span>
-              <p className="text-sm text-yellow-800">
-                <span className="font-medium">Oho!</span> Sivumme on vielä vähän kesken, mutta
-                tervetuloa tutustumaan!
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
+      <Banner />
       <Navigation />
 
       {/* Hero */}
       <section
         id="home"
-        className="relative h-[80vh] bg-gray-900 flex items-center justify-center text-center text-white"
+        className="relative h-[80vh] bg-gray-900 flex items-center justify-center text-center text-white w-full"
       >
         <div className="absolute inset-0 bg-black opacity-50"></div>
-        <div className="relative z-10 px-4 max-w-3xl">
+        <div className="relative z-10 max-w-3xl">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
             Tervetuloa Bistro Saimaaseen
           </h1>
@@ -92,7 +76,7 @@ function App() {
         </div>
       </section>
 
-      <MenuCard />
+      <Menu />
 
       {/* About */}
       <section id="about" className="py-16 bg-white">
@@ -188,5 +172,26 @@ function App() {
     </div>
   );
 }
+
+const Banner = () => (
+  <div className="bg-yellow-100 border-b border-yellow-300">
+    <div className="container mx-auto px-4 py-3">
+      <div className="flex flex-col items-center justify-center">
+        <div className="flex items-center">
+          <span className="text-xl mr-2" aria-hidden="true">
+            🚧
+          </span>
+          <p className="text-sm text-yellow-800">
+            <span className="font-medium">Oho!</span> Sivumme on vielä vähän kesken, mutta
+            tervetuloa tutustumaan!
+          </p>
+        </div>
+        <p className="text-yellow-800 font-bold text-base mt-1">
+          Huomaathan, että sisältö on vielä työn alla eikä virallista.
+        </p>
+      </div>
+    </div>
+  </div>
+);
 
 export default App;

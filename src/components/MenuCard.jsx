@@ -5,74 +5,137 @@
 
 import { useState } from 'react';
 
-const MenuCard = () => {
+const MenuCard = ({ menuImageUrl, weeklyMenuItems }) => {
   const [isImageLoaded, setIsImageLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
-  const menuImageUrl = 'https://placehold.co/800x1200/?text=Viikon+ruokalista';
+  const [isFlipped, setIsFlipped] = useState(false);
+  const [selectedDish, setSelectedDish] = useState(null);
+
+  const handleCardFlip = () => {
+    setIsFlipped(!isFlipped);
+
+    if (!isFlipped) {
+      setSelectedDish(null);
+    }
+  };
+
+  const toggleDishSelection = (index) => {
+    if (selectedDish === index) {
+      setSelectedDish(null);
+    } else {
+      setSelectedDish(index);
+    }
+  };
 
   return (
-    <section id="menu" className="py-16 bg-gray-50">
-      <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-bold text-center mb-8 text-gray-700">Viikon ruokalista</h2>
-
-        <div className="max-w-5xl mx-auto">
-          <div className="flex flex-col lg:flex-row bg-white rounded-lg shadow-md overflow-hidden">
-            {/* Left side */}
-            <div className="lg:w-3/5">
-              {hasError ? (
-                <MenuLoadError />
-              ) : (
-                <div className="relative h-full">
-                  {!isImageLoaded && <MenuLoadingSpinner />}
-
-                  <a href={menuImageUrl} target="_blank" rel="noopener noreferrer">
-                    <img
-                      src={menuImageUrl}
-                      alt="Bistro Saimaan viikon ruokalista"
-                      className={`w-full h-full object-cover lg:border-r border-gray-200 ${
-                        isImageLoaded ? 'block' : 'hidden'
-                      }`}
-                      onLoad={() => setIsImageLoaded(true)}
-                      onError={() => {
-                        setHasError(true);
-                        setIsImageLoaded(false);
-                      }}
-                    />
-                  </a>
-                </div>
-              )}
+    <div className="lg:w-3/5 perspective-1000">
+      <div className="relative">
+        {hasError ? (
+          <MenuLoadError />
+        ) : (
+          <div
+            className={`relative w-full h-[550px] sm:h-[600px] cursor-pointer group transition-transform duration-500 transform-style-3d ${
+              isFlipped ? 'rotate-y-180' : ''
+            }`}
+            onClick={isFlipped && selectedDish !== null ? null : handleCardFlip}
+          >
+            {/* Card front side */}
+            <div
+              className="absolute inset-0 backface-hidden rounded-lg shadow-lg overflow-hidden 
+                     border border-gray-200 bg-white group-hover:shadow-xl transition-shadow"
+            >
+              {!isImageLoaded && <MenuLoadingSpinner />}
+              <img
+                src={menuImageUrl}
+                alt="Bistro Saimaan viikon ruokalista"
+                className={`w-full h-full object-contain ${isImageLoaded ? 'block' : 'hidden'}`}
+                onLoad={() => setIsImageLoaded(true)}
+                onError={() => {
+                  setHasError(true);
+                  setIsImageLoaded(false);
+                }}
+              />
             </div>
 
-            {/* Right side */}
-            <div className="lg:w-2/5 p-6 md:p-8 flex flex-col justify-center">
-              <h3 className="text-2xl font-bold mb-4 text-gray-700">Ruokailutietoa</h3>
+            {/* Card back side */}
+            <div
+              className="absolute inset-0 backface-hidden rotate-y-180 rounded-lg 
+                      shadow-lg overflow-hidden border border-gray-200 bg-white"
+            >
+              <div className="p-6 h-full overflow-y-auto">
+                <h3 className="text-xl font-bold mb-4 text-gray-700 text-center">
+                  Viikon annokset
+                </h3>
 
-              <p className="text-gray-600 mb-6">
-                Exercitation ex cillum Lorem est irure quis. Aliqua non Lorem ut eiusmod Lorem
-                deserunt in aliquip Lorem nisi laborum. Irure irure occaecat velit reprehenderit
-                dolore culpa aute cupidatat aliqua laboris in officia eiusmod dolore. Et id pariatur
-                consequat officia Lorem irure veniam.
-              </p>
+                <div className="space-y-4">
+                  {weeklyMenuItems.map((dish, index) => (
+                    <div key={index} className="relative">
+                      <div
+                        className={`p-3 rounded-md border transition-colors ${
+                          selectedDish === index
+                            ? 'bg-emerald-50 border-emerald-200'
+                            : 'bg-gray-50 border-gray-200 hover:bg-gray-100'
+                        }`}
+                      >
+                        <div
+                          className="cursor-pointer"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            toggleDishSelection(index);
+                          }}
+                        >
+                          <h4 className="font-medium text-gray-800 flex items-center justify-between">
+                            <span>{dish.name}</span>
+                            <span
+                              className={`text-sm transition-transform ${
+                                selectedDish === index ? 'rotate-180' : ''
+                              }`}
+                            >
+                              ▼
+                            </span>
+                          </h4>
 
-              <p className="text-gray-600 mb-6">
-                Commodo proident mollit nisi proident veniam et ad sit. Aliquip excepteur laborum
-                cillum aliqua. Dolore sint est ipsum proident proident est dolor consequat sit
-                reprehenderit. Magna deserunt officia eiusmod nisi ut elit ex tempor velit aute nisi
-                reprehenderit occaecat reprehenderit. Amet velit pariatur aliquip irure Lorem ex
-                ipsum in qui duis commodo labore. Excepteur enim proident proident ipsum dolor
-                veniam aliquip laboris.
-              </p>
+                          {/* Show dietary info on all items */}
+                          <div className="flex flex-wrap gap-1 mt-1">
+                            {dish.dietaryInfo.map((info, i) => (
+                              <span
+                                key={i}
+                                className="text-xs bg-gray-100 px-1.5 py-0.5 rounded text-gray-600"
+                              >
+                                {info}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
 
-              {isImageLoaded && (
-                <p className="text-gray-500 text-sm mt-auto">
-                  Päivitetään joka sunnuntai. Klikkaa kuvaa avataksesi ruokalistan täysikokoisena.
-                </p>
-              )}
+                        {/* Expanded ingredients section */}
+                        {selectedDish === index && (
+                          <div
+                            className="mt-3 pt-2 border-t border-gray-100 transition-all duration-300"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            <h5 className="text-xs uppercase tracking-wider text-gray-500 mb-1">
+                              Raaka-aineet
+                            </h5>
+                            <p className="text-gray-600 text-sm">{dish.ingredients}</p>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
-        </div>
+        )}
+
+        {isImageLoaded && !hasError && (
+          <p className="text-center text-gray-500 text-sm mt-2 absolute -bottom-7 w-full">
+            Päivitetään joka sunnuntai. Klikkaa nähdäksesi tarkemmat tiedot.
+          </p>
+        )}
       </div>
-    </section>
+    </div>
   );
 };
 

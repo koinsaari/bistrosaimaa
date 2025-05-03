@@ -23,7 +23,7 @@ const Footer = () => {
             </a>
           </div>
           <p className="text-gray-400 text-sm">
-            &copy; 2025 Bistro Saimaa &nbsp;|&nbsp; Made with 🩵 by{' '}
+            &copy; 2025 Bistro Saimaa Oy &nbsp;|&nbsp; Made with 🩵 by{' '}
             <a
               href="https://www.linkedin.com/in/aarokoinsaari"
               className="text-emerald-400 hover:text-emerald-300 hover:underline transition-colors"
