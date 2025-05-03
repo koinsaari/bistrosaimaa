@@ -1,104 +1,45 @@
 /*
- * Copyright (c) 2024 Aaro Koinsaari
+ * Copyright (c) 2025 Aaro Koinsaari
  * Licensed under the MIT License.
  */
 
-import { useState } from 'react';
 import './App.css';
+import Navigation from './components/Navigation';
+import Footer from './components/Footer';
+import FeatureCard from './components/FeatureCard';
 import Button from './components/Button';
 
 function App() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const features = [
+    {
+      image: 'https://placehold.co/600x400/?text=Sesongin+Maut',
+      title: 'Sesongin maut',
+      description:
+        'Consequat esse non culpa sint laborum occaecat eiusmod laboris labore adipisicing veniam amet ad.',
+      buttonText: 'Näytä viikon ruokalista',
+      buttonLink: '/menu',
+    },
+    {
+      image: 'https://placehold.co/600x400/?text=Pitopalvelu+ja+Kabinetti',
+      title: 'Pitopalvelu & kabinetti',
+      description: 'Dolore magna anim proident ullamco nostrud qui duis consequat aliquip dolore.',
+      buttonText: 'Tutustu palveluihin',
+      buttonLink: '/palvelut',
+    },
+    {
+      image: 'https://placehold.co/600x400/?text=Ristiinan+Sydämessä',
+      title: 'Ristiinan sydämessä',
+      description: 'Non ut aliqua nisi reprehenderit in ut eu eu sunt consectetur ut magna sit.',
+      buttonText: 'Näytä sijainti',
+      buttonLink: '/ristiina',
+    },
+  ];
 
   return (
     <div className="min-h-screen font-sans">
-      {/* Navigation Bar */}
-      <nav className="bg-white shadow-md">
-        <div className="container mx-auto px-4 py-3 flex justify-between items-center">
-          <div className="text-2xl font-bold text-emerald-700">Bistro Saimaa</div>
+      <Navigation />
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex space-x-8">
-            <a href="#home" className="hover:text-emerald-600">
-              Etusivu
-            </a>
-            <a href="#menu" className="hover:text-emerald-600">
-              Ruokalista
-            </a>
-            <a href="#about" className="hover:text-emerald-600">
-              Tietoa
-            </a>
-            <a href="#contact" className="hover:text-emerald-600">
-              Yhteystiedot
-            </a>
-          </div>
-
-          {/* Mobile Menu Button */}
-          <div className="md:hidden">
-            <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="focus:outline-none">
-              <svg
-                className="w-6 h-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                {isMenuOpen ? (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M6 18L18 6M6 6l12 12"
-                  ></path>
-                ) : (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M4 6h16M4 12h16M4 18h16"
-                  ></path>
-                )}
-              </svg>
-            </button>
-          </div>
-        </div>
-
-        {/* Mobile Menu */}
-        {isMenuOpen && (
-          <div className="md:hidden py-2 px-4 bg-white shadow-inner">
-            <a
-              href="#home"
-              className="block py-2 hover:text-emerald-600"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Etusivu
-            </a>
-            <a
-              href="#menu"
-              className="block py-2 hover:text-emerald-600"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Ruokalista
-            </a>
-            <a
-              href="#about"
-              className="block py-2 hover:text-emerald-600"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Tietoa
-            </a>
-            <a
-              href="#contact"
-              className="block py-2 hover:text-emerald-600"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Yhteystiedot
-            </a>
-          </div>
-        )}
-      </nav>
-
-      {/* Hero Section */}
+      {/* Hero */}
       <section
         id="home"
         className="relative h-[80vh] bg-gray-900 flex items-center justify-center text-center text-white"
@@ -118,7 +59,7 @@ function App() {
         </div>
       </section>
 
-      {/* Featured Section */}
+      {/* Featured */}
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-12 text-gray-700">
@@ -126,71 +67,14 @@ function App() {
           </h2>
 
           <div className="grid md:grid-cols-3 gap-8">
-            {/* Card 1 Ruokalista */}
-            <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition duration-300 flex flex-col h-full">
-              <img
-                src="https://placehold.co/600x400/?text=Sesongin+Maut"
-                alt="Sesongin maut"
-                className="h-48 w-full object-cover"
-              />
-              <div className="p-6 flex flex-col flex-grow">
-                <div>
-                  <h3 className="font-bold text-xl mb-2 text-gray-700">Sesongin maut</h3>
-                  <p className="text-gray-700 mb-4">
-                    Consequat esse non culpa sint laborum occaecat eiusmod laboris labore
-                    adipisicing veniam amet ad.
-                  </p>
-                </div>
-                <div className="mt-auto">
-                  <Button href="/menu">Näytä viikon ruokalista</Button>
-                </div>
-              </div>
-            </div>
-
-            {/* Card 2 Pitopalvelu & kabinetti */}
-            <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition duration-300 flex flex-col h-full">
-              <img
-                src="https://placehold.co/600x400/?text=Pitopalvelu+ja+Kabinetti"
-                alt="Pitopalvelu & kabinetti"
-                className="h-48 w-full object-cover"
-              />
-              <div className="p-6 flex flex-col flex-grow">
-                <div>
-                  <h3 className="font-bold text-xl mb-2 text-gray-700">Pitopalvelu & kabinetti</h3>
-                  <p className="text-gray-700 mb-4">
-                    Dolore magna anim proident ullamco nostrud qui duis consequat aliquip dolore.
-                  </p>
-                </div>
-                <div className="mt-auto">
-                  <Button href="/palvelut">Tutustu palveluihin</Button>
-                </div>
-              </div>
-            </div>
-
-            {/* Card 3 Ristiina */}
-            <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition duration-300 flex flex-col h-full">
-              <img
-                src="https://placehold.co/600x400/?text=Ristiinan+Sydämessä"
-                alt="Ristiinan sydämessä"
-                className="h-48 w-full object-cover"
-              />
-              <div className="p-6 flex flex-col flex-grow">
-                <div>
-                  <h3 className="font-bold text-xl mb-2 text-gray-700">Ristiinan sydämessä</h3>
-                  <p className="text-gray-700 mb-4">
-                    Non ut aliqua nisi reprehenderit in ut eu eu sunt consectetur ut magna sit.
-                  </p>
-                </div>
-                <div className="mt-auto">
-                  <Button href="/ristiina">Näytä sijainti</Button>
-                </div>
-              </div>
-            </div>
+            {features.map((feature, index) => (
+              <FeatureCard key={index} {...feature} />
+            ))}
           </div>
         </div>
       </section>
 
-      {/* About Section */}
+      {/* About */}
       <section id="about" className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <div className="flex flex-col lg:flex-row items-center gap-12">
@@ -212,7 +96,7 @@ function App() {
         </div>
       </section>
 
-      {/* Contact Section */}
+      {/* Contact */}
       <section id="contact" className="py-16 bg-emerald-700 text-white">
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-2 place-items-center gap-16">
@@ -223,11 +107,11 @@ function App() {
                   <span>Maanantai–Perjantai:</span>
                   <span>7:00 - 20:00</span>
                 </li>
-                <li className="flex justify-between">
+                <li className="flex justify-between gap-8">
                   <span>Lauantai:</span>
                   <span>9:00 - 20:00</span>
                 </li>
-                <li className="flex justify-between">
+                <li className="flex justify-between gap-8">
                   <span>Sunnuntai:</span>
                   <span>11:00 - 20:00</span>
                 </li>
@@ -280,33 +164,7 @@ function App() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="bg-gray-900 text-white py-8">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col items-center">
-            <div className="text-2xl font-bold mb-4">Bistro Saimaa</div>
-            <div className="flex gap-6 mb-4">
-              <a href="#" className="hover:text-emerald-400">
-                Facebook
-              </a>
-              <a href="#" className="hover:text-emerald-400">
-                Instagram
-              </a>
-            </div>
-            <p className="text-gray-400 text-sm">
-              &copy; 2025 Bistro Saimaa &nbsp;|&nbsp; Made with 💚 by{' '}
-              <a
-                href="https://www.linkedin.com/in/aarokoinsaari"
-                className="text-emerald-400 hover:text-emerald-300 hover:underline transition-colors"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Aaro
-              </a>
-            </p>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

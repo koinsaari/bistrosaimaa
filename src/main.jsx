@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 Aaro Koinsaari
+ * Copyright (c) 2025 Aaro Koinsaari
  * Licensed under the MIT License.
  */
 

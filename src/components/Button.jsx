@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2025 Aaro Koinsaari
+ * Licensed under the MIT License.
+ */
+
 import React from 'react';
 
 const Button = ({ href, children, variant = 'primary', className = '' }) => {
