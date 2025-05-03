@@ -156,10 +156,10 @@ function App() {
                 <p>
                   Sähköposti:&nbsp;
                   <a
-                    href="mailto:info@bistrosaimaa.fi"
+                    href="mailto:bistrosaimaa@gmail.com"
                     className="text-white hover:text-emerald-200 underline"
                   >
-                    info@bistrosaimaa.fi
+                    bistrosaimaa@gmail.com
                   </a>
                 </p>
               </address>
