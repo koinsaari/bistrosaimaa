@@ -8,6 +8,7 @@ import Navigation from './components/Navigation';
 import Footer from './components/Footer';
 import FeatureCard from './components/FeatureCard';
 import Button from './components/Button';
+import MenuCard from './components/MenuCard';
 
 function App() {
   const features = [
@@ -16,14 +17,14 @@ function App() {
       title: 'Sesongin maut',
       description:
         'Consequat esse non culpa sint laborum occaecat eiusmod laboris labore adipisicing veniam amet ad.',
-      buttonText: 'Näytä viikon ruokalista',
+      buttonText: 'Lue lisää raaka-aineistamme',
       buttonLink: '/menu',
     },
     {
       image: 'https://placehold.co/600x400/?text=Pitopalvelu+ja+Kabinetti',
       title: 'Pitopalvelu & kabinetti',
       description: 'Dolore magna anim proident ullamco nostrud qui duis consequat aliquip dolore.',
-      buttonText: 'Tutustu palveluihin',
+      buttonText: 'Tutustu palveluihimme',
       buttonLink: '/palvelut',
     },
     {
@@ -63,7 +64,7 @@ function App() {
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-12 text-gray-700">
-            Bistro Saimaa – paikallisesti ja ammattitaidolla
+            Paikallisesti ja ammattitaidolla
           </h2>
 
           <div className="grid md:grid-cols-3 gap-8">
@@ -73,6 +74,8 @@ function App() {
           </div>
         </div>
       </section>
+
+      <MenuCard />
 
       {/* About */}
       <section id="about" className="py-16 bg-white">

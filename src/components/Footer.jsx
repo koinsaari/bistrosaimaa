@@ -10,7 +10,12 @@ const Footer = () => {
         <div className="flex flex-col items-center">
           <div className="text-2xl font-bold mb-4">Bistro Saimaa</div>
           <div className="flex gap-6 mb-4">
-            <a href="#" className="hover:text-emerald-400">
+            <a
+              href="https://www.facebook.com/bistrosaimaaoy"
+              className="hover:text-emerald-400"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               Facebook
             </a>
             <a href="#" className="hover:text-emerald-400">
