@@ -1,0 +1,32 @@
+name: Update Weekly Menu
+
+on:
+  schedule:
+    - cron: '0 0 * * 1' # Every Monday at midnight
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-menu:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download the latest menu
+        run: |
+          mkdir -p public
+          curl -L \
+            "https://drive.google.com/uc?export=download&id=1laQ-OTL3bK0w94VygL6sqUktvaZLnud0" \
+            -o public/lounaslista.jpg
+
+      - name: Commit & push if menu changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add public/lounaslista.jpg
+          git commit -m "chore: update weekly brunch menu for week $(date +'%V')"
+          git push
