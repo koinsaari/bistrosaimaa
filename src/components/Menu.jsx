@@ -3,50 +3,45 @@
  * Licensed under the MIT License.
  */
 
-import MenuCard from './MenuCard';
-
-const Menu = () => {
-  const menuImageUrl = 'https://placehold.co/800x1200/?text=Viikon+ruokalista';
-  const weeklyMenuItems = [
-    {
-      name: 'Kermainen nakkikahvi',
-      ingredients: 'Suodatinkahvia, pilkottuja nakkeja, kermavaahtoa, persiljasilppua',
-      dietaryInfo: ['🥛 Laktoositon', '🌭 Sisältää lihaa'],
-    },
-    {
-      name: 'Kalapuikkosmoothie',
-      ingredients: 'Paistettuja kalapuikkoja, vaniljajogurttia, mustikoita, jäämurskaa',
-      dietaryInfo: ['🐟 Sisältää kalaa', '🥛 Sisältää maitotuotteita'],
-    },
-    {
-      name: 'Pinaattilettu & ketsuppijäätelö',
-      ingredients: 'Pinaattilettuja, makeutettua ketsuppikastiketta, jäätelömuotti',
-      dietaryInfo: ['🌱 Kasvis', '🥛 Sisältää maitotuotteita'],
-    },
-    {
-      name: 'Maksalaatikko ja banaanikastike',
-      ingredients: 'Maksalaatikkoa, paistettua banaania, herne-maissi-paprikaa',
-      dietaryInfo: ['🥩 Sisältää lihaa', '🌾 Sisältää viljatuotteita'],
-    },
-    {
-      name: 'Lohikiisseli',
-      ingredients: 'Makea kiisseli, kylmäsavulohta, tilliä, kinuskikermaa',
-      dietaryInfo: ['🐟 Sisältää kalaa', '🥛 Sisältää maitotuotteita'],
-    },
-  ];
+export default function Menu() {
+  const menuImageUrl = 'https://placehold.co/800x1200/?text=Viikon+lounaslista';
 
   return (
     <section id="menu" className="py-16 bg-gray-50">
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-bold text-center mb-6 text-gray-700">Viikon ruokalista</h2>
+        <h2 className="text-3xl font-bold text-center mb-6 text-gray-700">Viikon lounaslista</h2>
 
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col lg:flex-row gap-6 items-stretch">
-            {/* Left side, menu card  */}
-            <MenuCard menuImageUrl={menuImageUrl} weeklyMenuItems={weeklyMenuItems} />
+            {/* Left side: menu */}
+            <div className="lg:w-3/5 flex flex-col">
+              <div className="flex-grow rounded-lg shadow-lg overflow-hidden bg-white h-[85vh]">
+                {menuImageUrl ? (
+                  <img
+                    src={menuImageUrl}
+                    alt="Bistro Saimaan viikon lounaslista"
+                    className="w-full h-full object-contain"
+                    onError={(e) => {
+                      console.error('Error loading menu image');
+                      e.target.src =
+                        'https://placehold.co/800x1200/?text=Lounaslista+ei+latautunut';
+                    }}
+                  />
+                ) : (
+                  <div className="h-64 lg:h-full min-h-[300px] flex items-center justify-center">
+                    <div className="w-10 h-10 border-4 border-gray-200 border-t-emerald-600 rounded-full animate-spin"></div>
+                  </div>
+                )}
+              </div>
+              <div className="mt-2 text-center">
+                <p className="text-sm text-gray-600">
+                  Päivitetään joka sunnuntai. Klikkaa kuvaa suurentaaksesi.
+                </p>
+              </div>
+            </div>
 
-            {/* Right side, information */}
-            <div className="lg:w-2/5 bg-white p-8 rounded-lg shadow-md flex flex-col justify-center">
+            {/* Right side: information */}
+            <div className="lg:w-2/5 bg-white p-8 rounded-lg shadow-md flex flex-col h-[85vh] justify-center">
               <h3 className="text-2xl font-bold mb-4 text-gray-700">Ruokailutietoa</h3>
 
               <p className="text-gray-600 mb-4">
@@ -77,6 +72,4 @@ const Menu = () => {
       </div>
     </section>
   );
-};
-
-export default Menu;
+}

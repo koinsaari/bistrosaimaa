@@ -47,7 +47,7 @@ const MenuCard = ({ menuImageUrl, weeklyMenuItems }) => {
               {!isImageLoaded && <MenuLoadingSpinner />}
               <img
                 src={menuImageUrl}
-                alt="Bistro Saimaan viikon ruokalista"
+                alt="Bistro Saimaan viikon lounaslista"
                 className={`w-full h-full object-contain ${isImageLoaded ? 'block' : 'hidden'}`}
                 onLoad={() => setIsImageLoaded(true)}
                 onError={() => {
@@ -108,14 +108,14 @@ const MenuCard = ({ menuImageUrl, weeklyMenuItems }) => {
                           </div>
                         </div>
 
-                        {/* Expanded ingredients section */}
+                        {/* Expanded section */}
                         {selectedDish === index && (
                           <div
                             className="mt-3 pt-2 border-t border-gray-100 transition-all duration-300"
                             onClick={(e) => e.stopPropagation()}
                           >
                             <h5 className="text-xs uppercase tracking-wider text-gray-500 mb-1">
-                              Raaka-aineet
+                              Mitä sisältää?
                             </h5>
                             <p className="text-gray-600 text-sm">{dish.ingredients}</p>
                           </div>
