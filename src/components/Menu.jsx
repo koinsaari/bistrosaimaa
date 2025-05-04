@@ -3,34 +3,69 @@
  * Licensed under the MIT License.
  */
 
+import { useState } from 'react';
+import { getISOWeek } from 'date-fns';
+
+const MenuLoadError = () => (
+  <div className="h-full p-8 flex items-center justify-center">
+    <div className="text-center">
+      <p className="text-gray-700 mb-4">Voi ei! Lounaslistaa ei voitu ladata ☹️</p>
+      <p className="text-gray-500">
+        Mutta se pitäisi löytyä Facebookistamme:{' '}
+        <a
+          href="https://www.facebook.com/bistrosaimaaoy"
+          className="text-emerald-600 hover:underline"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Bistro Saimaa
+        </a>
+      </p>
+      <p className="text-gray-500">
+        Tai voit soittaa meille ja kysäistä:{' '}
+        <a href="tel:+358504499322" className="text-emerald-600 hover:underline">
+          +358 50 4499 322
+        </a>
+      </p>
+    </div>
+  </div>
+);
+
 export default function Menu() {
-  const menuImageUrl = 'https://placehold.co/800x1200/?text=Viikon+lounaslista';
+  const [hasError, setHasError] = useState(false);
+  const menuImage = '/lounaslista.jpg';
+  const currentWeek = getISOWeek(new Date());
+
+  const [showModal, setShowModal] = useState(false);
+  const openModal = () => setShowModal(true);
+  const closeModal = () => setShowModal(false);
 
   return (
     <section id="menu" className="py-16 bg-gray-50">
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-bold text-center mb-6 text-gray-700">Viikon lounaslista</h2>
+        <h2 className="text-3xl font-bold text-center mb-6 text-gray-700">
+          Viikon {currentWeek} lounaslista
+        </h2>
 
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col lg:flex-row gap-6 items-stretch">
             {/* Left side: menu */}
             <div className="lg:w-3/5 flex flex-col">
               <div className="flex-grow rounded-lg shadow-lg overflow-hidden bg-white h-[85vh]">
-                {menuImageUrl ? (
-                  <img
-                    src={menuImageUrl}
-                    alt="Bistro Saimaan viikon lounaslista"
-                    className="w-full h-full object-contain"
-                    onError={(e) => {
-                      console.error('Error loading menu image');
-                      e.target.src =
-                        'https://placehold.co/800x1200/?text=Lounaslista+ei+latautunut';
-                    }}
-                  />
-                ) : (
-                  <div className="h-64 lg:h-full min-h-[300px] flex items-center justify-center">
-                    <div className="w-10 h-10 border-4 border-gray-200 border-t-emerald-600 rounded-full animate-spin"></div>
+                {!hasError ? (
+                  <div className="cursor-pointer block w-full h-full" onClick={openModal}>
+                    <img
+                      src={menuImage}
+                      alt="Bistro Saimaan viikon lounaslista"
+                      className="w-full h-full object-contain transition-transform hover:scale-105"
+                      onError={() => {
+                        console.error('Error loading menu image');
+                        setHasError(true);
+                      }}
+                    />
                   </div>
+                ) : (
+                  <MenuLoadError />
                 )}
               </div>
               <div className="mt-2 text-center">
@@ -70,6 +105,19 @@ export default function Menu() {
           </div>
         </div>
       </div>
+      {/* Simple lightbox modal */}
+      {showModal && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+          onClick={closeModal}
+        >
+          <img
+            src={menuImage}
+            alt="Bistro Saimaan viikon lounaslista"
+            className="max-w-[90vw] max-h-[90vh] object-contain rounded-lg shadow-2xl scale-110"
+          />
+        </div>
+      )}
     </section>
   );
 }
