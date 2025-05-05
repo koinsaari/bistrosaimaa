@@ -10,6 +10,7 @@ import FeatureCard from './components/FeatureCard';
 import Button from './components/Button';
 import Menu from './components/Menu';
 import StorySection from './components/StorySection';
+import ReviewsSection from './components/ReviewsSection';
 
 export default function App() {
   const features = [
@@ -77,8 +78,9 @@ export default function App() {
         </div>
       </section>
 
-      <Menu />
       <StorySection />
+      <ReviewsSection />
+      <Menu />
 
       {/* Contact */}
       <section id="contact" className="py-16 bg-emerald-700 text-white">
@@ -147,6 +149,7 @@ export default function App() {
           </div>
         </div>
       </section>
+
       <Footer />
     </div>
   );
