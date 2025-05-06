@@ -6,38 +6,13 @@
 import './App.css';
 import Navigation from './components/Navigation';
 import Footer from './components/Footer';
-import FeatureCard from './components/FeatureCard';
+import FeaturedSection from './components/FeaturedSection';
 import Button from './components/Button';
 import Menu from './components/Menu';
 import StorySection from './components/StorySection';
 import ReviewsSection from './components/ReviewsSection';
 
 export default function App() {
-  const features = [
-    {
-      image: 'https://placehold.co/600x400/?text=Sesongin+Maut',
-      title: 'Sesongin maut',
-      description:
-        'Consequat esse non culpa sint laborum occaecat eiusmod laboris labore adipisicing veniam amet ad.',
-      buttonText: 'Lue lisää raaka-aineistamme',
-      buttonLink: '/menu',
-    },
-    {
-      image: 'https://placehold.co/600x400/?text=Pitopalvelu+ja+Kabinetti',
-      title: 'Pitopalvelu & kabinetti',
-      description: 'Dolore magna anim proident ullamco nostrud qui duis consequat aliquip dolore.',
-      buttonText: 'Tutustu palveluihimme',
-      buttonLink: '/palvelut',
-    },
-    {
-      image: 'https://placehold.co/600x400/?text=Ristiinan+Sydämessä',
-      title: 'Ristiinan sydämessä',
-      description: 'Non ut aliqua nisi reprehenderit in ut eu eu sunt consectetur ut magna sit.',
-      buttonText: 'Näytä sijainti',
-      buttonLink: '/ristiina',
-    },
-  ];
-
   return (
     <div className="min-h-screen font-sans">
       <Banner />
@@ -63,21 +38,7 @@ export default function App() {
         </div>
       </section>
 
-      {/* Featured */}
-      <section className="py-16 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-12 text-gray-700">
-            Paikallisesti ja ammattitaidolla
-          </h2>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {features.map((feature, index) => (
-              <FeatureCard key={index} {...feature} />
-            ))}
-          </div>
-        </div>
-      </section>
-
+      <FeaturedSection />
       <StorySection />
       <ReviewsSection />
       <Menu />
