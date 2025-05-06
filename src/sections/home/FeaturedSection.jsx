@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-import FeatureCard from './FeatureCard';
+import FeatureCard from '../../components/FeatureCard';
 
 const FeaturedSection = () => {
   const features = [
