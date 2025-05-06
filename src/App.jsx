@@ -8,7 +8,8 @@ import NavigationBar from './components/Navigation';
 import Footer from './components/Footer';
 import Banner from './components/Banner';
 import FeaturedSection from './sections/home/FeaturedSection';
-import Menu from './components/Menu';
+import LunchMenuSection from './sections/home/LunchMenuSection';
+import MenuSection from './sections/home/MenuSection';
 import StorySection from './sections/home/StorySection';
 import ReviewsSection from './sections/home/ReviewsSection';
 import HeroSection from './sections/home/HeroSection';
@@ -23,7 +24,8 @@ export default function App() {
       <FeaturedSection />
       <StorySection />
       <ReviewsSection />
-      <Menu />
+      <LunchMenuSection />
+      <MenuSection />
       <ContactSection />
       <Footer />
     </div>

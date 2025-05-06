@@ -7,27 +7,27 @@ import React, { useEffect, useRef, useState } from 'react';
 
 const storyData = [
   {
-    title: 'Kappale 1',
-    image: 'https://placehold.co/800x600/?text=Kappale+kuva+1',
+    title: '📍 Ravintola keskellä järviluontoa',
+    image: 'https://placehold.co/800x600/?text=Saimaa+ja+Ristiina',
     paragraphs: [
-      'Ea eu proident quis minim incididunt veniam minim qui voluptate nisi culpa. Sunt commodo nostrud id veniam ad ut nostrud labore. Ad labore nisi quis ea eiusmod minim non anim officia minim consectetur cupidatat. Occaecat sint pariatur consectetur ullamco. Sint ipsum sint deserunt laborum laborum mollit id elit veniam amet duis. Laborum et Lorem quis in.',
-      'Aliqua commodo sit cillum elit pariatur eu magna minim reprehenderit esse. Irure nisi sint nostrud eu ut irure fugiat et incididunt officia velit. Consectetur sit eiusmod aute mollit aute consectetur eiusmod id elit.',
+      'Bistro Saimaa sijaitsee aivan Ristiinan sydämessä, vain muutaman askeleen päässä Saimaan rauhallisista rantamaisemista. Ravintolan suurista ikkunoista avautuu näkymä satamaan ja järvimaisemaan, jotka luovat ruokailulle ainutlaatuisen taustan vuodenajasta riippumatta.',
+      'Sijaintimme tarjoaa täydellisen pysähdyspaikan matkailijoille ja lähialueen asukkaille – olit sitten veneilemässä, mökkeilemässä tai liikkeellä työpäivän lomassa.',
     ],
   },
   {
-    title: 'Kappale 2',
-    image: 'https://placehold.co/800x600/?text=Kappale+kuva+2',
+    title: '🍽️ Rentoa tunnelmaa ja konstailematonta ruokaa',
+    image: 'https://placehold.co/800x600/?text=Tunnelma',
     paragraphs: [
-      'Et cupidatat est consequat occaecat proident duis Lorem proident cupidatat officia sunt quis culpa culpa. Et laboris incididunt anim ut nisi consectetur consequat incididunt. In consectetur et irure consequat commodo esse commodo non ipsum sunt. Aute occaecat quis ex labore in adipisicing ullamco ex in fugiat elit irure. In officia dolor commodo reprehenderit consectetur consequat sint do do.',
-      'Adipisicing magna sunt est ad ad cillum in. Sunt exercitation consequat eiusmod ipsum. Non velit anim sint proident eu in tempor non sint aliqua.',
+      'Meille tärkeintä on viihtyvyys. Bistro Saimaa ei ole pelkkä ruokapaikka, vaan tila hengähtää, kohdata ja nauttia hetkestä. Tunnelma on rento, palvelu lämmintä ja ruoka valmistetaan ajatuksella – ilman turhaa kikkailua.',
+      'Ruokalistamme seuraa sesonkia ja yhdistää perinteisiä suomalaisia makuja moderneihin ideoihin. Meille on tärkeää, että jokainen asiakas tuntee olonsa tervetulleeksi.',
     ],
   },
   {
-    title: 'Kappale 3',
-    image: 'https://placehold.co/800x600/?text=Kappale+kuva+3',
+    title: '🌿 Lähellä tuotettua – aidosti',
+    image: 'https://placehold.co/800x600/?text=Raaka-aineet',
     paragraphs: [
-      'In nostrud dolor cillum minim. Labore ea tempor cupidatat magna duis quis do. Non consequat qui aute magna. Eu ipsum dolor dolor magna. Quis officia voluptate minim irure amet ut exercitation aliqua. Exercitation in enim magna reprehenderit minim pariatur ullamco deserunt sunt ad anim commodo voluptate laboris.',
-      'Quis laboris et sint cillum consequat. Proident nostrud et ex exercitation commodo enim Lorem laboris velit eiusmod aliquip nisi anim. Esse adipisicing id eiusmod anim et in tempor nostrud mollit incididunt laborum laboris quis. Excepteur non excepteur consequat occaecat. Sunt cupidatat ad proident dolore labore quis consectetur velit anim velit cillum deserunt.',
+      'Panostamme paikallisiin raaka-aineisiin aina kun se on mahdollista. Monet käyttämämme tuotteet tulevat Etelä-Savon tuottajilta ja pieniltä toimittajilta.',
+      'Tämä ei ole meille pelkkä trendi, vaan tapa toimia vastuullisesti ja tuoda asiakkaille mahdollisimman tuoreita makuja lautaselle – juuri sellaisena kuin ne ovat parhaimmillaan.',
     ],
   },
 ];

@@ -5,38 +5,13 @@
 
 import { useState } from 'react';
 import { getISOWeek } from 'date-fns';
+import MenuLoadError from '../../components/MenuLoadError';
 
-const MenuLoadError = () => (
-  <div className="h-full p-8 flex items-center justify-center">
-    <div className="text-center">
-      <p className="text-gray-700 mb-4">Voi ei! Lounaslistaa ei voitu ladata ☹️</p>
-      <p className="text-gray-500">
-        Mutta se pitäisi löytyä Facebookistamme:{' '}
-        <a
-          href="https://www.facebook.com/bistrosaimaaoy"
-          className="text-emerald-600 hover:underline"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Bistro Saimaa
-        </a>
-      </p>
-      <p className="text-gray-500">
-        Tai voit soittaa meille ja kysäistä:{' '}
-        <a href="tel:+358504499322" className="text-emerald-600 hover:underline">
-          +358 50 4499 322
-        </a>
-      </p>
-    </div>
-  </div>
-);
-
-export default function Menu() {
+export default function LunchMenuSection() {
   const [hasError, setHasError] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const menuImage = '/lounaslista.jpg';
   const currentWeek = getISOWeek(new Date());
-
-  const [showModal, setShowModal] = useState(false);
   const openModal = () => setShowModal(true);
   const closeModal = () => setShowModal(false);
 
@@ -80,21 +55,24 @@ export default function Menu() {
               <h3 className="text-2xl font-bold mb-4 text-gray-700">Ruokailutietoa</h3>
 
               <p className="text-gray-600 mb-4">
-                Officia aliquip ipsum esse proident. Laboris dolore irure consectetur dolore magna
-                sunt occaecat. Excepteur ex veniam officia commodo ex amet consectetur nulla aliqua.
-                Do nulla tempor velit eiusmod excepteur fugiat qui voluptate voluptate veniam ea.
-                Adipisicing laboris et quis id proident qui Lorem nisi sint est.
+                Tarjoilemme arkisin maittavan ja vaihtelevan lounaan klo 11–14. Lounas sisältää
+                runsaan salaattipöydän, tuoretta leipää ja jälkiruokakahvin tai teen.
               </p>
 
-              <p className="text-gray-600 mb-4">Ipsum ad ea incididunt est tempor id.</p>
+              <p className="text-gray-600 mb-4">
+                Ruokalistamme vaihtuu viikoittain sesongin ja saatavuuden mukaan. Erityisruokavaliot
+                huomioidaan mahdollisuuksien mukaan – kysythän henkilökunnalta lisätietoja.
+              </p>
 
               <div className="mt-4 p-4 bg-emerald-50 rounded-lg border-l-4 border-emerald-500 shadow-sm">
                 <div className="flex items-center">
                   <div className="flex-shrink-0 h-14 w-14 flex items-center justify-center rounded-full bg-emerald-100 text-emerald-600 mr-4">
-                    <span className="text-2xl">⭐</span>
+                    <span className="text-2xl">👩‍🍳</span>
                   </div>
                   <div>
-                    <h4 className="text-lg font-semibold text-emerald-800">Viikon suositus:</h4>
+                    <h4 className="text-lg font-semibold text-emerald-800">
+                      Keittiömestarin suositus:
+                    </h4>
                     <p className="font-medium text-gray-800">
                       Paistettu Saimaan kuha kauden kasviksilla
                     </p>

@@ -9,7 +9,7 @@ const FeaturedSection = () => {
   const features = [
     {
       image: 'https://placehold.co/600x400/?text=Menu',
-      title: 'Herkullinen ja suosittu menu',
+      title: '📖 Herkullinen ja suosittu menu',
       description:
         'Tutustu herkulliseen ja suosittuun à la carte -menuumme, joka tarjoaa makuja kauden mukaan. Jokainen annos on valmistettu huolella ja rakkaudella paikallisista raaka-aineista.',
       buttonText: 'Katso menu',
@@ -17,7 +17,7 @@ const FeaturedSection = () => {
     },
     {
       image: 'https://placehold.co/600x400/?text=Lounaslista',
-      title: 'Viikoittain vaihtuva lounaslista',
+      title: '🍽️ Viikoittain vaihtuva lounaslista',
       description:
         'Tarjoamme joka viikko vaihtuvan lounaan, joka on pitkään ollut asiakkaidemme suosima.',
       buttonText: 'Näytä lounaslista',
@@ -25,7 +25,7 @@ const FeaturedSection = () => {
     },
     {
       image: 'https://placehold.co/600x400/?text=Pitopalvelu+kabinetti',
-      title: 'Pitopalvelut & kabinetti',
+      title: '🎉 Pitopalvelut & kabinetti',
       description:
         'Järjestä juhlat tai kokoukset meillä tai tilaa pitopalvelumme suoraan omaan tapahtumaasi. Tarjoamme laadukasta ruokaa ja palvelua, joka tekee tilaisuuksistasi unohtumattomia. Lisäksi voit varata viihtyisän kabinetin yksityistilaisuuksiin.',
       buttonText: 'Kysy lisää',
@@ -33,7 +33,7 @@ const FeaturedSection = () => {
     },
     {
       image: 'https://placehold.co/600x400/?text=Tapahtumat',
-      title: 'Tapahtumat & illat',
+      title: '🎶 Tapahtumat & illat',
       description:
         'Tule mukaan bistroiltoihin, bingoon ja muihin vaihteleviin tapahtumiin. Bistro Saimaa tarjoaa monipuolista ohjelmaa ympäri vuoden, joka tuo ihmiset yhteen.',
       buttonText: 'Tapahtumakalenteri',
@@ -41,7 +41,7 @@ const FeaturedSection = () => {
     },
     {
       image: 'https://placehold.co/600x400/?text=Laatu',
-      title: 'Huippulaatu ja makuelämykset',
+      title: '⭐ Huippulaatu ja makuelämykset',
       description:
         'Bistro Saimaa tunnetaan tinkimättömästä laadusta. Jokainen annos valmistetaan huolella ja rakkaudella, jotta voimme tarjota asiakkaillemme unohtumattomia makuelämyksiä. Laatu on meille sydämen asia.',
       buttonText: 'Lue lisää',
@@ -49,7 +49,7 @@ const FeaturedSection = () => {
     },
     {
       image: 'https://placehold.co/600x400/?text=Sijainti',
-      title: 'Saimaan tuntumassa',
+      title: '🗺️ Saimaan tuntumassa',
       description:
         'Meidät löydät Ristiinan sydämestä, aivan upeiden Saimaan maisemien vierestä. Bistro Saimaa on täydellinen paikka rentoutua ja nauttia hyvästä ruoasta.',
       buttonText: 'Näytä kartalla',

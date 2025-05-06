@@ -4,6 +4,7 @@
  */
 
 import { useState } from 'react';
+import MenuLoadError from './MenuLoadError';
 
 const FlippableMenuCard = ({ menuImageUrl, weeklyMenuItems }) => {
   const [isImageLoaded, setIsImageLoaded] = useState(false);
@@ -28,7 +29,7 @@ const FlippableMenuCard = ({ menuImageUrl, weeklyMenuItems }) => {
   };
 
   return (
-    <div className="lg:w-3/5 perspective-1000">
+    <div className="perspective-1000">
       <div className="relative">
         {hasError ? (
           <MenuLoadError />
@@ -47,7 +48,7 @@ const FlippableMenuCard = ({ menuImageUrl, weeklyMenuItems }) => {
               {!isImageLoaded && <MenuLoadingSpinner />}
               <img
                 src={menuImageUrl}
-                alt="Bistro Saimaan viikon lounaslista"
+                alt="Bistro Saimaa menu"
                 className={`w-full h-full object-contain ${isImageLoaded ? 'block' : 'hidden'}`}
                 onLoad={() => setIsImageLoaded(true)}
                 onError={() => {
@@ -64,7 +65,7 @@ const FlippableMenuCard = ({ menuImageUrl, weeklyMenuItems }) => {
             >
               <div className="p-6 h-full overflow-y-auto">
                 <h3 className="text-xl font-bold mb-4 text-gray-700 text-center">
-                  Viikon annokset
+                  Annokset ja niiden sisällöt
                 </h3>
 
                 <div className="space-y-4">
@@ -114,9 +115,6 @@ const FlippableMenuCard = ({ menuImageUrl, weeklyMenuItems }) => {
                             className="mt-3 pt-2 border-t border-gray-100 transition-all duration-300"
                             onClick={(e) => e.stopPropagation()}
                           >
-                            <h5 className="text-xs uppercase tracking-wider text-gray-500 mb-1">
-                              Mitä sisältää?
-                            </h5>
                             <p className="text-gray-600 text-sm">{dish.ingredients}</p>
                           </div>
                         )}
@@ -128,41 +126,10 @@ const FlippableMenuCard = ({ menuImageUrl, weeklyMenuItems }) => {
             </div>
           </div>
         )}
-
-        {isImageLoaded && !hasError && (
-          <p className="text-center text-gray-500 text-sm mt-2 absolute -bottom-7 w-full">
-            Päivitetään joka sunnuntai. Klikkaa nähdäksesi tarkemmat tiedot.
-          </p>
-        )}
       </div>
     </div>
   );
 };
-
-const MenuLoadError = () => (
-  <div className="h-full p-8 flex items-center justify-center">
-    <div className="text-center">
-      <p className="text-gray-700 mb-4">Voi ei! Ruokalistaa ei voitu ladata ☹️</p>
-      <p className="text-gray-500">
-        Mutta se pitäisi löytyä Facebookistamme:{' '}
-        <a
-          href="https://www.facebook.com/bistrosaimaaoy"
-          className="text-emerald-600 hover:underline"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Bistro Saimaa
-        </a>
-      </p>
-      <p className="text-gray-500">
-        Tai voit soittaa meille ja kysäistä:{' '}
-        <a href="tel:+358504499322" className="text-emerald-600 hover:underline">
-          +358 50 4499 322
-        </a>
-      </p>
-    </div>
-  </div>
-);
 
 const MenuLoadingSpinner = () => (
   <div className="h-64 lg:h-full min-h-[300px] flex items-center justify-center">
