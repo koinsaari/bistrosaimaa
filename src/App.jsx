@@ -4,6 +4,7 @@
  */
 
 import './App.css';
+import { Analytics } from '@vercel/analytics/react';
 import NavigationBar from './components/Navigation';
 import Footer from './components/Footer';
 import Banner from './components/Banner';
@@ -26,6 +27,7 @@ export default function App() {
       <EventSection />
       <ContactSection />
       <Footer />
+      <Analytics />
     </div>
   );
 }
