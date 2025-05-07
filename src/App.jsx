@@ -5,7 +5,7 @@
 
 import './App.css';
 import { Analytics } from '@vercel/analytics/react';
-import NavigationBar from './components/Navigation';
+import NavigationBar from './components/NavigationBar';
 import Footer from './components/Footer';
 import Banner from './components/Banner';
 import FeaturedSection from './sections/home/FeaturedSection';
