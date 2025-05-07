@@ -31,7 +31,7 @@ const ContactSection = () => {
               <p>
                 <a
                   href="https://maps.google.com/?q=Brahentie+42,+52300+Ristiina,+Finland"
-                  className="text-white hover:text-emerald-200 underline"
+                  className="text-white hover-effect underline"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -41,7 +41,7 @@ const ContactSection = () => {
               <p>
                 <a
                   href="https://maps.google.com/?q=Ristiina,+Finland"
-                  className="text-white hover:text-emerald-200 underline"
+                  className="text-white hover-effect"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -50,16 +50,13 @@ const ContactSection = () => {
               </p>
               <p>
                 Puhelin:&nbsp;
-                <a href="tel:+358504499322" className="text-white hover:text-emerald-200 underline">
+                <a href="tel:+358504499322" className="text-white hover-effect">
                   +358 50 4499 322
                 </a>
               </p>
               <p>
                 Sähköposti:&nbsp;
-                <a
-                  href="mailto:bistrosaimaa@gmail.com"
-                  className="text-white hover:text-emerald-200 underline"
-                >
+                <a href="mailto:bistrosaimaa@gmail.com" className="text-white hover-effect">
                   bistrosaimaa@gmail.com
                 </a>
               </p>

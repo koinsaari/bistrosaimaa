@@ -15,16 +15,16 @@ const NavigationBar = () => {
 
         {/* Desktop Navigation */}
         <div className="hidden md:flex space-x-8">
-          <a href="#home" className="hover:text-emerald-600">
+          <a href="#home" className="hover-effect">
             Etusivu
           </a>
-          <a href="#menu" className="hover:text-emerald-600">
+          <a href="#menu" className="hover-effect">
             Ruokalista
           </a>
-          <a href="#about" className="hover:text-emerald-600">
+          <a href="#about" className="hover-effect">
             Tietoa
           </a>
-          <a href="#contact" className="hover:text-emerald-600">
+          <a href="#contact" className="hover-effect">
             Yhteystiedot
           </a>
         </div>
@@ -43,30 +43,18 @@ const NavigationBar = () => {
       {/* Mobile Menu */}
       {isMenuOpen && (
         <div className="md:hidden py-2 px-4 bg-white shadow-inner">
-          <a
-            href="#home"
-            className="block py-2 hover:text-emerald-600"
-            onClick={() => setIsMenuOpen(false)}
-          >
+          <a href="#home" className="block py-2 hover-effect" onClick={() => setIsMenuOpen(false)}>
             Etusivu
           </a>
-          <a
-            href="#menu"
-            className="block py-2 hover:text-emerald-600"
-            onClick={() => setIsMenuOpen(false)}
-          >
+          <a href="#menu" className="block py-2 hover-effect" onClick={() => setIsMenuOpen(false)}>
             Ruokalista
           </a>
-          <a
-            href="#about"
-            className="block py-2 hover:text-emerald-600"
-            onClick={() => setIsMenuOpen(false)}
-          >
+          <a href="#about" className="block py-2 hover-effect" onClick={() => setIsMenuOpen(false)}>
             Tietoa
           </a>
           <a
             href="#contact"
-            className="block py-2 hover:text-emerald-600"
+            className="block py-2 hover-effect"
             onClick={() => setIsMenuOpen(false)}
           >
             Yhteystiedot
