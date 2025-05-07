@@ -51,6 +51,20 @@
   text-decoration: underline;
 }
 
+.hover-effect {
+  position: relative;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  padding: 2px 4px;
+  border-radius: 6px;
+  background-color: transparent;
+}
+
+.hover-effect:hover {
+  background-color: rgba(52, 182, 211, 0.1);
+  /* text-decoration: underline; */
+}
+
 .perspective-1000 {
   perspective: 1000px;
 }
