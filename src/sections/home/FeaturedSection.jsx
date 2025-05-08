@@ -4,8 +4,44 @@
  */
 
 import FeatureCard from '../../components/FeatureCard';
+import { motion } from 'framer-motion';
+import { useInView } from 'framer-motion';
+import { useRef } from 'react';
 
 const FeaturedSection = () => {
+  const sectionRef = useRef(null);
+  const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+        delayChildren: 0.3,
+      },
+    },
+  };
+
+  const cardVariants = {
+    hidden: {
+      y: 50,
+      opacity: 0,
+      scale: 0.95,
+    },
+    visible: {
+      y: 0,
+      opacity: 1,
+      scale: 1,
+      transition: {
+        type: 'spring',
+        stiffness: 60,
+        damping: 25,
+        duration: 0.9,
+      },
+    },
+  };
+
   const features = [
     {
       image: 'https://placehold.co/600x400/?text=Menu',
@@ -58,15 +94,29 @@ const FeaturedSection = () => {
   ];
 
   return (
-    <section className="py-16 bg-gray-50">
+    <section ref={sectionRef} className="py-16 bg-gray-50">
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-bold text-center mb-12 text-gray-700">Tutustu tarjontaamme</h2>
+        <motion.h2
+          className="text-3xl font-bold text-center mb-12 text-gray-700"
+          initial={{ opacity: 0, y: -20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
+          transition={{ duration: 0.7 }}
+        >
+          Tutustu tarjontaamme
+        </motion.h2>
 
-        <div className="grid md:grid-cols-3 gap-8">
+        <motion.div
+          className="grid md:grid-cols-3 gap-8"
+          variants={containerVariants}
+          initial="hidden"
+          animate={isInView ? 'visible' : 'hidden'}
+        >
           {features.map((feature, index) => (
-            <FeatureCard key={index} flippable={true} {...feature} />
+            <motion.div key={index} variants={cardVariants}>
+              <FeatureCard flippable={true} {...feature} />
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
