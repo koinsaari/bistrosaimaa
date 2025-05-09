@@ -53,25 +53,25 @@ const NavigationBar = () => {
       }`}
     >
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-        <a
-          href="/"
+        <Link
+          to="/"
           className={`text-2xl font-bold transition-colors ${
             isScrolled ? 'text-emerald-700' : 'text-white'
           }`}
         >
           Bistro Saimaa
-        </a>
+        </Link>
 
         {/* Desktop Navigation */}
         <div className="hidden md:flex space-x-8">
-          <a
-            href="#home"
+          <Link
+            to="/"
             className={`hover:text-emerald-500 transition-colors ${
               isScrolled ? 'text-gray-700' : 'text-white'
             }`}
           >
             Etusivu
-          </a>
+          </Link>
           <Link
             to="/menu"
             className={`hover:text-emerald-500 transition-colors ${
@@ -79,6 +79,14 @@ const NavigationBar = () => {
             }`}
           >
             À la carte -menu
+          </Link>
+          <Link
+            to="/lunch"
+            className={`hover:text-emerald-500 transition-colors ${
+              isScrolled ? 'text-gray-700' : 'text-white'
+            }`}
+          >
+            Lounaslista
           </Link>
           <a
             href="#about"

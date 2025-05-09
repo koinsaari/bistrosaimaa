@@ -3,7 +3,6 @@
  * Licensed under the MIT License.
  */
 
-import React from 'react';
 import NavigationBar from '../components/NavigationBar';
 import Footer from '../components/Footer';
 import Banner from '../components/Banner';
