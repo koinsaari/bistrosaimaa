@@ -170,8 +170,16 @@ const PastEventsSection = () => {
         <Swiper
           className="py-4"
           modules={[Autoplay, Pagination, Mousewheel, FreeMode]}
-          slidesPerView={3}
+          slidesPerView={1}
           spaceBetween={20}
+          breakpoints={{
+            640: {
+              slidesPerView: 2,
+            },
+            1024: {
+              slidesPerView: 3,
+            },
+          }}
           loop={true}
           speed={2000}
           autoplay={{
