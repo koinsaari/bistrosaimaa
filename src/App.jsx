@@ -4,30 +4,19 @@
  */
 
 import './App.css';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Analytics } from '@vercel/analytics/react';
-import NavigationBar from './components/NavigationBar';
-import Footer from './components/Footer';
-import Banner from './components/Banner';
-import FeaturedSection from './sections/home/FeaturedSection';
-import StorySection from './sections/home/StorySection';
-import ReviewsSection from './sections/home/ReviewsSection';
-import HeroSection from './sections/home/HeroSection';
-import ContactSection from './sections/home/ContactSection';
-import EventSection from './sections/home/EventSection';
+import HomePage from './pages/HomePage';
+import MenuPage from './pages/MenuPage';
 
 export default function App() {
   return (
-    <div className="min-h-screen font-sans">
-      <Banner />
-      <NavigationBar />
-      <HeroSection />
-      <FeaturedSection />
-      <StorySection />
-      <ReviewsSection />
-      <EventSection />
-      <ContactSection />
-      <Footer />
+    <Router>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/menu" element={<MenuPage />} />
+      </Routes>
       <Analytics />
-    </div>
+    </Router>
   );
 }

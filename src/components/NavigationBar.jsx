@@ -4,6 +4,7 @@
  */
 
 import { useState, useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 
 const NavigationBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -14,11 +15,17 @@ const NavigationBar = () => {
     const handleScroll = () => {
       if (!navbarRef.current) return;
 
+      const heroSection =
+        document.getElementById('home') ||
+        document.querySelector('[id$="-hero"]') ||
+        document.querySelector('[class*="hero"]');
+
+      if (!heroSection) {
+        setIsScrolled(window.scrollY > 50);
+        return;
+      }
+
       const navbarHeight = navbarRef.current.offsetHeight;
-      const heroSection = document.getElementById('home');
-
-      if (!heroSection) return;
-
       const heroBottom = heroSection.offsetTop + heroSection.offsetHeight;
       const navbarBottom = window.scrollY + navbarHeight;
 
@@ -47,7 +54,7 @@ const NavigationBar = () => {
     >
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
         <a
-          href="#home"
+          href="/"
           className={`text-2xl font-bold transition-colors ${
             isScrolled ? 'text-emerald-700' : 'text-white'
           }`}
@@ -65,14 +72,14 @@ const NavigationBar = () => {
           >
             Etusivu
           </a>
-          <a
-            href="#menu"
+          <Link
+            to="/menu"
             className={`hover:text-emerald-500 transition-colors ${
               isScrolled ? 'text-gray-700' : 'text-white'
             }`}
           >
-            Ruokalista
-          </a>
+            À la carte -menu
+          </Link>
           <a
             href="#about"
             className={`hover:text-emerald-500 transition-colors ${
@@ -95,11 +102,12 @@ const NavigationBar = () => {
         <div className="md:hidden">
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className={`focus:outline-none font-medium transition-colors ${
-              isScrolled ? 'text-emerald-700' : 'text-white'
+            className={`p-2 rounded-md focus:outline-none font-medium text-xl transition-colors ${
+              isScrolled ? 'text-emerald-700 hover:bg-emerald-50' : 'text-white hover:bg-white/10'
             }`}
+            aria-label={isMenuOpen ? 'Sulje valikko' : 'Avaa valikko'}
           >
-            {isMenuOpen ? 'Sulje' : 'Valikko'}
+            {isMenuOpen ? '✕' : '☰'}
           </button>
         </div>
       </div>
@@ -114,13 +122,13 @@ const NavigationBar = () => {
           >
             Etusivu
           </a>
-          <a
-            href="#menu"
+          <Link
+            to="/menu"
             className="block py-2 text-gray-700 hover:text-emerald-500"
             onClick={() => setIsMenuOpen(false)}
           >
-            Ruokalista
-          </a>
+            À la carte
+          </Link>
           <a
             href="#about"
             className="block py-2 text-gray-700 hover:text-emerald-500"
