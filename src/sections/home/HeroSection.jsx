@@ -56,7 +56,7 @@ const HeroSection = () => {
           className="flex flex-col sm:flex-row gap-4 justify-center"
           variants={itemVariants}
         >
-          <Button href="#reservation">Tee varauspyyntö</Button>
+          <Button href="/contact">Tee varauspyyntö</Button>
           <Button href="#menu" variant="outline">
             Näytä menu
           </Button>

@@ -9,6 +9,7 @@ import { Analytics } from '@vercel/analytics/react';
 import HomePage from './pages/HomePage';
 import MenuPage from './pages/MenuPage';
 import LunchMenuPage from './pages/LunchMenuPage';
+import ContactPage from './pages/ContactPage';
 
 export default function App() {
   return (
@@ -17,6 +18,7 @@ export default function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/menu" element={<MenuPage />} />
         <Route path="/lunch" element={<LunchMenuPage />} />
+        <Route path="/contact" element={<ContactPage />} />
       </Routes>
       <Analytics />
     </Router>

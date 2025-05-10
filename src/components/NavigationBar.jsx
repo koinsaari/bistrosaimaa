@@ -96,14 +96,14 @@ const NavigationBar = () => {
           >
             Tietoa
           </a>
-          <a
-            href="#contact"
+          <Link
+            to="/contact"
             className={`hover:text-emerald-500 transition-colors ${
               isScrolled ? 'text-gray-700' : 'text-white'
             }`}
           >
-            Yhteystiedot
-          </a>
+            Ota yhteyttä
+          </Link>
         </div>
 
         {/* Mobile Menu Button */}
