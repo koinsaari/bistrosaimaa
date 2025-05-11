@@ -6,11 +6,11 @@
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Analytics } from '@vercel/analytics/react';
-import HomePage from './pages/HomePage';
-import MenuPage from './pages/MenuPage';
-import LunchMenuPage from './pages/LunchMenuPage';
-import ContactPage from './pages/ContactPage';
-import AboutPage from './pages/AboutPage';
+import HomePage from './pages/home/HomePage';
+import MenuPage from './pages/menu/MenuPage';
+import LunchMenuPage from './pages/lunch_menu/LunchMenuPage';
+import ContactPage from './pages/contact/ContactPage';
+import AboutPage from './pages/about/AboutPage';
 
 export default function App() {
   return (

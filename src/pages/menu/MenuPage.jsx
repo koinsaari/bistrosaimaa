@@ -5,10 +5,10 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import NavigationBar from '../components/NavigationBar';
-import Footer from '../components/Footer';
-import Banner from '../components/Banner';
-import FlippableMenuCard from '../components/FlippableMenuCard';
+import NavigationBar from '../../components/NavigationBar';
+import Footer from '../../components/Footer';
+import Banner from '../../components/Banner';
+import FlippableMenuCard from '../../components/FlippableMenuCard';
 
 const menuCategories = [
   {

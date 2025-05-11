@@ -8,9 +8,9 @@ import { motion } from 'framer-motion';
 import { FaFacebookF, FaInstagram } from 'react-icons/fa';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { object, string } from 'yup';
-import NavigationBar from '../components/NavigationBar';
-import Footer from '../components/Footer';
-import Banner from '../components/Banner';
+import NavigationBar from '../../components/NavigationBar';
+import Footer from '../../components/Footer';
+import Banner from '../../components/Banner';
 
 const ContactHero = () => (
   <div

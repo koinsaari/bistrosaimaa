@@ -5,9 +5,9 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import NavigationBar from '../components/NavigationBar';
-import Footer from '../components/Footer';
-import Banner from '../components/Banner';
+import NavigationBar from '../../components/NavigationBar';
+import Footer from '../../components/Footer';
+import Banner from '../../components/Banner';
 
 const AboutHero = () => (
   <div className="bg-gradient-to-br from-emerald-700 to-emerald-900 text-white py-24 relative overflow-hidden">

@@ -5,10 +5,10 @@
 
 import { motion } from 'framer-motion';
 import { getISOWeek } from 'date-fns';
-import NavigationBar from '../components/NavigationBar';
-import Footer from '../components/Footer';
-import Banner from '../components/Banner';
-import FlippableMenuCard from '../components/FlippableMenuCard';
+import NavigationBar from '../../components/NavigationBar';
+import Footer from '../../components/Footer';
+import Banner from '../../components/Banner';
+import FlippableMenuCard from '../../components/FlippableMenuCard';
 
 export default function LunchMenuPage() {
   const menuImage = '/lounaslista.jpg';
@@ -41,9 +41,6 @@ export default function LunchMenuPage() {
         'Luomujauhoista valmistettu lasagne, lohta ja pinaattia, tarjoillaan salaatin kera.',
     },
   ];
-
-  const openModal = () => setShowModal(true);
-  const closeModal = () => setShowModal(false);
 
   return (
     <div className="min-h-screen font-sans bg-gray-50">

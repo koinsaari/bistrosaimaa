@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-const ContactSection = () => {
+export default function ContactSection() {
   return (
     <section id="contact" className="py-16 bg-emerald-700 text-white">
       <div className="container mx-auto px-4">
@@ -12,7 +12,7 @@ const ContactSection = () => {
             <h2 className="text-2xl font-bold mb-6">Aukioloajat</h2>
             <ul className="space-y-2">
               <li className="flex justify-between gap-8">
-                <span>Maanantai–Perjantai:</span>
+                <span>Maanantai-Perjantai:</span>
                 <span>7:00 - 20:00</span>
               </li>
               <li className="flex justify-between gap-8">
@@ -66,6 +66,4 @@ const ContactSection = () => {
       </div>
     </section>
   );
-};
-
-export default ContactSection;
+}

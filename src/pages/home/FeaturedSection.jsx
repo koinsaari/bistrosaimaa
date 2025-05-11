@@ -8,7 +8,7 @@ import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef } from 'react';
 
-const FeaturedSection = () => {
+export default function FeaturedSection() {
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
 
@@ -37,7 +37,7 @@ const FeaturedSection = () => {
         type: 'spring',
         stiffness: 60,
         damping: 25,
-        duration: 0.9,
+        duration: 0.5,
       },
     },
   };
@@ -49,7 +49,7 @@ const FeaturedSection = () => {
       description:
         'Tutustu herkulliseen ja suosittuun à la carte -menuumme, joka tarjoaa makuja kauden mukaan. Jokainen annos on valmistettu huolella ja rakkaudella paikallisista raaka-aineista.',
       buttonText: 'Katso menu',
-      buttonLink: '#menu',
+      buttonLink: '/menu',
     },
     {
       image: 'https://placehold.co/600x400/?text=Lounaslista',
@@ -57,7 +57,7 @@ const FeaturedSection = () => {
       description:
         'Tarjoamme joka viikko vaihtuvan lounaan, joka on pitkään ollut asiakkaidemme suosima.',
       buttonText: 'Näytä lounaslista',
-      buttonLink: '#lunch',
+      buttonLink: '/lunch',
     },
     {
       image: 'https://placehold.co/600x400/?text=Pitopalvelu+kabinetti',
@@ -65,7 +65,7 @@ const FeaturedSection = () => {
       description:
         'Järjestä juhlat tai kokoukset meillä tai tilaa pitopalvelumme suoraan omaan tapahtumaasi. Tarjoamme laadukasta ruokaa ja palvelua, joka tekee tilaisuuksistasi unohtumattomia. Lisäksi voit varata viihtyisän kabinetin yksityistilaisuuksiin.',
       buttonText: 'Kysy lisää',
-      buttonLink: '#contact',
+      buttonLink: '/contact',
     },
     {
       image: 'https://placehold.co/600x400/?text=Tapahtumat',
@@ -120,6 +120,4 @@ const FeaturedSection = () => {
       </div>
     </section>
   );
-};
-
-export default FeaturedSection;
+}

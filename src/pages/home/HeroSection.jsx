@@ -6,7 +6,7 @@
 import Button from '../../components/Button';
 import { motion } from 'framer-motion';
 
-const HeroSection = () => {
+export default function HeroSection() {
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -64,6 +64,4 @@ const HeroSection = () => {
       </motion.div>
     </section>
   );
-};
-
-export default HeroSection;
+}

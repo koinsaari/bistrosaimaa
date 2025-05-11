@@ -224,7 +224,7 @@ const PastEventsSection = () => {
   );
 };
 
-const EventSection = () => {
+export default function EventSection() {
   return (
     <section id="events" className="pt-16 pb-4 bg-emerald-50">
       <div className="container mx-auto px-4">
@@ -237,6 +237,4 @@ const EventSection = () => {
       </div>
     </section>
   );
-};
-
-export default EventSection;
+}
