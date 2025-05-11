@@ -88,14 +88,14 @@ const NavigationBar = () => {
           >
             Lounaslista
           </Link>
-          <a
-            href="#about"
+          <Link
+            to="/about"
             className={`hover:text-emerald-500 transition-colors ${
               isScrolled ? 'text-gray-700' : 'text-white'
             }`}
           >
-            Tietoa
-          </a>
+            Tietoa meistä
+          </Link>
           <Link
             to="/contact"
             className={`hover:text-emerald-500 transition-colors ${
@@ -123,34 +123,41 @@ const NavigationBar = () => {
       {/* Mobile Menu */}
       {isMenuOpen && (
         <div className="md:hidden py-2 px-4 bg-white shadow-inner">
-          <a
-            href="#home"
+          <Link
+            to="/"
             className="block py-2 text-gray-700 hover:text-emerald-500"
             onClick={() => setIsMenuOpen(false)}
           >
             Etusivu
-          </a>
+          </Link>
           <Link
             to="/menu"
             className="block py-2 text-gray-700 hover:text-emerald-500"
             onClick={() => setIsMenuOpen(false)}
           >
-            À la carte
+            À la carte -menu
           </Link>
-          <a
-            href="#about"
+          <Link
+            to="/lunch"
             className="block py-2 text-gray-700 hover:text-emerald-500"
             onClick={() => setIsMenuOpen(false)}
           >
-            Tietoa
-          </a>
-          <a
-            href="#contact"
+            Lounaslista
+          </Link>
+          <Link
+            to="/about"
             className="block py-2 text-gray-700 hover:text-emerald-500"
             onClick={() => setIsMenuOpen(false)}
           >
-            Yhteystiedot
-          </a>
+            Tietoa meistä
+          </Link>
+          <Link
+            to="/contact"
+            className="block py-2 text-gray-700 hover:text-emerald-500"
+            onClick={() => setIsMenuOpen(false)}
+          >
+            Ota yhteyttä
+          </Link>
         </div>
       )}
     </nav>
