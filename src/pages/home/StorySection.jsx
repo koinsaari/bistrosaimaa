@@ -12,24 +12,24 @@ const storyData = [
     title: '📍 Ravintola keskellä järviluontoa',
     image: 'https://placehold.co/800x600/?text=Saimaa+ja+Ristiina',
     paragraphs: [
-      'Bistro Saimaa sijaitsee aivan Ristiinan sydämessä, vain muutaman askeleen päässä Saimaan rauhallisista rantamaisemista. Ravintolan suurista ikkunoista avautuu näkymä satamaan ja järvimaisemaan, jotka luovat ruokailulle ainutlaatuisen taustan vuodenajasta riippumatta.',
-      'Sijaintimme tarjoaa täydellisen pysähdyspaikan matkailijoille ja lähialueen asukkaille – olit sitten veneilemässä, mökkeilemässä tai liikkeellä työpäivän lomassa.',
+      'Bistro Saimaa sijaitsee Ristiinan laidalla, rauhallisessa ympäristössä lähellä Saimaan kauniita maisemia. Ravintolasta on lyhyt matka satamaan ja järvenrantaan, jotka tuovat alueelle oman ainutlaatuisen tunnelmansa - vuodenajasta riippumatta.',
+      'Sijaintimme valtatie 15:n varrella tekee meistä loistavan pysähdyspaikan niin matkailijoille kuin lähiseudun asukkaille – olitpa sitten mökkireissulla, veneilemässä tai tauolla työmatkalla.',
     ],
   },
   {
-    title: '🍽️ Rentoa tunnelmaa ja konstailematonta ruokaa',
+    title: '🍽️ Rentoa tunnelmaa ja maistuvaa ruokaa',
     image: 'https://placehold.co/800x600/?text=Tunnelma',
     paragraphs: [
-      'Meille tärkeintä on viihtyvyys. Bistro Saimaa ei ole pelkkä ruokapaikka, vaan tila hengähtää, kohdata ja nauttia hetkestä. Tunnelma on rento, palvelu lämmintä ja ruoka valmistetaan ajatuksella – ilman turhaa kikkailua.',
-      'Ruokalistamme seuraa sesonkia ja yhdistää perinteisiä suomalaisia makuja moderneihin ideoihin. Meille on tärkeää, että jokainen asiakas tuntee olonsa tervetulleeksi.',
+      'Meille tärkeintä on viihtyvyys. Bistro Saimaa ei ole pelkkä ruokapaikka, vaan tila hengähtää, kohdata ja nauttia hetkestä. Tunnelma on rento, palvelu lämmintä ja ruoka valmistetaan ajatuksella - ilman turhaa kikkailua.',
+      'Ruokalistamme sekä viikoittain vaihtuva lounaslistamme tarjoaa maistuvia annoksia, joista jokainen löytää varmasti omansa. Meille on tärkeää, että jokainen asiakas tuntee olonsa tervetulleeksi.',
     ],
   },
   {
-    title: '🌿 Lähellä tuotettua – aidosti',
-    image: 'https://placehold.co/800x600/?text=Raaka-aineet',
+    title: 'Historiaa',
+    image: 'https://placehold.co/800x600/?text=Historiaa',
     paragraphs: [
-      'Panostamme paikallisiin raaka-aineisiin aina kun se on mahdollista. Monet käyttämämme tuotteet tulevat Etelä-Savon tuottajilta ja pieniltä toimittajilta.',
-      'Tämä ei ole meille pelkkä trendi, vaan tapa toimia vastuullisesti ja tuoda asiakkaille mahdollisimman tuoreita makuja lautaselle – juuri sellaisena kuin ne ovat parhaimmillaan.',
+      'Mollit adipisicing laborum laborum occaecat reprehenderit irure ea sint ad officia. Sint reprehenderit voluptate incididunt qui ad sit. Ea sunt incididunt est cillum dolore anim ut commodo magna consequat.',
+      'Esse non ea cillum Lorem aliqua ea in minim. Magna mollit nulla est anim veniam sit exercitation irure voluptate ea nulla. Tempor tempor laboris fugiat ad minim aute sunt do veniam officia. Laborum duis aliqua mollit occaecat mollit occaecat esse laborum. Velit dolore fugiat dolore culpa ipsum voluptate adipisicing cillum irure aute culpa. Nulla pariatur ad id reprehenderit ipsum aute eiusmod eu velit enim adipisicing veniam.',
     ],
   },
 ];

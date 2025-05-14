@@ -17,8 +17,8 @@ export default function FeaturedSection() {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.3,
+        staggerChildren: 0.1,
+        delayChildren: 0.2,
       },
     },
   };
@@ -35,9 +35,9 @@ export default function FeaturedSection() {
       scale: 1,
       transition: {
         type: 'spring',
-        stiffness: 60,
-        damping: 25,
-        duration: 0.5,
+        stiffness: 80,
+        damping: 20,
+        duration: 0.3,
       },
     },
   };
@@ -47,7 +47,7 @@ export default function FeaturedSection() {
       image: 'https://placehold.co/600x400/?text=Menu',
       title: '📖 Herkullinen ja suosittu menu',
       description:
-        'Tutustu herkulliseen ja suosittuun à la carte -menuumme, joka tarjoaa makuja kauden mukaan. Jokainen annos on valmistettu huolella ja rakkaudella paikallisista raaka-aineista.',
+        'Tutustu herkulliseen ja suosittuun à la carte -menuumme. Jokainen annos valmistetaan huolella ja rakkaudella laadukkaista raaka-aineista.',
       buttonText: 'Katso menu',
       buttonLink: '/menu',
     },
@@ -55,7 +55,7 @@ export default function FeaturedSection() {
       image: 'https://placehold.co/600x400/?text=Lounaslista',
       title: '🍽️ Viikoittain vaihtuva lounaslista',
       description:
-        'Tarjoamme joka viikko vaihtuvan lounaan, joka on pitkään ollut asiakkaidemme suosima.',
+        'Tarjoamme viikoittain vaihtuvan lounaan, joka pohjautuu asiakkaidemme suosimiin, tuttuihin makuihin.',
       buttonText: 'Näytä lounaslista',
       buttonLink: '/lunch',
     },
@@ -63,7 +63,7 @@ export default function FeaturedSection() {
       image: 'https://placehold.co/600x400/?text=Pitopalvelu+kabinetti',
       title: '🎉 Pitopalvelut & kabinetti',
       description:
-        'Järjestä juhlat tai kokoukset meillä tai tilaa pitopalvelumme suoraan omaan tapahtumaasi. Tarjoamme laadukasta ruokaa ja palvelua, joka tekee tilaisuuksistasi unohtumattomia. Lisäksi voit varata viihtyisän kabinetin yksityistilaisuuksiin.',
+        'Olipa kyse juhlasta tai kokouksesta, meiltä saat tilaisuuteesi maistuvan tarjoilun ja ammattitaitoisen palvelun - paikan päällä viihtyisässä kabinetissame tai pitopalveluna missä haluatkaan.',
       buttonText: 'Kysy lisää',
       buttonLink: '/contact',
     },
@@ -79,7 +79,7 @@ export default function FeaturedSection() {
       image: 'https://placehold.co/600x400/?text=Laatu',
       title: '⭐ Huippulaatu ja makuelämykset',
       description:
-        'Bistro Saimaa tunnetaan tinkimättömästä laadusta. Jokainen annos valmistetaan huolella ja rakkaudella, jotta voimme tarjota asiakkaillemme unohtumattomia makuelämyksiä. Laatu on meille sydämen asia.',
+        'Bistro Saimaa tunnetaan tinkimättömästä laadustaan. Jokainen annos valmistetaan huolella ja rakkaudella, jotta voimme tarjota asiakkaillemme unohtumattomia makuelämyksiä. Laatu on meille sydämen asia.',
       buttonText: 'Lue lisää',
       buttonLink: '#story',
     },
@@ -87,7 +87,7 @@ export default function FeaturedSection() {
       image: 'https://placehold.co/600x400/?text=Sijainti',
       title: '🗺️ Saimaan tuntumassa',
       description:
-        'Meidät löydät Ristiinan sydämestä, aivan upeiden Saimaan maisemien vierestä. Bistro Saimaa on täydellinen paikka rentoutua ja nauttia hyvästä ruoasta.',
+        'Meidät löydät Ristiinan laitamilta, upeiden Saimaan maisemien vierestä. Bistro Saimaa sijaitsee vain 20 minuutin ajomatkan päässä Mikkelistä, kätevästi valtatie 15:n varrella - täydellinen paikka pysähtyä ja nauttia hyvästä ruoasta',
       buttonText: 'Näytä kartalla',
       buttonLink: '#contact',
     },

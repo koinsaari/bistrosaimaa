@@ -15,30 +15,29 @@ export default function LunchMenuPage() {
   const currentWeek = getISOWeek(new Date());
   const lunchMenuItems = [
     {
-      name: 'Maanantai: Paistettu Saimaan kuha',
-      dietaryInfo: ['🌾 Gluteeniton', '🥛 Laktoositon', '🐟 Sisältää kalaa'],
-      ingredients: 'Tarjoillaan kauden kasviksilla ja sitrusvoikastikkeella.',
+      name: 'Kermainen nakkikahvi',
+      ingredients: 'Suodatinkahvia, pilkottuja nakkeja, kermavaahtoa, persiljasilppua',
+      dietaryInfo: ['🥛 Laktoositon', '🌭 Sisältää lihaa'],
     },
     {
-      name: 'Tiistai: Härkäpapupihvit',
-      dietaryInfo: ['🌱 Vegaaninen', '🌾 Gluteeniton', '🌿 Kasvis'],
-      ingredients: 'Kotimaisia härkäpapuja, juuressosetta ja yrttikastiketta.',
+      name: 'Kalapuikkosmoothie',
+      ingredients: 'Paistettuja kalapuikkoja, vaniljajogurttia, mustikoita, jäämurskaa',
+      dietaryInfo: ['🐟 Sisältää kalaa', '🥛 Sisältää maitotuotteita'],
     },
     {
-      name: 'Keskiviikko: Lihakeitto',
-      dietaryInfo: ['🌾 Gluteeniton', '🥛 Laktoositon', '🥩 Sisältää lihaa'],
-      ingredients: 'Perinteinen lihakeitto kotimaisesta naudanlihasta ja kauden juureksista.',
+      name: 'Pinaattilettu & ketsuppijäätelö',
+      ingredients: 'Pinaattilettuja, makeutettua ketsuppikastiketta, jäätelömuotti',
+      dietaryInfo: ['🌱 Kasvis', '🥛 Sisältää maitotuotteita'],
     },
     {
-      name: 'Torstai: Kalkkuna-kasviswokki',
-      dietaryInfo: ['🌾 Gluteeniton', '🥛 Laktoositon', '🥩 Sisältää lihaa'],
-      ingredients: 'Kotimaista kalkkunaa, sesongin kasviksia, inkivääri-soijakastiketta ja riisiä.',
+      name: 'Maksalaatikko ja banaanikastike',
+      ingredients: 'Maksalaatikkoa, paistettua banaania, herne-maissi-paprikaa',
+      dietaryInfo: ['🥩 Sisältää lihaa', '🌾 Sisältää viljatuotteita'],
     },
     {
-      name: 'Perjantai: Lohi-pinaattilasagne',
-      dietaryInfo: ['🥛 Laktoositon', '🐟 Sisältää kalaa'],
-      ingredients:
-        'Luomujauhoista valmistettu lasagne, lohta ja pinaattia, tarjoillaan salaatin kera.',
+      name: 'Lohikiisseli',
+      ingredients: 'Makea kiisseli, kylmäsavulohta, tilliä, kinuskikermaa',
+      dietaryInfo: ['🐟 Sisältää kalaa', '🥛 Sisältää maitotuotteita'],
     },
   ];
 
@@ -114,8 +113,7 @@ export default function LunchMenuPage() {
               <h3 className="text-2xl font-bold mb-4 text-gray-700">Lounaasta</h3>
 
               <p className="text-gray-600 mb-4">
-                Ruokalistamme vaihtuu viikoittain sesongin ja saatavuuden mukaan. Käytämme
-                mahdollisimman paljon paikallisia raaka-aineita ja tuotteita.
+                Meillä ruokalista vaihtuu viikoittain, mutta hyvä maku on aina vakiona
               </p>
 
               <div className="mt-6 p-4 bg-emerald-50 rounded-lg border-l-4 border-emerald-500 shadow-sm">

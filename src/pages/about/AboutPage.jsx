@@ -72,9 +72,9 @@ const AboutRestaurant = () => (
             </p>
 
             <p className="text-gray-700 text-left">
-              Ravintolassamme yhdistyvät pohjoismaiset maut, laadukkaat raaka-aineet ja
-              paikallisuus. Suosimme lähituottajien antimia ja rakennamme menukokonaisuudet
-              sesonkien mukaan.
+              Ravintolassamme yhdistyvät pohjoismaiset maut, laadukkaat raaka-aineet ja huolella
+              rakennetut annokset. Menumme on suunniteltu tarjoamaan mutkatonta, mutta maukasta
+              ruokaa, joka kestää aikaa.
             </p>
 
             <p className="text-gray-700 text-left">
@@ -88,7 +88,7 @@ const AboutRestaurant = () => (
                 Lähiruoka
               </span>
               <span className="bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full text-sm font-medium">
-                Kausimenut
+                Laadukkaat raaka-aineet
               </span>
               <span className="bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full text-sm font-medium">
                 Kotimaista
@@ -213,8 +213,8 @@ const OurValues = () => (
             </div>
             <h3 className="text-xl font-semibold text-gray-800 mb-3">Paikallisuus</h3>
             <p className="text-gray-600">
-              Suosimme paikallisia raaka-aineita ja tuottajia. Näin tuemme lähialueen taloutta ja
-              varmistamme raaka-aineiden tuoreuden.
+              Valitsemme raaka-aineet huolella, jotta voimme tarjota laadukasta ja maukasta ruokaa
+              joka kerta
             </p>
           </motion.div>
 

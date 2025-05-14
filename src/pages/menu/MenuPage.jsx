@@ -18,28 +18,26 @@ const menuCategories = [
     imageUrl: 'https://placehold.co/800x500/?text=Alkuruoat',
     items: [
       {
-        name: 'Talon antipasti-lautanen',
-        description: 'Paahdettuja kasviksia, palvattua possua ja paikallisia juustoja.',
-        ingredients:
-          'Sisältää: Paikallisia juustoja, palvattua possua, paahdettuja paprikoita ja kesäkurpitsaa, oliiveja, aurinkokuivattuja tomaatteja, rucolaa ja talon leipää.',
-        price: '12.50',
-        dietaryInfo: ['G', 'L*'],
-      },
-      {
-        name: 'Metsäsienikeitto',
-        description: 'Kermainen keitto paikallisista sienistä, tarjoillaan talon leivän kera.',
-        ingredients:
-          'Sisältää: Kantarelleja, tatti- ja herkkusieniä, sipulia, kermaa, valkoviiniä, timjamia, persiljaa.',
-        price: '9.80',
-        dietaryInfo: ['VG*', 'G*'],
-      },
-      {
-        name: 'Savustettu siika',
-        description: 'Saimaan siikaa, punajuurta ja piparjuurikastiketta.',
-        ingredients:
-          'Sisältää: Savustettua Saimaan siikaa, punajuuripyreetä, piparjuurikermaa, tilliöljyä, sitruunaa, rucolaa.',
-        price: '13.50',
+        name: 'Nakkikahvi',
+        description:
+          'Lämmin kuppi suodatinkahvia, jossa kelluu kaksi grillinakkia. Tarjoillaan hillosipulin kera.',
+        ingredients: 'Sisältää: Kahvia, nakkeja, hillosipuleita, yllätystä.',
+        price: '6.66',
         dietaryInfo: ['G', 'L'],
+      },
+      {
+        name: 'Kaurapuuro carpaccio',
+        description: 'Ohueksi viipaloitua kylmää kaurapuuroa sinappikastikkeella.',
+        ingredients: 'Sisältää: Kaurapuuroa, sinappia, tilliä, outoa tunnelmaa.',
+        price: '5.20',
+        dietaryInfo: ['VEG', 'G'],
+      },
+      {
+        name: 'Sipsi-ceviche',
+        description: 'Etikkasipsejä sitruunamehussa kypsytettynä. Koristeltu pakasteherneillä.',
+        ingredients: 'Sisältää: Perunalastuja, limeä, sitruunaa, pakasteherneitä.',
+        price: '7.90',
+        dietaryInfo: ['V', 'G'],
       },
     ],
   },
@@ -50,37 +48,33 @@ const menuCategories = [
     imageUrl: 'https://placehold.co/800x500/?text=Pääruoat',
     items: [
       {
-        name: 'Bistron pihvi',
+        name: 'Lämmin jäätelökeitto',
         description:
-          'Grillattu naudan ulkofileepihvi, punaviinikastike, yrttivoi ja kauden kasvikset.',
-        ingredients:
-          'Sisältää: Kotimaista naudan ulkofileetä, punaviinikastiketta (punaviiniä, timjamia, rosmariinia, sipulia), yrttivoita, paahdettuja juureksia, perunapyreetä.',
-        price: '29.50',
-        dietaryInfo: ['G', 'L'],
+          'Sulanutta vaniljajäätelöä, lämmitettynä ja tarjoiltuna keittolautaselta. Rapea pekonihattu päällä.',
+        ingredients: 'Sisältää: Vaniljajäätelöä, kermaa, pekonia, hämmentävän elämyksen.',
+        price: '14.90',
+        dietaryInfo: ['VL'],
       },
       {
-        name: 'Paahdettua kuhaa',
-        description: 'Saimaan kuhaa, tillikastiketta ja perunapyreetä.',
-        ingredients:
-          'Sisältää: Tuoretta Saimaan kuhaa, tillikastiketta (tilli, voi, valkoviini, sitruuna), perunapyreetä, paahdettuja fenkoleita.',
-        price: '26.80',
-        dietaryInfo: ['G', 'L'],
+        name: 'Ketsuppilasagne',
+        description: 'Kolme lasagnelevyä ja litra ketsuppia. Ei juustoa. Ei häpeää.',
+        ingredients: 'Sisältää: Vehnää, tomaattia (ehkä), epätoivoa.',
+        price: '12.00',
+        dietaryInfo: ['L'],
       },
       {
-        name: 'Kasvis-risotto',
-        description: 'Kermainen risotto, kauden sieniä ja parmesaania.',
-        ingredients:
-          'Sisältää: Arborio-riisiä, valkoviiniä, sipulia, kauden sieniä (kantarelli, herkkusieni), kermaa, parmesaania, rucolaa.',
-        price: '21.00',
-        dietaryInfo: ['VG*', 'G'],
+        name: 'Woltista tilattu yllätysateria',
+        description: 'Emme kokkaa tätä. Tilataan jotain summamutikassa ja katsotaan mitä tulee.',
+        ingredients: 'Sisältää: Arvaamattomuutta ja mahdollisen kuitin.',
+        price: '25.00',
+        dietaryInfo: ['??'],
       },
       {
-        name: 'Poronkäristys',
-        description: 'Perinteinen poronkäristys, puikulaperunat ja puolukkaa.',
-        ingredients:
-          'Sisältää: Suomalaista poronlihaa, puikulaperunoita, puolukkaa, suolakurkkuja, voita, sipulia, timjamia.',
-        price: '28.50',
-        dietaryInfo: ['G', 'L'],
+        name: 'Vegaaninen lihapiirakka',
+        description: 'Sisältää lihaa, mutta vegaanisesti ajateltuna.',
+        ingredients: 'Sisältää: Lihapiirakka. Ei oikeasti vegaaninen. Filosofinen kannanotto.',
+        price: '9.99',
+        dietaryInfo: ['Ei mittään hajua'],
       },
     ],
   },
@@ -91,28 +85,26 @@ const menuCategories = [
     imageUrl: 'https://placehold.co/800x500/?text=Jälkiruoat',
     items: [
       {
-        name: 'Suklaafondant',
-        description: 'Lämmin suklaakakku, vaniljajäätelöä ja marjoja.',
-        ingredients:
-          'Sisältää: Tummaa suklaata, voita, kananmunaa, vehnäjauhoja, sokeria, vaniljajäätelöä, tuoreita marjoja, minttua.',
-        price: '10.50',
-        dietaryInfo: ['VL'],
+        name: 'Mämmi-brûlée',
+        description:
+          'Perinteinen mämmi, pinnalla karamellisoitu sokerikuori. Tarjoillaan haikeudella.',
+        ingredients: 'Sisältää: Mämmiä, sokeria, poltettua katumusta.',
+        price: '6.66',
+        dietaryInfo: ['VL', 'G'],
       },
       {
-        name: 'Juustolautanen',
-        description: 'Valikoima paikallisia juustoja, hilloa ja näkkileipää.',
-        ingredients:
-          'Sisältää: Vaihtuva valikoima paikallisia juustoja, hunajaa, viinimarjahilloa, pähkinöitä, näkkileipää, tuoreita hedelmiä.',
-        price: '13.50',
-        dietaryInfo: ['G*', 'VL'],
+        name: 'Tiramisu meets makkara',
+        description: 'Kahvilla kostutettua pullaa, mascarponea ja paistettua lenkkimakkaraa.',
+        ingredients: 'Sisältää: Makkaraa, kahvia, jälkiruokakonfliktin.',
+        price: '11.10',
+        dietaryInfo: ['L*'],
       },
       {
-        name: 'Marjapiirakka',
-        description: 'Kauden marjoista leivottu piirakka ja vaniljakastiketta.',
-        ingredients:
-          'Sisältää: Kotimaisia marjoja (mustikka, puolukka, mansikka - sesongin mukaan), murotaikinaa, vaniljakastiketta.',
-        price: '8.90',
-        dietaryInfo: ['VL'],
+        name: 'Sattumavälipala',
+        description: 'Sulje silmäsi ja syö. Me emme kerro mitä tämä on.',
+        ingredients: 'Sisältää: Ei varmuutta. Ehkä rusina.',
+        price: '4.44',
+        dietaryInfo: ['Kyllä'],
       },
     ],
   },
@@ -147,8 +139,7 @@ export default function MenuPage() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3, duration: 0.7 }}
           >
-            Ruokamme valmistetaan parhaista raaka-aineista, suosien lähituottajia ja sesongin
-            antimia.
+            Ruokamme valmistetaan laadukkaista ja tuoreista raaka-aineista.
           </motion.p>
         </div>
       </div>
@@ -163,8 +154,8 @@ export default function MenuPage() {
             transition={{ delay: 0.5 }}
           >
             <p className="text-lg text-gray-700 mb-6">
-              Menuamme päivitetään säännöllisesti sesongin mukaan. Kysy henkilökunnalta päivän
-              erikoisuudet.
+              Monille jo tutuksi tullut menumme tarjoaa maistuvia suosikkeja. Kysy henkilökunnalta
+              päivän erikoisuudet.
             </p>
 
             {/* dietary info legend */}

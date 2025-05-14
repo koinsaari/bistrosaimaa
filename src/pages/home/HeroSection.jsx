@@ -12,8 +12,8 @@ export default function HeroSection() {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.4,
-        delayChildren: 0.3,
+        staggerChildren: 0.3,
+        delayChildren: 0.2,
       },
     },
   };
@@ -25,8 +25,8 @@ export default function HeroSection() {
       opacity: 1,
       transition: {
         type: 'spring',
-        stiffness: 100,
-        damping: 50,
+        stiffness: 120,
+        damping: 15,
       },
     },
   };

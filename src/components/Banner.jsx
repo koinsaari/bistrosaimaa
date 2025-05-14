@@ -31,7 +31,7 @@ const Banner = () => {
           className="absolute right-4 top-1/2 -translate-y-1/2 text-yellow-800 hover:text-yellow-600 focus:outline-none bg-transparent font-medium text-lg"
           aria-label="Sulje banneri"
         >
-          ×
+          x
         </button>
         <div className="flex flex-col items-center justify-center">
           <div className="flex items-center">
@@ -44,7 +44,8 @@ const Banner = () => {
             </p>
           </div>
           <p className="text-yellow-800 font-bold text-base mt-1">
-            Huomaathan, että sisältö on vielä työn alla eikä virallista.
+            Huomaathan, että sisältö on vielä luonnosvaiheessa eikä vastaa lopullista tai virallista
+            tietoa.
           </p>
         </div>
       </div>

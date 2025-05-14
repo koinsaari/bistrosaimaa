@@ -34,23 +34,14 @@ const EventCalendarInfoCard = () => {
 
         <p className="text-gray-600 mb-4">
           Bistro Saimaa järjestää monipuolisia tapahtumia ympäri vuoden. Kalenteristamme löydät
-          esimerkiksi bingoiltoja, teemallisia tapahtumia sekä erikoismenuita juhlapäivien
-          kunniaksi.
+          esimerkiksi bingoiltoja sekä muita tapahtumia ja erikoismenuita juhlapäivien kunniaksi.
         </p>
 
         <p className="text-gray-600 mb-6">
           Voit myös varata pöydän kätevästi soittamalla numeroon:{' '}
           <a href="tel:+358504499322" className="text-emerald-600 font-medium hover-effect">
             +358 50 4499 322
-          </a>{' '}
-          tai lähettämällä sähköpostia osoitteeseen{' '}
-          <a
-            href="mailto:bistrosaimaa@gmail.com"
-            className="text-emerald-600 font-medium hover-effect"
-          >
-            bistrosaimaa@gmail.com
           </a>
-          .
         </p>
 
         <div className="mt-4 p-4 bg-emerald-50 rounded-lg border-l-4 border-emerald-500 shadow-sm">
@@ -90,71 +81,47 @@ const PastEventsSection = () => {
   const pastEvents = [
     {
       id: 1,
-      image: 'https://placehold.co/600x400/?text=Paasiasilta',
-      title: 'Pääsiäisilta',
+      image: 'https://placehold.co/600x400/?text=Tapahtuma+1',
+      title: 'Tapahtuma 1',
       date: '12.4.2025',
-      description:
-        'Perinteistä pääsiäisherkkua karjalaiseen tapaan. Ilta täyttyi makeista herkuista ja mukavasta tunnelmasta.',
+      description: 'Sit consequat irure est ullamco qui magna culpa eu dolore consectetur ad.',
       buttonText: 'Katso kuvat',
       buttonLink: '',
     },
     {
       id: 2,
-      image: 'https://placehold.co/600x400/?text=Viininmaistajaiset',
-      title: 'Viininmaistajaiset',
+      image: 'https://placehold.co/600x400/?text=Tapahtuma+2',
+      title: 'Tapahtuma 2',
       date: '15.2.2025',
       description:
-        'Tutustuimme italialaisiin punaviineihin asiantuntijan opastuksella. Viinit yhdistettiin täydellisesti sopiviin ruoka-annoksiin.',
+        'Irure nulla consequat deserunt consectetur nulla non proident laboris voluptate sunt anim excepteur.',
       buttonText: 'Katso kuvat',
       buttonLink: '',
     },
     {
       id: 3,
-      image: 'https://placehold.co/600x400/?text=Ristiinan+päivä',
-      title: 'Ristiinan päivä',
+      image: 'https://placehold.co/600x400/?text=Tapahtuma+3',
+      title: 'Tapahtuma 3',
       date: '23.1.2025',
-      description:
-        'Juhlimme Ristiinan päivää tarjoamalla perinteisiä paikallisia herkkuja. Tapahtuma keräsi kylän väkeä yhteen.',
+      description: 'Laborum consequat ea excepteur Lorem ipsum minim aute non adipisicing.',
       buttonText: 'Katso kuvat',
       buttonLink: '',
     },
     {
       id: 4,
-      image: 'https://placehold.co/600x400/?text=Ravintola+Viikko',
-      title: 'Ravintola Viikko',
+      image: 'https://placehold.co/600x400/?text=Tapahtuma+4',
+      title: 'Tapahtuma 4',
       date: '10.12.2024',
-      description:
-        'Ravintola Viikon aikana tarjosimme erityisen illallismenun, joka sisälsi paikallisesti tuotettuja herkkuja.',
+      description: 'Cillum fugiat nulla adipisicing tempor.',
       buttonText: 'Katso kuvat',
       buttonLink: '',
     },
     {
       id: 5,
-      image: 'https://placehold.co/600x400/?text=Halloween+Party',
-      title: 'Halloween Party',
+      image: 'https://placehold.co/600x400/?text=Taphtuma+5',
+      title: 'Tapahtuma 5',
       date: '31.10.2024',
-      description:
-        'Karmiva ja hauska Halloween-ilta, jossa henkilökunta pukeutui naamiaisasuihin. Teeman mukaiset drinkit saivat suuren suosion!',
-      buttonText: 'Katso kuvat',
-      buttonLink: '',
-    },
-    {
-      id: 6,
-      image: 'https://placehold.co/600x400/?text=Sadonkorjuujuhla',
-      title: 'Sadonkorjuujuhla',
-      date: '24.9.2024',
-      description:
-        'Syksyinen juhla, jossa iloitsimme kesän sadosta. Menun ruoat valmistettiin paikallisten tuottajien satokauden antimista.',
-      buttonText: 'Katso kuvat',
-      buttonLink: '',
-    },
-    {
-      id: 7,
-      image: 'https://placehold.co/600x400/?text=Kesän+Avaus',
-      title: 'Kesän Avaus',
-      date: '1.6.2024',
-      description:
-        'Tervetuloa kesä! Bistron terassilla järjestetty aurinkoinen tapahtuma, jossa nautimme raikkaita kesäisiä makuja.',
+      description: 'Esse voluptate irure culpa ut qui.',
       buttonText: 'Katso kuvat',
       buttonLink: '',
     },
