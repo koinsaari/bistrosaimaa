@@ -11,7 +11,7 @@ import MenuPage from './pages/menu/MenuPage';
 import LunchMenuPage from './pages/lunch_menu/LunchMenuPage';
 import ContactPage from './pages/contact/ContactPage';
 import AboutPage from './pages/about/AboutPage';
-import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
+import PrivacyPolicyPage from './pages/privacy/PrivacyPolicyPage';
 
 export default function App() {
   return (
