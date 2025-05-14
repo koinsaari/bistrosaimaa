@@ -36,7 +36,7 @@ const PrivacyPolicyContent = () => (
   >
     <section className="mb-8">
       <h2 className="text-2xl font-bold text-gray-800 mb-4">Bistro Saimaan tietosuojaseloste</h2>
-      <p className="text-gray-600 mb-4">Viimeksi päivitetty: 11.5.2025</p>
+      <p className="text-gray-600 mb-4">Viimeksi päivitetty: 14.5.2025</p>
       <p className="text-gray-700">
         Tämä tietosuojaseloste kuvaa, miten Bistro Saimaa käsittelee henkilötietoja, joita keräämme
         yhteydenottolomakkeen kautta.
@@ -75,6 +75,30 @@ const PrivacyPolicyContent = () => (
         <li>Ei luovuteta kolmansille osapuolille markkinointi- tai muihin tarkoituksiin</li>
         <li>Ei siirretä EU/ETA-alueen ulkopuolelle</li>
         <li>Viestin tekninen välitys tapahtuu Web3Forms-palvelun kautta (web3forms.com)</li>
+      </ul>
+    </section>
+
+    <section className="mb-8">
+      <h3 className="text-xl font-semibold text-gray-800 mb-3">4. Verkkosivuanalytiikka</h3>
+      <p className="text-gray-700 mb-4">
+        Käytämme Vercel Analytics -palvelua kerätäksemme anonyymia käyttötietoa sivustostamme:
+      </p>
+      <ul className="list-disc pl-6 text-gray-700 space-y-1">
+        <li>Keräämme anonyymiä tietoa sivuston kävijämääristä ja suosituimmista sivuista</li>
+        <li>Tietoa käytetään sivuston käytettävyyden ja toiminnan parantamiseen</li>
+        <li>Emme yhdistä analytiikkatietoja henkilötietoihin</li>
+        <li>Vercel Analytics ei käytä evästeitä eikä kerää yksilöivää käyttäjätietoa</li>
+        <li>
+          Voit lukea lisää Vercel Analyticsin tietosuojasta osoitteesta:{' '}
+          <a
+            href="https://vercel.com/docs/analytics/privacy-policy"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-emerald-600 hover:underline"
+          >
+            vercel.com/docs/analytics/privacy-policy
+          </a>
+        </li>
       </ul>
     </section>
 
