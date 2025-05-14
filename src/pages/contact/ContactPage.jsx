@@ -119,7 +119,7 @@ const ContactInfoCard = () => (
                   <div className="bg-gray-800 text-white text-xs rounded py-2 px-3 max-w-xs shadow-lg">
                     <p>
                       Toivomme, että käytät ensisijaisesti sivulla olevaa lomaketta. Se helpottaa
-                      meillä yhteydenottojen käsittelyä ja varmistaa nopeamman vastauksen.
+                      meillä yhteydenottoviestien lajittelua ja varmistaa nopeamman vastauksen.
                     </p>
                   </div>
                 </div>
@@ -228,26 +228,54 @@ const ContactForm = ({ onSubmitSuccess }) => {
     }
 
     try {
-      // TODO: Implement actual form submission
-      // for now we just simulate successful submission
       setFormStatus({
         submitted: true,
         error: false,
-        message: 'Kiitos yhteydenotostasi! Palaamme asiaan mahdollisimman pian.',
+        message: 'Lähetetään...',
       });
 
-      // Reset form after successful submission
-      resetForm();
-      setPrivacyAccepted(false);
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          access_key: 'ba8420e9-f50a-4313-97c9-b38988041269',
+          name: values.name,
+          email: values.email,
+          phone: values.phone || 'Ei annettu',
+          subject: `Yhteydenotto: ${values.subject}`,
+          message: values.message,
+          from_name: values.email,
+        }),
+      });
 
-      if (onSubmitSuccess) {
-        onSubmitSuccess();
+      const data = await response.json();
+
+      if (data.success) {
+        setFormStatus({
+          submitted: true,
+          error: false,
+          message: 'Kiitos yhteydenotostasi! Palaamme asiaan mahdollisimman pian.',
+        });
+
+        // Reset form after successful submission
+        resetForm();
+        setPrivacyAccepted(false);
+
+        if (onSubmitSuccess) {
+          onSubmitSuccess();
+        }
+      } else {
+        throw new Error(data.message || 'Lomakkeen lähetyksessä tapahtui virhe');
       }
     } catch (error) {
+      console.error('Form submission error:', error);
+
       setFormStatus({
         submitted: true,
         error: true,
-        message: 'Lomakkeen lähetyksessä tapahtui virhe. Yritä uudelleen.',
+        message: error.message || 'Lomakkeen lähetyksessä tapahtui virhe. Yritä uudelleen.',
       });
     }
   };
@@ -353,7 +381,7 @@ const ContactForm = ({ onSubmitSuccess }) => {
                     <option value="Pitopalvelu">Pitopalvelu</option>
                     <option value="Tapahtumatiedustelu">Tapahtumatiedustelu</option>
                     <option value="Palaute">Palaute</option>
-                    <option value="Muu kysymys">Muu kysymys</option>
+                    <option value="Muu yhteydenotto">Muu yhteydenotto</option>
                   </Field>
                 </div>
               </div>
@@ -399,7 +427,7 @@ const ContactForm = ({ onSubmitSuccess }) => {
                 />
                 <label htmlFor="privacy" className="ml-2 block text-sm text-gray-700">
                   Hyväksyn{' '}
-                  <a href="#" className="text-emerald-600 hover:underline">
+                  <a href="/privacy-policy" className="text-emerald-600 hover:underline">
                     tietosuojakäytännön
                   </a>
                 </label>
@@ -426,6 +454,7 @@ const ContactForm = ({ onSubmitSuccess }) => {
           Käsittelemme viestit yleensä 1-2 arkipäivän kuluessa. Kiireellisissä asioissa
           suosittelemme soittamaan suoraan ravintolaamme.
         </p>
+        <p className="mt-6 text-sm text-gray-500">Pöytävaraukset hoidetaan puhelimitse.</p>
       </div>
     </motion.div>
   );

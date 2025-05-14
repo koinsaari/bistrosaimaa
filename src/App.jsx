@@ -11,6 +11,7 @@ import MenuPage from './pages/menu/MenuPage';
 import LunchMenuPage from './pages/lunch_menu/LunchMenuPage';
 import ContactPage from './pages/contact/ContactPage';
 import AboutPage from './pages/about/AboutPage';
+import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
 
 export default function App() {
   return (
@@ -21,6 +22,7 @@ export default function App() {
         <Route path="/lunch" element={<LunchMenuPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/about" element={<AboutPage />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
       </Routes>
       <Analytics />
     </Router>
