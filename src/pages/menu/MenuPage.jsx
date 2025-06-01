@@ -157,6 +157,11 @@ export default function MenuPage() {
               Monille jo tutuksi tullut menumme tarjoaa maistuvia suosikkeja. Kysy henkilökunnalta
               päivän erikoisuudet.
             </p>
+            <p className="text-lg text-yellow-800 bg-yellow-100 p-4 rounded mb-6">
+              ⚠️ Huom! Tämä menu on huumorilla laadittu esimerkki verkkosivujen kehitystä varten.
+              Oikea menu päivitetään pian - emme oikeasti tarjoile nakkeja kahvin seassa (ellei
+              vahingossa lipsahda sekaan).
+            </p>
 
             {/* dietary info legend */}
             <div className="inline-flex flex-wrap justify-center gap-4 p-6 bg-white rounded-xl shadow-sm border border-emerald-100">

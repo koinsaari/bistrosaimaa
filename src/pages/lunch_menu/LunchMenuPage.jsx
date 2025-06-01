@@ -85,6 +85,10 @@ export default function LunchMenuPage() {
               Lounaaseen sisältyy runsas salaattipöytä, tuoretta leipää ja jälkiruokakahvi tai tee.
               Erityisruokavaliot huomioidaan mahdollisuuksien mukaan.
             </p>
+            <p className="text-lg text-yellow-800 bg-yellow-100 p-4 rounded mb-6 max-w-2xl mx-auto">
+              ⚠️ Huom! Menu tai hinnat eivät ole virallisia. Ne ovat vain esimerkkinä vielä sivuston
+              kehityksen ajaksi.
+            </p>
           </motion.div>
 
           <div className="flex flex-col lg:flex-row gap-8">
