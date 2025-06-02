@@ -10,7 +10,8 @@ import { useInView } from 'framer-motion';
 const storyData = [
   {
     title: '📍 Ravintola keskellä järviluontoa',
-    image: 'https://placehold.co/800x600/?text=Saimaa+ja+Ristiina',
+    image:
+      'https://images.pexels.com/photos/227572/pexels-photo-227572.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
     paragraphs: [
       'Bistro Saimaa sijaitsee Ristiinan laidalla, rauhallisessa ympäristössä lähellä Saimaan kauniita maisemia. Ravintolasta on lyhyt matka satamaan ja järvenrantaan, jotka tuovat alueelle oman ainutlaatuisen tunnelmansa - vuodenajasta riippumatta.',
       'Sijaintimme valtatie 15:n varrella tekee meistä loistavan pysähdyspaikan niin matkailijoille kuin lähiseudun asukkaille – olitpa sitten mökkireissulla, veneilemässä tai tauolla työmatkalla.',
@@ -18,7 +19,7 @@ const storyData = [
   },
   {
     title: '🍽️ Rentoa tunnelmaa ja maistuvaa ruokaa',
-    image: 'https://placehold.co/800x600/?text=Tunnelma',
+    image: 'saimaa-interior_1.jpeg',
     paragraphs: [
       'Meille tärkeintä on viihtyvyys. Bistro Saimaa ei ole pelkkä ruokapaikka, vaan tila hengähtää, kohdata ja nauttia hetkestä. Tunnelma on rento, palvelu lämmintä ja ruoka valmistetaan ajatuksella - ilman turhaa kikkailua.',
       'Ruokalistamme sekä viikoittain vaihtuva lounaslistamme tarjoaa maistuvia annoksia, joista jokainen löytää varmasti omansa. Meille on tärkeää, että jokainen asiakas tuntee olonsa tervetulleeksi.',

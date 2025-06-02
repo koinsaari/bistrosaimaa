@@ -10,4 +10,4 @@ The website is built using **React**, **Vite**, and **Tailwind CSS**.
 
 The **source code** of this project is licensed under the [MIT License](LICENSE).
 
-All other content is © 2025 Bistro Saimaa Oy. Please see [NOTICE](./NOTICE) for details.
+All other content is © 2025 Bistro Saimaa Oy. Please see [NOTICE](./NOTICE.md) for details.

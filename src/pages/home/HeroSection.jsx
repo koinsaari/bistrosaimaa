@@ -34,8 +34,14 @@ export default function HeroSection() {
   return (
     <section
       id="home"
-      className="relative h-screen bg-gray-900 flex items-center justify-center text-center text-white w-full"
+      className="relative h-screen flex items-center justify-center text-center text-white w-full overflow-hidden"
     >
+      <video autoPlay muted loop className="absolute w-full h-full object-cover">
+        <source
+          src="https://videos.pexels.com/video-files/11998490/11998490-uhd_2560_1440_30fps.mp4"
+          type="video/mp4"
+        />
+      </video>
       <div className="absolute inset-0 bg-black opacity-50"></div>
       <motion.div
         className="relative z-10 max-w-3xl"
@@ -57,7 +63,7 @@ export default function HeroSection() {
           variants={itemVariants}
         >
           <Button href="/contact">Tee varauspyyntö</Button>
-          <Button href="#menu" variant="outline">
+          <Button href="/menu" variant="outline">
             Näytä menu
           </Button>
         </motion.div>

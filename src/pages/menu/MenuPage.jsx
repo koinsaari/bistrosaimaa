@@ -15,7 +15,8 @@ const menuCategories = [
     id: 'starters',
     title: 'Alkuruoat',
     icon: '🍽️',
-    imageUrl: 'https://placehold.co/800x500/?text=Alkuruoat',
+    imageUrl:
+      'https://images.pexels.com/photos/2116090/pexels-photo-2116090.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
     items: [
       {
         name: 'Nakkikahvi',
@@ -45,7 +46,8 @@ const menuCategories = [
     id: 'mains',
     title: 'Pääruoat',
     icon: '🍲',
-    imageUrl: 'https://placehold.co/800x500/?text=Pääruoat',
+    imageUrl:
+      'https://images.pexels.com/photos/32371272/pexels-photo-32371272/free-photo-of-grilled-chicken-fajitas-with-peppers-and-sauces.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
     items: [
       {
         name: 'Lämmin jäätelökeitto',
@@ -82,7 +84,7 @@ const menuCategories = [
     id: 'desserts',
     title: 'Jälkiruoat',
     icon: '🍰',
-    imageUrl: 'https://placehold.co/800x500/?text=Jälkiruoat',
+    imageUrl: 'kakku.jpeg',
     items: [
       {
         name: 'Mämmi-brûlée',
@@ -119,10 +121,13 @@ export default function MenuPage() {
       <NavigationBar />
 
       {/* Hero */}
-      <div
-        id="menu-hero"
-        className="bg-gradient-to-br from-emerald-700 to-emerald-900 text-white py-24 relative overflow-hidden"
-      >
+      <div id="menu-hero" className="text-white py-24 relative overflow-hidden">
+        <img
+          src="https://images.pexels.com/photos/2961968/pexels-photo-2961968.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+          alt="Restaurant background"
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-black/50"></div>
         <div className="container mx-auto px-4 relative z-10">
           <motion.h1
             className="text-4xl md:text-6xl font-bold mb-6 text-center"
@@ -160,7 +165,7 @@ export default function MenuPage() {
             <p className="text-lg text-yellow-800 bg-yellow-100 p-4 rounded mb-6">
               ⚠️ Huom! Tämä menu on huumorilla laadittu esimerkki verkkosivujen kehitystä varten.
               Oikea menu päivitetään pian - emme oikeasti tarjoile nakkeja kahvin seassa (ellei
-              vahingossa lipsahda sekaan).
+              vahingossa lipsahda).
             </p>
 
             {/* dietary info legend */}

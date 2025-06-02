@@ -26,8 +26,8 @@ const Footer = () => {
             <p className="text-gray-400 text-sm">
               &copy; 2025 Bistro Saimaa Oy. Kaikki oikeudet pidätetään. &nbsp;|&nbsp; Made with 🩵 by{' '}
               <a
-                href="https://www.linkedin.com/in/aarokoinsaari"
-                className="text-emerald-400 hover:text-emerald-300 hover:underline transition-colors"
+                href="https://github.com/koinsaari"
+                className="hover:underline transition-colors"
                 target="_blank"
                 rel="noopener noreferrer"
               >

@@ -47,10 +47,13 @@ export default function LunchMenuPage() {
       <NavigationBar />
 
       {/* Hero */}
-      <div
-        id="lunch-hero"
-        className="bg-gradient-to-br from-emerald-700 to-emerald-900 text-white py-24 relative overflow-hidden"
-      >
+      <div id="lunch-hero" className="text-white py-24 relative overflow-hidden">
+        <img
+          src="https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+          alt="Restaurant background"
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-black/60"></div>
         <div className="container mx-auto px-4 relative z-10">
           <motion.h1
             className="text-4xl md:text-6xl font-bold mb-6 text-center"

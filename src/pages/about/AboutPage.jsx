@@ -12,7 +12,11 @@ import Banner from '../../components/Banner';
 const AboutHero = () => (
   <div className="bg-gradient-to-br from-emerald-700 to-emerald-900 text-white py-24 relative overflow-hidden">
     <div className="absolute inset-0 opacity-20">
-      <img src="/images/contact-pattern.jpg" alt="" className="w-full h-full object-cover" />
+      <img
+        src="https://placehold.co/800x600?text=Bistro+Saimaan+kuva"
+        alt=""
+        className="w-full h-full object-cover"
+      />
     </div>
 
     <div className="container mx-auto px-4 relative z-10">
@@ -55,7 +59,7 @@ const AboutRestaurant = () => (
             transition={{ delay: 0.3, duration: 0.8 }}
           >
             <img
-              src="https://placehold.co/800x600?text=Bistro+Saimaa"
+              src="https://placehold.co/800x600?text=Bistro+Saimaan+kuva"
               alt="Bistro Saimaa ravintola"
               className="rounded-lg shadow-lg w-full h-full"
             />

@@ -44,23 +44,25 @@ export default function FeaturedSection() {
 
   const features = [
     {
-      image: 'https://placehold.co/600x400/?text=Menu',
-      title: '📖 Herkullinen ja suosittu menu',
+      image:
+        'https://images.pexels.com/photos/313700/pexels-photo-313700.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+      title: '📖 Suosittu À la carte -menumme',
       description:
         'Tutustu herkulliseen ja suosittuun à la carte -menuumme. Jokainen annos valmistetaan huolella ja rakkaudella laadukkaista raaka-aineista.',
       buttonText: 'Katso menu',
       buttonLink: '/menu',
     },
     {
-      image: 'https://placehold.co/600x400/?text=Lounaslista',
-      title: '🍽️ Viikoittain vaihtuva lounaslista',
+      image: 'lounas_1.jpeg',
+      title: '🍽️ Viikoittain vaihtuva lounas',
       description:
         'Tarjoamme viikoittain vaihtuvan lounaan, joka pohjautuu asiakkaidemme suosimiin, tuttuihin makuihin.',
       buttonText: 'Näytä lounaslista',
       buttonLink: '/lunch',
     },
     {
-      image: 'https://placehold.co/600x400/?text=Pitopalvelu+kabinetti',
+      image:
+        'https://images.pexels.com/photos/2487438/pexels-photo-2487438.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
       title: '🎉 Pitopalvelut & kabinetti',
       description:
         'Olipa kyse juhlasta tai kokouksesta, meiltä saat tilaisuuteesi maistuvan tarjoilun ja ammattitaitoisen palvelun - paikan päällä viihtyisässä kabinetissame tai pitopalveluna missä haluatkaan.',
@@ -68,7 +70,8 @@ export default function FeaturedSection() {
       buttonLink: '/contact',
     },
     {
-      image: 'https://placehold.co/600x400/?text=Tapahtumat',
+      image:
+        'https://images.pexels.com/photos/10655043/pexels-photo-10655043.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
       title: '🎶 Tapahtumat & illat',
       description:
         'Tule mukaan bistroiltoihin, bingoon ja muihin vaihteleviin tapahtumiin. Bistro Saimaa tarjoaa monipuolista ohjelmaa ympäri vuoden, joka tuo ihmiset yhteen.',
@@ -76,7 +79,8 @@ export default function FeaturedSection() {
       buttonLink: '#events',
     },
     {
-      image: 'https://placehold.co/600x400/?text=Laatu',
+      image:
+        'https://images.pexels.com/photos/2977514/pexels-photo-2977514.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
       title: '⭐ Huippulaatu ja makuelämykset',
       description:
         'Bistro Saimaa tunnetaan tinkimättömästä laadustaan. Jokainen annos valmistetaan huolella ja rakkaudella, jotta voimme tarjota asiakkaillemme unohtumattomia makuelämyksiä. Laatu on meille sydämen asia.',
@@ -84,7 +88,8 @@ export default function FeaturedSection() {
       buttonLink: '#story',
     },
     {
-      image: 'https://placehold.co/600x400/?text=Sijainti',
+      image:
+        'https://images.pexels.com/photos/28233198/pexels-photo-28233198/free-photo-of-aerial-view-of-a-lake-and-forested-area.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
       title: '🗺️ Saimaan tuntumassa',
       description:
         'Meidät löydät Ristiinan laitamilta, upeiden Saimaan maisemien vierestä. Bistro Saimaa sijaitsee vain 20 minuutin ajomatkan päässä Mikkelistä, kätevästi valtatie 15:n varrella - täydellinen paikka pysähtyä ja nauttia hyvästä ruoasta',

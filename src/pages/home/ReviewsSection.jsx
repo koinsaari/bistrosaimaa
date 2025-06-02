@@ -161,7 +161,13 @@ export default function ReviewsSection() {
   };
 
   return (
-    <section className="relative py-24 overflow-hidden bg-gradient-to-b from-emerald-800 to-emerald-700">
+    <section className="relative py-24 overflow-hidden">
+      <img
+        src="https://images.pexels.com/photos/27798098/pexels-photo-27798098/free-photo-of-lake-saimaa-1.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+        alt="Lake Saimaa"
+        className="absolute inset-0 w-full h-full object-cover"
+      />
+      <div className="absolute inset-0 bg-black/50"></div>
       <div className="container mx-auto px-4 relative z-10">
         <h2 className="text-3xl font-bold text-center mb-16 text-white">
           Mitä asiakkaamme sanovat

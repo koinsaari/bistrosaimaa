@@ -31,7 +31,7 @@ export default function ContactSection() {
               <p>
                 <a
                   href="https://maps.google.com/?q=Brahentie+42,+52300+Ristiina,+Finland"
-                  className="text-white hover-effect underline"
+                  className="text-white underline"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -41,7 +41,7 @@ export default function ContactSection() {
               <p>
                 <a
                   href="https://maps.google.com/?q=Ristiina,+Finland"
-                  className="text-white hover-effect"
+                  className="text-white"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -50,13 +50,13 @@ export default function ContactSection() {
               </p>
               <p>
                 Puhelin:&nbsp;
-                <a href="tel:+358504499322" className="text-white hover-effect">
+                <a href="tel:+358504499322" className="text-white ">
                   +358 50 4499 322
                 </a>
               </p>
               <p>
                 Sähköposti:&nbsp;
-                <a href="mailto:bistrosaimaa@gmail.com" className="text-white hover-effect">
+                <a href="mailto:bistrosaimaa@gmail.com" className="text-white ">
                   bistrosaimaa@gmail.com
                 </a>
               </p>

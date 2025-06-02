@@ -51,7 +51,7 @@ const ContactInfoCard = () => (
     <div className="bg-white rounded-xl shadow-md overflow-hidden">
       <div className="h-64 overflow-hidden">
         <img
-          src="https://placehold.co/600x400/?text=Bistro"
+          src="https://placehold.co/600x400/?text=Bistro+Saimaa+kuva"
           alt="Bistro Saimaa julkisivu"
           className="w-full h-full object-cover object-center"
         />
