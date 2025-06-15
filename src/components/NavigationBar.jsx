@@ -78,24 +78,24 @@ const NavigationBar = () => {
               isScrolled ? 'text-gray-700' : 'text-white'
             }`}
           >
-            À la carte -menu
+            Menu
           </Link>
-          <Link
+          {/* <Link
             to="/lunch"
             className={`hover:text-emerald-500 transition-colors ${
               isScrolled ? 'text-gray-700' : 'text-white'
             }`}
           >
             Lounaslista
-          </Link>
-          <Link
+          </Link> */}
+          {/* <Link
             to="/about"
             className={`hover:text-emerald-500 transition-colors ${
               isScrolled ? 'text-gray-700' : 'text-white'
             }`}
           >
             Tietoa meistä
-          </Link>
+          </Link> */}
           <Link
             to="/contact"
             className={`hover:text-emerald-500 transition-colors ${
@@ -144,13 +144,13 @@ const NavigationBar = () => {
           >
             Lounaslista
           </Link>
-          <Link
+          {/* <Link
             to="/about"
             className="block py-2 text-gray-700 hover:text-emerald-500"
             onClick={() => setIsMenuOpen(false)}
           >
             Tietoa meistä
-          </Link>
+          </Link> */}
           <Link
             to="/contact"
             className="block py-2 text-gray-700 hover:text-emerald-500"

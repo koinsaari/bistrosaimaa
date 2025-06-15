@@ -36,13 +36,23 @@ export default function HeroSection() {
       id="home"
       className="relative h-screen flex items-center justify-center text-center text-white w-full overflow-hidden"
     >
-      <video autoPlay muted loop className="absolute w-full h-full object-cover">
+      <div
+        className="absolute inset-0 w-full h-full"
+        style={{
+          backgroundImage: "url('/saimaa-interior_1.jpeg')",
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+      />
+      <div className="absolute inset-0 bg-black/40" />
+
+      {/* <video autoPlay muted loop className="absolute w-full h-full object-cover">
         <source
           src="https://videos.pexels.com/video-files/11998490/11998490-uhd_2560_1440_30fps.mp4"
           type="video/mp4"
         />
-      </video>
-      <div className="absolute inset-0 bg-black opacity-50"></div>
+      </video> */}
+
       <motion.div
         className="relative z-10 max-w-3xl"
         initial="hidden"
@@ -55,9 +65,6 @@ export default function HeroSection() {
         >
           Tervetuloa Bistro Saimaaseen
         </motion.h1>
-        <motion.p className="text-xl mb-8" variants={itemVariants}>
-          Paikallista ruokaa Saimaan sydämestä
-        </motion.p>
         <motion.div
           className="flex flex-col sm:flex-row gap-4 justify-center"
           variants={itemVariants}

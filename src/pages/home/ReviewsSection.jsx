@@ -169,9 +169,7 @@ export default function ReviewsSection() {
       />
       <div className="absolute inset-0 bg-black/50"></div>
       <div className="container mx-auto px-4 relative z-10">
-        <h2 className="text-3xl font-bold text-center mb-16 text-white">
-          Mitä asiakkaamme sanovat
-        </h2>
+        <h2 className="text-3xl font-bold text-center mb-16 text-white">Arvostelut</h2>
 
         <div className="max-w-4xl mx-auto relative">
           <div className="relative h-80">

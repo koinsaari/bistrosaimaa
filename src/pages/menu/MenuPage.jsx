@@ -12,101 +12,313 @@ import FlippableMenuCard from '../../components/FlippableMenuCard';
 
 const menuCategories = [
   {
-    id: 'starters',
-    title: 'Alkuruoat',
-    icon: '🍽️',
-    imageUrl:
-      'https://images.pexels.com/photos/2116090/pexels-photo-2116090.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+    id: 'salads',
+    title: 'Salaatit',
+    icon: '🥗',
+    imageUrl: '',
     items: [
       {
-        name: 'Nakkikahvi',
-        description:
-          'Lämmin kuppi suodatinkahvia, jossa kelluu kaksi grillinakkia. Tarjoillaan hillosipulin kera.',
-        ingredients: 'Sisältää: Kahvia, nakkeja, hillosipuleita, yllätystä.',
-        price: '6.66',
-        dietaryInfo: ['G', 'L'],
+        name: 'Kreikkalainen salaatti',
+        ingredients: 'Salaattia, kurkkua, tomaattia, fetaa, punasipulia, oliiveja.',
+        information: 'Kastike: sinappi, thousand, tomaatti, valkosipuli, chilimajoneesi.',
+        variants: [{ name: 'Annos', normal: '10,50' }],
+        dietaryInfo: [],
       },
       {
-        name: 'Kaurapuuro carpaccio',
-        description: 'Ohueksi viipaloitua kylmää kaurapuuroa sinappikastikkeella.',
-        ingredients: 'Sisältää: Kaurapuuroa, sinappia, tilliä, outoa tunnelmaa.',
-        price: '5.20',
-        dietaryInfo: ['VEG', 'G'],
+        name: 'Kanasalaatti',
+        ingredients: 'Salaattia, kurkkua, tomaattia, persikkaa, kanaa, paprikaa.',
+        information: 'Kastike: sinappi, thousand, tomaatti, valkosipuli, chilimajoneesi.',
+        variants: [{ name: 'Annos', normal: '10,50' }],
+        dietaryInfo: [],
       },
       {
-        name: 'Sipsi-ceviche',
-        description: 'Etikkasipsejä sitruunamehussa kypsytettynä. Koristeltu pakasteherneillä.',
-        ingredients: 'Sisältää: Perunalastuja, limeä, sitruunaa, pakasteherneitä.',
-        price: '7.90',
-        dietaryInfo: ['V', 'G'],
+        name: 'Tonnikalasalaatti',
+        ingredients: 'Salaattia, kurkkua, tomaattia, punasipulia, tonnikalaa.',
+        information: 'Kastike: sinappi, thousand, tomaatti, valkosipuli, chilimajoneesi.',
+        variants: [{ name: 'Annos', normal: '10,50' }],
+        dietaryInfo: [],
+      },
+      {
+        name: 'Kana-pekonisalaatti',
+        ingredients: 'Salaattia, kurkkua, punasipulia, kanaa, pekonia, aurajuustoa.',
+        information: 'Kastike: sinappi, thousand, tomaatti, valkosipuli, chilimajoneesi.',
+        variants: [{ name: 'Annos', normal: '11,50' }],
+        dietaryInfo: [],
+      },
+      {
+        name: 'Vuohenjuustosalaatti',
+        ingredients:
+          'Salaattia, kurkkua, tomaattia, persikkaa, oliiveja, vouhenjuustoa, paholaisen hilloa.',
+        information: 'Kastike: sinappi, thousand, tomaatti, valkosipuli, chilimajoneesi.',
+        variants: [{ name: 'Annos', normal: '12,50' }],
+        dietaryInfo: [],
       },
     ],
   },
   {
-    id: 'mains',
-    title: 'Pääruoat',
-    icon: '🍲',
-    imageUrl:
-      'https://images.pexels.com/photos/32371272/pexels-photo-32371272/free-photo-of-grilled-chicken-fajitas-with-peppers-and-sauces.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+    id: 'steaks',
+    title: 'Pihvit ja leikkeet',
+    icon: '🥩',
+    imageUrl: '',
     items: [
       {
-        name: 'Lämmin jäätelökeitto',
-        description:
-          'Sulanutta vaniljajäätelöä, lämmitettynä ja tarjoiltuna keittolautaselta. Rapea pekonihattu päällä.',
-        ingredients: 'Sisältää: Vaniljajäätelöä, kermaa, pekonia, hämmentävän elämyksen.',
-        price: '14.90',
-        dietaryInfo: ['VL'],
+        name: 'Porsaanleike',
+        ingredients: 'Paneroitu porsaanleike, ranskalaiset tai lohkoperunat, grillikasviksia.',
+        information: 'Kastike: bearnaise, metsäsieni, aurajuusto, pippuri',
+        variants: [{ name: 'Annos', normal: '15,90' }],
+        dietaryInfo: [],
       },
       {
-        name: 'Ketsuppilasagne',
-        description: 'Kolme lasagnelevyä ja litra ketsuppia. Ei juustoa. Ei häpeää.',
-        ingredients: 'Sisältää: Vehnää, tomaattia (ehkä), epätoivoa.',
-        price: '12.00',
-        dietaryInfo: ['L'],
+        name: 'Broilerleike',
+        ingredients: 'Paneroitu broilerleike, ranskalaiset tai lohkoperunat, grillikasviksia.',
+        information: 'Kastike: bearnaise, metsäsieni, aurajuusto, pippuri',
+        variants: [{ name: 'Annos', normal: '15,90' }],
+        dietaryInfo: [],
       },
       {
-        name: 'Woltista tilattu yllätysateria',
-        description: 'Emme kokkaa tätä. Tilataan jotain summamutikassa ja katsotaan mitä tulee.',
-        ingredients: 'Sisältää: Arvaamattomuutta ja mahdollisen kuitin.',
-        price: '25.00',
-        dietaryInfo: ['??'],
+        name: 'Paholaisen broileri',
+        ingredients:
+          'Paneroitu broilerileike, ranskalaiset tai lohkoperunat, paholaisenhilloa, grillikasviksia.',
+        information: '',
+        variants: [{ name: 'Annos', normal: '16,90' }],
+        dietaryInfo: [],
       },
       {
-        name: 'Vegaaninen lihapiirakka',
-        description: 'Sisältää lihaa, mutta vegaanisesti ajateltuna.',
-        ingredients: 'Sisältää: Lihapiirakka. Ei oikeasti vegaaninen. Filosofinen kannanotto.',
-        price: '9.99',
-        dietaryInfo: ['Ei mittään hajua'],
+        name: 'Lehtipihvi',
+        ingredients:
+          'Pariloitu naudan ulkofilepihvi, maustevoi, ranskalaiset tai lohkoperunat, grillikasvikset.',
+        information: '',
+        variants: [{ name: 'Annos', normal: '16,90' }],
+        dietaryInfo: [],
+      },
+      {
+        name: 'Metsästäjänleipä',
+        ingredients: '',
+        information: '',
+        variants: [{ name: 'Annos', normal: '10,90' }],
+        dietaryInfo: [],
+      },
+      {
+        name: 'Talon leipä',
+        ingredients: '',
+        information: '',
+        variants: [{ name: 'Annos', normal: '11,90' }],
+        dietaryInfo: [],
       },
     ],
   },
   {
-    id: 'desserts',
-    title: 'Jälkiruoat',
-    icon: '🍰',
-    imageUrl: 'kakku.jpeg',
+    id: 'burgers',
+    title: 'Burgerit',
+    icon: '🍔',
+    imageUrl: '',
     items: [
       {
-        name: 'Mämmi-brûlée',
-        description:
-          'Perinteinen mämmi, pinnalla karamellisoitu sokerikuori. Tarjoillaan haikeudella.',
-        ingredients: 'Sisältää: Mämmiä, sokeria, poltettua katumusta.',
-        price: '6.66',
-        dietaryInfo: ['VL', 'G'],
+        name: 'Hampurilainen',
+        ingredients: 'Salaatti, suolakurkku, hampurilaismajoneesi',
+        information: 'Ateria sisältää: Ranskalaiset ja juoman (norm. 0,33l; jätti 0,5l)',
+        variants: [
+          { name: 'Pelkkä burgeri', normal: '4,00', big: '6,90' },
+          { name: 'Ateria', normal: '7,00', big: '9,50' },
+        ],
+        dietaryInfo: [],
       },
       {
-        name: 'Tiramisu meets makkara',
-        description: 'Kahvilla kostutettua pullaa, mascarponea ja paistettua lenkkimakkaraa.',
-        ingredients: 'Sisältää: Makkaraa, kahvia, jälkiruokakonfliktin.',
-        price: '11.10',
-        dietaryInfo: ['L*'],
+        name: 'Juustohampurilainen',
+        ingredients: 'Salaatti, suolakurkku, cheddar, hampurilaismajoneesi',
+        information: 'Ateria sisältää: Ranskalaiset ja juoman (norm. 0,33l; jätti 0,5l)',
+        variants: [
+          { name: 'Pelkkä burgeri', normal: '4,50', big: '7,50' },
+          { name: 'Ateria', normal: '7,50', big: '10,50' },
+        ],
+        dietaryInfo: [],
       },
       {
-        name: 'Sattumavälipala',
-        description: 'Sulje silmäsi ja syö. Me emme kerro mitä tämä on.',
-        ingredients: 'Sisältää: Ei varmuutta. Ehkä rusina.',
-        price: '4.44',
-        dietaryInfo: ['Kyllä'],
+        name: 'Pekonihampurilainen',
+        ingredients:
+          'Salaatti, suolakurkku, kananmuna, pekoni, punasipuli, hampurilais- ja savumajoneesi',
+        information: 'Ateria sisältää: Ranskalaiset ja juoman (norm. 0,33l; jätti 0,5l)',
+        variants: [
+          { name: 'Pelkkä burgeri', normal: '6,90', big: '7,90' },
+          { name: 'Ateria', normal: '9,90', big: '11,50' },
+        ],
+        dietaryInfo: [],
+      },
+      {
+        name: 'Aura-pekoni hampurilainen',
+        ingredients:
+          'Salaatti, suolakurkku, aurajuusto, pekoni, tomaatti, sipulirenkaat, hampurilais- ja remumajoneesi',
+        information: 'Ateria sisältää: Ranskalaiset ja juoman (norm. 0,33l; jätti 0,5l)',
+        variants: [
+          { name: 'Pelkkä burgeri', normal: '6,90', big: '7,90' },
+          { name: 'Ateria', normal: '9,90', big: '11,50' },
+        ],
+        dietaryInfo: [],
+      },
+      {
+        name: 'Paholaishampurilainen',
+        ingredients: 'Salaatti, suolakurkku, tomaatti, punasipuli, jalapeno, chilimajoneesi',
+        information: 'Ateria sisältää: Ranskalaiset ja juoman (norm. 0,33l; jätti 0,5l)',
+        variants: [
+          { name: 'Pelkkä burgeri', normal: '6,90', big: '7,90' },
+          { name: 'Ateria', normal: '9,90', big: '11,50' },
+        ],
+        dietaryInfo: [],
+      },
+      {
+        name: 'Aurajuusto-hampurilainen',
+        ingredients:
+          'Salaatti, suolakurkku, aurajuusto, tomaatti, punasipuli, hampurilaismajoneesi',
+        information: 'Ateria sisältää: Ranskalaiset ja juoman (norm. 0,33l; jätti 0,5l)',
+        variants: [
+          { name: 'Pelkkä burgeri', normal: '6,90', big: '7,90' },
+          { name: 'Ateria', normal: '9,90', big: '11,50' },
+        ],
+        dietaryInfo: [],
+      },
+      {
+        name: 'Kanahampurilainen',
+        ingredients: 'Salaatti, suolakurkku, tomaatti, currymajoneesi',
+        information: 'Ateria sisältää: Ranskalaiset ja juoman (norm. 0,33l; jätti 0,5l)',
+        variants: [
+          { name: 'Pelkkä burgeri', normal: '6,90' },
+          { name: 'Ateria', normal: '9,90' },
+        ],
+        dietaryInfo: [],
+      },
+      {
+        name: 'Vuohenjuustohampurilainen',
+        ingredients:
+          'Salaatti, suolakurkku, tomaatti, punasipuli, ananas, vuohenjuusto, paholaisenhillo',
+        information: 'Ateria sisältää: Ranskalaiset ja juoman (norm. 0,33l; jätti 0,5l)',
+        variants: [
+          { name: 'Pelkkä burgeri', normal: '7,50' },
+          { name: 'Ateria', normal: '11,90' },
+        ],
+        dietaryInfo: [],
+      },
+      {
+        name: 'Astuvan Akka -hampurilainen',
+        ingredients: 'Salaatti, punasipuli, ananas, 2 isoa pihviä, cheddar, remumajoneesi,',
+        information: 'Ateria sisältää: Ranskalaiset ja juoman (norm. 0,33l; jätti 0,5l)',
+        variants: [
+          { name: 'Pelkkä burgeri', big: '8,90' },
+          { name: 'Ateria', big: '13,90' },
+        ],
+        dietaryInfo: [],
+      },
+      {
+        name: 'Astuvan Ukko -hampurilainen',
+        ingredients:
+          'Salaatti, punasipuli, ananas, 3 isoa pihviä, cheddar, hampurilais- ja savumajoneesi,',
+        information: 'Ateria sisältää: Ranskalaiset ja juoman (norm. 0,33l; jätti 0,5l)',
+        variants: [
+          { name: 'Pelkkä burgeri', big: '9,90' },
+          { name: 'Ateria', big: '14,90' },
+        ],
+        dietaryInfo: [],
+      },
+      {
+        name: 'Tukkijätkä-hampurilainen',
+        ingredients:
+          'Salaatti, suolakurkku, tomaatti, punasipuli, pekoni, koskenlaskija, 2 isoa pihviä, hampurilais- ja savumajoneesi',
+        information: 'Ateria sisältää: Ranskalaiset ja juoman (norm. 0,33l; jätti 0,5l)',
+        variants: [
+          { name: 'Pelkkä burgeri', big: '9,90' },
+          { name: 'Ateria', big: '13,90' },
+        ],
+        dietaryInfo: [],
+      },
+    ],
+  },
+  {
+    id: 'pizzas',
+    title: 'Pizzat',
+    icon: '🍕',
+    imageUrl: '',
+    items: [
+      {
+        name: 'Hinnasto',
+        ingredients: '',
+        information: 'Valitse täytteiden määrä ja kokoa oma pizzasi',
+        variants: [
+          { name: '1 täytteen pizza', normal: '10,00' },
+          { name: '2 täytteen pizza', normal: '11,50' },
+          { name: '3 täytteen pizza', normal: '12,50' },
+          { name: '4 täytteen pizza', normal: '13,50' },
+        ],
+        dietaryInfo: [],
+      },
+      {
+        name: 'Valitse pohja',
+        ingredients: '',
+        information: '',
+        variants: [
+          { name: 'Ohut tai Normaali', normal: '0,00' },
+          { name: 'Gluteeniton tai keto', normal: '+2,50' },
+        ],
+        dietaryInfo: [],
+      },
+      {
+        name: 'Valitse täytteet',
+        ingredients: '',
+        information: '',
+        customContent: {
+          title: 'Perustäytteet (1,00€/kpl)',
+          categories: [
+            {
+              name: 'Liha',
+              items: ['Kana', 'Kinkku', 'Pepperoni', 'Salami', 'Pekoni', 'Kebab', 'Jauheliha'],
+            },
+            {
+              name: 'Kala',
+              items: ['Tonnikala', 'Katkarapu', 'Anjovis'],
+            },
+            {
+              name: 'Kasvikset',
+              items: [
+                'Ananas',
+                'Persikka',
+                'Sipuli',
+                'Punasipuli',
+                'Paprika',
+                'Maustekurkku',
+                'Oliivi',
+                'Herkkusieni',
+                'Jalapeno',
+                'Tomaatti',
+              ],
+            },
+            {
+              name: 'Juustot',
+              items: ['Mozzarella', 'Aurajuusto', 'Feta', 'Tuplajuusto'],
+            },
+          ],
+        },
+        dietaryInfo: [],
+      },
+      {
+        name: 'Erikoistäytteet',
+        ingredients: '',
+        information: '',
+        variants: [
+          { name: 'Vuohenjuusto', normal: '2,00' },
+          { name: 'Paholaisenhillo', normal: '2,00' },
+          { name: 'Valkosipuli', normal: '0,70' },
+        ],
+        dietaryInfo: [],
+      },
+      {
+        name: 'Dipit ja lisät',
+        ingredients: '',
+        information: 'Paiston jälkeen tai dippaa reunat',
+        variants: [
+          { name: 'Chilimajoneesi', normal: '1,00' },
+          { name: 'BBQ-kastike', normal: '1,00' },
+          { name: 'Valkosipulikastike', normal: '1,00' },
+          { name: 'Salaatti', normal: '1,00' },
+        ],
+        dietaryInfo: [],
       },
     ],
   },
@@ -122,10 +334,13 @@ export default function MenuPage() {
 
       {/* Hero */}
       <div id="menu-hero" className="text-white py-24 relative overflow-hidden">
-        <img
-          src="https://images.pexels.com/photos/2961968/pexels-photo-2961968.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-          alt="Restaurant background"
-          className="absolute inset-0 w-full h-full object-cover"
+        <div
+          className="absolute inset-0 w-full h-full"
+          style={{
+            backgroundImage: "url('/lounas_3.jpeg')",
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
         />
         <div className="absolute inset-0 bg-black/50"></div>
         <div className="container mx-auto px-4 relative z-10">
@@ -135,7 +350,7 @@ export default function MenuPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
           >
-            À la carte
+            Menu
           </motion.h1>
 
           <motion.p
@@ -144,7 +359,7 @@ export default function MenuPage() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3, duration: 0.7 }}
           >
-            Ruokamme valmistetaan laadukkaista ja tuoreista raaka-aineista.
+            {/* Ruokamme valmistetaan laadukkaista ja tuoreista raaka-aineista. */}
           </motion.p>
         </div>
       </div>
@@ -158,18 +373,13 @@ export default function MenuPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
           >
-            <p className="text-lg text-gray-700 mb-6">
+            {/* <p className="text-lg text-gray-700 mb-6">
               Monille jo tutuksi tullut menumme tarjoaa maistuvia suosikkeja. Kysy henkilökunnalta
               päivän erikoisuudet.
-            </p>
-            <p className="text-lg text-yellow-800 bg-yellow-100 p-4 rounded mb-6">
-              ⚠️ Huom! Tämä menu on huumorilla laadittu esimerkki verkkosivujen kehitystä varten.
-              Oikea menu päivitetään pian - emme oikeasti tarjoile nakkeja kahvin seassa (ellei
-              vahingossa lipsahda).
-            </p>
+            </p> */}
 
             {/* dietary info legend */}
-            <div className="inline-flex flex-wrap justify-center gap-4 p-6 bg-white rounded-xl shadow-sm border border-emerald-100">
+            {/* <div className="inline-flex flex-wrap justify-center gap-4 p-6 bg-white rounded-xl shadow-sm border border-emerald-100">
               <span className="px-3 py-1.5 bg-emerald-50 rounded-lg text-emerald-800">
                 <strong>G</strong> - Gluteeniton
               </span>
@@ -185,7 +395,7 @@ export default function MenuPage() {
               <span className="px-3 py-1.5 bg-emerald-50 rounded-lg text-emerald-800">
                 <strong>*</strong> - Saatavilla pyydettäessä
               </span>
-            </div>
+            </div> */}
           </motion.div>
 
           {/* Category navigation */}
@@ -231,7 +441,7 @@ export default function MenuPage() {
               </div>
 
               {/* Non-flippable menu card */}
-              <div className="mb-12">
+              {/* <div className="mb-12">
                 <FlippableMenuCard
                   menuImageUrl={category.imageUrl}
                   isFlippable={false}
@@ -242,7 +452,7 @@ export default function MenuPage() {
                     dietaryInfo: item.dietaryInfo,
                   }))}
                 />
-              </div>
+              </div> */}
 
               <div className="mt-8 space-y-8 bg-white p-8 rounded-2xl shadow-sm">
                 <h3 className="font-medium text-emerald-800 text-center mb-6 text-xl">
@@ -256,14 +466,116 @@ export default function MenuPage() {
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.1 + itemIndex * 0.1 }}
                   >
-                    <div className="flex justify-between items-baseline flex-wrap">
-                      <h3 className="text-xl font-semibold text-emerald-900">{item.name}</h3>
-                      <span className="text-lg font-medium text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full">
-                        {item.price} €
-                      </span>
+                    <div className="flex justify-between items-start">
+                      <div className="flex-1">
+                        <h3 className="text-lg font-semibold text-gray-900">{item.name}</h3>
+                      </div>
                     </div>
-                    <p className="text-gray-700 mt-2 leading-relaxed">{item.description}</p>
-                    <p className="text-gray-500 mt-1 text-sm italic">{item.ingredients}</p>
+                    {item.ingredients && (
+                      <p className="text-gray-700 mt-2 leading-relaxed">{item.ingredients}</p>
+                    )}
+                    {item.information && (
+                      <p className="text-gray-500 mt-1 text-sm italic">{item.information}</p>
+                    )}
+
+                    {/* Render variants if they exist */}
+                    {item.variants && !item.customContent && (
+                      <div className="mt-3 space-y-2">
+                        {item.variants.length === 1 ? (
+                          // price display for salads and steaks
+                          <div className="flex justify-between items-center text-sm">
+                            <span className="text-emerald-900 font-medium">{item.name}</span>
+                            <span className="bg-emerald-50 text-emerald-700 px-3 py-1 rounded-full font-medium">
+                              {item.variants[0].normal} €
+                            </span>
+                          </div>
+                        ) : category.id === 'pizzas' && item.name !== 'Hinnasto' ? (
+                          // Pizza menu items with multiple options
+                          <div className="grid grid-cols-1 gap-2">
+                            {item.variants.map((variant, idx) => (
+                              <div key={idx} className="flex justify-between items-center text-sm">
+                                <span className="text-emerald-900 font-medium">{variant.name}</span>
+                                <span className="bg-emerald-50 text-emerald-700 px-3 py-1 rounded-full font-medium">
+                                  {variant.normal} €
+                                </span>
+                              </div>
+                            ))}
+                          </div>
+                        ) : (
+                          // Burger style display with multiple variants
+                          <>
+                            <div className="flex justify-between items-center text-sm">
+                              <span className="text-emerald-900 font-medium">{item.name}</span>
+                              <div className="flex gap-3">
+                                {item.variants[0].normal && (
+                                  <span className="bg-emerald-50 text-emerald-700 px-3 py-1 rounded-full font-medium">
+                                    Norm. {item.variants[0].normal} €
+                                  </span>
+                                )}
+                                {item.variants[0].big && (
+                                  <span className="bg-emerald-50 text-emerald-700 px-3 py-1 rounded-full font-medium">
+                                    Jätti {item.variants[0].big} €
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+                            <div className="flex justify-between items-center text-sm">
+                              <span className="text-emerald-900 font-medium">
+                                {item.name} ateria
+                              </span>
+                              <div className="flex gap-3">
+                                {item.variants[1].normal && (
+                                  <span className="bg-emerald-50 text-emerald-700 px-3 py-1 rounded-full font-medium">
+                                    Norm. {item.variants[1].normal} €
+                                  </span>
+                                )}
+                                {item.variants[1].big && (
+                                  <span className="bg-emerald-50 text-emerald-700 px-3 py-1 rounded-full font-medium">
+                                    Jätti {item.variants[1].big} €
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+                          </>
+                        )}
+                      </div>
+                    )}
+
+                    {/* content for pizza toppings */}
+                    {item.customContent && (
+                      <div className="mt-3">
+                        <h4 className="text-emerald-900 font-medium mb-2">
+                          {item.customContent.title}
+                        </h4>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          {item.customContent.categories.map((category, catIndex) => (
+                            <div key={catIndex} className="bg-emerald-50 p-3 rounded-lg">
+                              <h5 className="font-medium text-emerald-800 mb-2">{category.name}</h5>
+                              <div className="flex flex-wrap gap-2">
+                                {category.items.map((topping, i) => (
+                                  <span
+                                    key={i}
+                                    className="bg-white px-2 py-1 rounded text-sm text-emerald-700"
+                                  >
+                                    {topping}
+                                  </span>
+                                ))}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Regular price if no variants */}
+                    {!item.variants && !item.customContent && (
+                      <div className="mt-2">
+                        <span className="bg-emerald-50 text-emerald-700 px-3 py-1 rounded-full font-medium">
+                          {item.price} €
+                        </span>
+                      </div>
+                    )}
+
                     <div className="mt-3 flex gap-2">
                       {item.dietaryInfo.map((info, i) => (
                         <span
@@ -286,15 +598,16 @@ export default function MenuPage() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.7 }}
           >
-            <p className="italic text-gray-700">
+            {/* <p className="italic text-gray-700">
               Ilmoitathan allergioistasi ja erityisruokavalioistasi henkilökunnalle.
-            </p>
+            </p> */}
             <p className="mt-4 text-sm text-gray-600">
-              Hinnat sisältävät ALV:n. Menu voi muuttua saatavuuden mukaan.
+              {/* Hinnat sisältävät ALV:n. Menu voi muuttua saatavuuden mukaan. */}
+              Hinnat sisältävät ALV:n.
             </p>
           </motion.div>
 
-          <motion.div
+          {/* <motion.div
             className="text-center mt-12"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -307,7 +620,7 @@ export default function MenuPage() {
               <span>Varaa pöytä</span>
               <span>→</span>
             </a>
-          </motion.div>
+          </motion.div> */}
         </div>
       </div>
 

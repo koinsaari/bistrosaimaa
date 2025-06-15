@@ -48,54 +48,60 @@ export default function LunchMenuPage() {
 
       {/* Hero */}
       <div id="lunch-hero" className="text-white py-24 relative overflow-hidden">
-        <img
+        {/* <img
           src="https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
           alt="Restaurant background"
           className="absolute inset-0 w-full h-full object-cover"
-        />
+        /> */}
         <div className="absolute inset-0 bg-black/60"></div>
         <div className="container mx-auto px-4 relative z-10">
-          <motion.h1
+          {/* <motion.h1
             className="text-4xl md:text-6xl font-bold mb-6 text-center"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
-          >
+          > */}
+          <h1 className="text-4xl md:text-6xl font-bold mb-6 text-center">
             Viikon {currentWeek} lounaslista
-          </motion.h1>
+          </h1>
+          {/* </motion.h1> */}
 
-          <motion.p
+          {/* <motion.p
             className="text-center text-lg md:text-xl max-w-2xl mx-auto text-emerald-100"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3, duration: 0.7 }}
-          >
-            Tarjoilemme arkisin maittavan ja vaihtelevan lounaan klo 11-14
-          </motion.p>
+          > */}
+          <p className="text-center text-lg md:text-xl max-w-2xl mx-auto text-emerald-100">
+            {/* Tarjoilemme arkisin maittavan ja vaihtelevan lounaan klo 11-14 */}
+          </p>
+          {/* </motion.p> */}
         </div>
       </div>
 
       {/* Main content */}
       <div className="container mx-auto px-4 py-16">
         <div className="max-w-6xl mx-auto">
-          <motion.div
+          {/* <motion.div
             className="mb-12 text-center"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
-          >
-            <p className="text-lg text-gray-700 mb-6 max-w-2xl mx-auto">
+          > */}
+          <div className="mb-12 text-center">
+            {/* <p className="text-lg text-gray-700 mb-6 max-w-2xl mx-auto">
               Lounaaseen sisältyy runsas salaattipöytä, tuoretta leipää ja jälkiruokakahvi tai tee.
               Erityisruokavaliot huomioidaan mahdollisuuksien mukaan.
-            </p>
+            </p> */}
             <p className="text-lg text-yellow-800 bg-yellow-100 p-4 rounded mb-6 max-w-2xl mx-auto">
               ⚠️ Huom! Menu tai hinnat eivät ole virallisia. Ne ovat vain esimerkkinä vielä sivuston
               kehityksen ajaksi.
             </p>
-          </motion.div>
+          </div>
+          {/* </motion.div> */}
 
-          <div className="flex flex-col lg:flex-row gap-8">
-            {/* Left side: flippable menu card */}
+          {/* Commenting out the original cards section */}
+          {/* <div className="flex flex-col lg:flex-row gap-8">
             <motion.div
               className="lg:w-3/5"
               initial={{ opacity: 0, x: -20 }}
@@ -110,7 +116,6 @@ export default function LunchMenuPage() {
               />
             </motion.div>
 
-            {/* Right side: additional info card */}
             <motion.div
               className="lg:w-2/5 bg-white p-8 rounded-lg shadow-md"
               initial={{ opacity: 0, x: 20 }}
@@ -156,19 +161,42 @@ export default function LunchMenuPage() {
                 </a>
               </div>
             </motion.div>
-          </div>
+          </div> */}
 
-          <motion.div
+          {/* Simple text and Facebook link */}
+          {/* <motion.div
+            className="text-center py-8"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3 }}
+          > */}
+          <div className="text-center py-8">
+            <p className="text-xl text-gray-800 mb-6">Näet päivän lounaslistamme Facebookissa</p>
+            <a
+              href="https://www.facebook.com/bistrosaimaa"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors"
+            >
+              <span>Katso lounaslista Facebookissa</span>
+              <span>→</span>
+            </a>
+          </div>
+          {/* </motion.div> */}
+
+          {/* <motion.div
             className="text-center mt-16 py-8 border-t border-emerald-200"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.7 }}
-          >
-            <p className="italic text-gray-700">
+          > */}
+          <div className="text-center mt-16 py-8 border-t border-emerald-200">
+            {/* <p className="italic text-gray-700">
               Ilmoitathan allergioistasi ja erityisruokavalioistasi etukäteen.
-            </p>
+            </p> */}
             <p className="mt-4 text-sm text-gray-600">Pidätämme oikeuden muutoksiin.</p>
-          </motion.div>
+          </div>
+          {/* </motion.div> */}
         </div>
       </div>
 

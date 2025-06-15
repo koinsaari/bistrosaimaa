@@ -21,9 +21,9 @@ export default function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/menu" element={<MenuPage />} />
-        <Route path="/lunch" element={<LunchMenuPage />} />
+        {/* <Route path="/lunch" element={<LunchMenuPage />} /> */}
         <Route path="/contact" element={<ContactPage />} />
-        <Route path="/about" element={<AboutPage />} />
+        {/* <Route path="/about" element={<AboutPage />} /> */}
         <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
       </Routes>
       <Analytics />

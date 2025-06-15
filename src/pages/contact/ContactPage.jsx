@@ -11,13 +11,11 @@ import Banner from '../../components/Banner';
 import ContactForm from '../../components/ContactForm';
 
 const ContactHero = () => (
-  <div
-    id="contact-hero"
-    className="bg-gradient-to-br from-emerald-700 to-emerald-900 text-white py-24 relative overflow-hidden"
-  >
-    <div className="absolute inset-0 opacity-20">
-      <img src="/images/contact-pattern.jpg" alt="" className="w-full h-full object-cover" />
+  <div id="contact-hero" className="bg-black/30 text-white py-24 relative overflow-hidden">
+    <div className="absolute inset-0">
+      <img src="/kakku.jpeg" alt="" className="w-full h-full object-cover" />
     </div>
+    <div className="absolute inset-0 bg-black/20"></div>
 
     <div className="container mx-auto px-4 relative z-10">
       <motion.h1
@@ -30,7 +28,7 @@ const ContactHero = () => (
       </motion.h1>
 
       <motion.p
-        className="text-center text-lg md:text-xl max-w-2xl mx-auto text-emerald-100"
+        className="text-center text-lg md:text-xl max-w-2xl mx-auto"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.3, duration: 0.7 }}
@@ -49,13 +47,13 @@ const ContactInfoCard = () => (
     transition={{ delay: 0.3 }}
   >
     <div className="bg-white rounded-xl shadow-md overflow-hidden">
-      <div className="h-64 overflow-hidden">
+      {/* <div className="h-64 overflow-hidden">
         <img
           src="https://placehold.co/600x400/?text=Bistro+Saimaa+kuva"
           alt="Bistro Saimaa julkisivu"
           className="w-full h-full object-cover object-center"
         />
-      </div>
+      </div> */}
 
       <div className="p-8">
         <h2 className="text-2xl font-bold text-gray-800 mb-6">Bistro Saimaa</h2>
@@ -177,7 +175,7 @@ const MapSection = () => (
     animate={{ opacity: 1, y: 0 }}
     transition={{ delay: 0.7 }}
   >
-    <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">Löydä perille</h2>
+    <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">Sijainti</h2>
 
     <div className="bg-white rounded-xl shadow-md overflow-hidden">
       <div className="h-[400px] w-full">
@@ -194,12 +192,12 @@ const MapSection = () => (
         ></iframe>
       </div>
 
-      <div className="p-6">
+      {/* <div className="p-6">
         <p className="text-gray-700">
           Bistro Saimaa sijaitsee Ristiinan laitamilla, vain 20 minuutin ajomatkan päässä
           Mikkelistä, valtatien 15 varrella.
         </p>
-      </div>
+      </div> */}
     </div>
   </motion.div>
 );

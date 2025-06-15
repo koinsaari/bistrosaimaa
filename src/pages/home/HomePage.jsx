@@ -20,9 +20,9 @@ export default function HomePage() {
       <NavigationBar />
       <HeroSection />
       <FeaturedSection />
-      <StorySection />
+      {/* <StorySection /> */}
       <ReviewsSection />
-      <EventSection />
+      {/* <EventSection /> */}
       <ContactSection />
       <Footer />
     </div>
