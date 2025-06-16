@@ -7,7 +7,6 @@ import { motion } from 'framer-motion';
 import { FaFacebookF, FaInstagram } from 'react-icons/fa';
 import NavigationBar from '../../components/NavigationBar';
 import Footer from '../../components/Footer';
-import Banner from '../../components/Banner';
 import ContactForm from '../../components/ContactForm';
 
 const ContactHero = () => (
@@ -47,14 +46,6 @@ const ContactInfoCard = () => (
     transition={{ delay: 0.3 }}
   >
     <div className="bg-white rounded-xl shadow-md overflow-hidden">
-      {/* <div className="h-64 overflow-hidden">
-        <img
-          src="https://placehold.co/600x400/?text=Bistro+Saimaa+kuva"
-          alt="Bistro Saimaa julkisivu"
-          className="w-full h-full object-cover object-center"
-        />
-      </div> */}
-
       <div className="p-8">
         <h2 className="text-2xl font-bold text-gray-800 mb-6">Bistro Saimaa</h2>
 
@@ -131,9 +122,9 @@ const ContactInfoCard = () => (
             <div className="text-left">
               <h3 className="font-medium text-gray-800">Aukioloajat</h3>
               <div className="grid grid-cols-[100px_auto] gap-y-1 text-gray-600">
-                <span>Ma-To:</span> <span>11:00 - 21:00</span>
-                <span>Pe-La:</span> <span>11:00 - 23:00</span>
-                <span>Su:</span> <span>12:00 - 20:00</span>
+                <span>Ma-Pe:</span> <span>07:00 - 20:00</span>
+                <span>La:</span> <span>09:00 - 20:00</span>
+                <span>Su:</span> <span>11:00 - 20:00</span>
               </div>
             </div>
           </div>
@@ -151,15 +142,15 @@ const ContactInfoCard = () => (
               >
                 <FaFacebookF className="text-xl" />
               </a>
-              <a
-                href="" // TODO
+              {/* <a
+                href=""
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-gray-100 hover:bg-emerald-100 text-gray-700 hover:text-emerald-600 h-12 w-12 rounded-full flex items-center justify-center transition-colors"
                 aria-label="Instagram"
               >
                 <FaInstagram className="text-xl" />
-              </a>
+              </a> */}
             </div>
           </div>
         </div>
@@ -192,12 +183,12 @@ const MapSection = () => (
         ></iframe>
       </div>
 
-      {/* <div className="p-6">
+      <div className="p-6">
         <p className="text-gray-700">
           Bistro Saimaa sijaitsee Ristiinan laitamilla, vain 20 minuutin ajomatkan päässä
-          Mikkelistä, valtatien 15 varrella.
+          Mikkelistä.
         </p>
-      </div> */}
+      </div>
     </div>
   </motion.div>
 );
@@ -205,7 +196,6 @@ const MapSection = () => (
 export default function ContactPage() {
   return (
     <div className="min-h-screen font-sans bg-gray-50">
-      <Banner />
       <NavigationBar />
       <ContactHero />
 

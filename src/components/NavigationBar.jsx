@@ -52,14 +52,15 @@ const NavigationBar = () => {
         isScrolled ? 'bg-white shadow-md text-gray-800' : 'bg-transparent text-white'
       }`}
     >
-      <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-        <Link
-          to="/"
-          className={`text-2xl font-bold transition-colors ${
-            isScrolled ? 'text-emerald-700' : 'text-white'
-          }`}
-        >
-          Bistro Saimaa
+      <div className="relative container mx-auto px-4 py-4 flex justify-end items-center">
+        <Link to="/" className="absolute left-4 top-1/2 transform -translate-y-1/2">
+          <img
+            src="/logo-saimaa.png"
+            alt="Bistro Saimaa"
+            className={`h-16 transition-opacity duration-300 ${
+              isScrolled ? 'opacity-100' : 'opacity-90 hover:opacity-100'
+            }`}
+          />
         </Link>
 
         {/* Desktop Navigation */}
@@ -80,22 +81,6 @@ const NavigationBar = () => {
           >
             Menu
           </Link>
-          {/* <Link
-            to="/lunch"
-            className={`hover:text-emerald-500 transition-colors ${
-              isScrolled ? 'text-gray-700' : 'text-white'
-            }`}
-          >
-            Lounaslista
-          </Link> */}
-          {/* <Link
-            to="/about"
-            className={`hover:text-emerald-500 transition-colors ${
-              isScrolled ? 'text-gray-700' : 'text-white'
-            }`}
-          >
-            Tietoa meistä
-          </Link> */}
           <Link
             to="/contact"
             className={`hover:text-emerald-500 transition-colors ${
@@ -135,22 +120,8 @@ const NavigationBar = () => {
             className="block py-2 text-gray-700 hover:text-emerald-500"
             onClick={() => setIsMenuOpen(false)}
           >
-            À la carte -menu
+            Menu
           </Link>
-          <Link
-            to="/lunch"
-            className="block py-2 text-gray-700 hover:text-emerald-500"
-            onClick={() => setIsMenuOpen(false)}
-          >
-            Lounaslista
-          </Link>
-          {/* <Link
-            to="/about"
-            className="block py-2 text-gray-700 hover:text-emerald-500"
-            onClick={() => setIsMenuOpen(false)}
-          >
-            Tietoa meistä
-          </Link> */}
           <Link
             to="/contact"
             className="block py-2 text-gray-700 hover:text-emerald-500"

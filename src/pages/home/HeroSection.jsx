@@ -46,13 +46,6 @@ export default function HeroSection() {
       />
       <div className="absolute inset-0 bg-black/40" />
 
-      {/* <video autoPlay muted loop className="absolute w-full h-full object-cover">
-        <source
-          src="https://videos.pexels.com/video-files/11998490/11998490-uhd_2560_1440_30fps.mp4"
-          type="video/mp4"
-        />
-      </video> */}
-
       <motion.div
         className="relative z-10 max-w-3xl"
         initial="hidden"

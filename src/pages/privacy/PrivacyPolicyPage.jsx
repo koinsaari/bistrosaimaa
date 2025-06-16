@@ -6,7 +6,6 @@
 import { motion } from 'framer-motion';
 import NavigationBar from '../../components/NavigationBar';
 import Footer from '../../components/Footer';
-import Banner from '../../components/Banner';
 
 const PrivacyPolicyHero = () => (
   <div className="bg-gradient-to-br from-emerald-700 to-emerald-900 text-white py-16 relative overflow-hidden">
@@ -132,7 +131,6 @@ const PrivacyPolicyContent = () => (
 export default function PrivacyPolicyPage() {
   return (
     <div className="min-h-screen font-sans bg-gray-50">
-      <Banner />
       <NavigationBar />
       <PrivacyPolicyHero />
 

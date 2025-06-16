@@ -104,7 +104,6 @@ export default function ContactForm({
           message: 'Kiitos yhteydenotostasi! Palaamme asiaan mahdollisimman pian.',
         });
 
-        // Reset form after successful submission
         resetForm();
         setPrivacyAccepted(false);
 
@@ -292,8 +291,6 @@ export default function ContactForm({
         </Formik>
 
         <p className="mt-6 text-sm text-gray-500">
-          {/* Käsittelemme viestit yleensä 1-2 arkipäivän kuluessa. Kiireellisissä asioissa
-          suosittelemme soittamaan suoraan ravintolaamme. */}
           Kiireellisissä asioissa suosittelemme soittamaan suoraan ravintolaamme.
         </p>
         <p className="mt-6 text-sm text-gray-500">Pöytävaraukset hoidetaan puhelimitse.</p>
