@@ -427,6 +427,13 @@ export const menuCategories = [
         price: '7,50',
         dietaryInfo: [],
       },
+      {
+        name: 'Lasten lehtipihvi',
+        ingredients: 'Naudan lehtipihvi, ranskalaiset, tomaatti, kurkku, maustevoi',
+        information: '',
+        price: '7,50',
+        dietaryInfo: [],
+      },
     ],
   },
 ];
