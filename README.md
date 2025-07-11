@@ -2,8 +2,6 @@
 
 This repository contains the production code for the official website of **Bistro Saimaa**, a local restaurant located in Ristiina, a district of Mikkeli, Finland, right next to Lake Saimaa.
 
-The website is built using **React**, **Vite**, and **Tailwind CSS**.
-
 ---
 
 ## License
