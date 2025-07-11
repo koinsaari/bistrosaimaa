@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { Analytics } from '@vercel/analytics/next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import NavigationBar from '@/components/NavigationBar';
 import Footer from '@/components/Footer';
@@ -48,6 +49,7 @@ export default function RootLayout({
         <NavigationBar />
         <main className="min-h-screen">{children}</main>
         <Footer />
+        <Analytics />
       </body>
     </html>
   );
