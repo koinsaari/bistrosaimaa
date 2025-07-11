@@ -606,14 +606,14 @@ export default function MenuPageClient() {
                                     {item.variants.map((variant, idx) => (
                                       <div
                                         key={idx}
-                                        className="flex justify-between items-center p-3 bg-muted/50 rounded-lg"
+                                        className="flex flex-col sm:flex-row sm:justify-between sm:items-center p-3 bg-muted/50 rounded-lg gap-2"
                                       >
                                         <span className="font-medium text-foreground">
                                           {variant.name}
                                         </span>
                                         <Badge
                                           variant="secondary"
-                                          className="bg-primary/10 text-primary px-3 py-1 text-sm"
+                                          className="bg-primary/10 text-primary px-3 py-1 text-sm self-start sm:self-auto"
                                         >
                                           {variant.normal} €
                                         </Badge>
@@ -621,22 +621,22 @@ export default function MenuPageClient() {
                                     ))}
                                   </div>
                                 ) : item.variants.length === 1 ? (
-                                  <div className="flex justify-between items-center p-3 bg-muted/50 rounded-lg">
+                                  <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center p-3 bg-muted/50 rounded-lg gap-2">
                                     <span className="font-medium text-foreground">{item.name}</span>
                                     <Badge
                                       variant="secondary"
-                                      className="bg-primary/10 text-primary px-3 py-1 text-sm"
+                                      className="bg-primary/10 text-primary px-3 py-1 text-sm self-start sm:self-auto"
                                     >
                                       {item.variants[0].normal} €
                                     </Badge>
                                   </div>
                                 ) : (
                                   <div className="space-y-2">
-                                    <div className="flex justify-between items-center p-3 bg-muted/50 rounded-lg">
+                                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start p-3 bg-muted/50 rounded-lg gap-2">
                                       <span className="font-medium text-foreground">
                                         {item.name}
                                       </span>
-                                      <div className="flex gap-2">
+                                      <div className="flex flex-wrap gap-2">
                                         {item.variants[0].normal && (
                                           <Badge
                                             variant="secondary"
@@ -656,11 +656,11 @@ export default function MenuPageClient() {
                                       </div>
                                     </div>
                                     {item.variants[1] && (
-                                      <div className="flex justify-between items-center p-3 bg-muted/50 rounded-lg">
+                                      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start p-3 bg-muted/50 rounded-lg gap-2">
                                         <span className="font-medium text-foreground">
                                           {item.name} ateria
                                         </span>
-                                        <div className="flex gap-2">
+                                        <div className="flex flex-wrap gap-2">
                                           {item.variants[1].normal && (
                                             <Badge
                                               variant="secondary"
@@ -722,11 +722,11 @@ export default function MenuPageClient() {
 
                             {/* Regular Price */}
                             {!item.variants && !item.customContent && item.price && (
-                              <div className="flex justify-between items-center p-3 bg-muted/50 rounded-lg">
+                              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center p-3 bg-muted/50 rounded-lg gap-2">
                                 <span className="font-medium text-foreground">{item.name}</span>
                                 <Badge
                                   variant="secondary"
-                                  className="bg-primary/10 text-primary px-3 py-1 text-sm"
+                                  className="bg-primary/10 text-primary px-3 py-1 text-sm self-start sm:self-auto"
                                 >
                                   {item.price} €
                                 </Badge>

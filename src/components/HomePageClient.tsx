@@ -60,7 +60,7 @@ const HeroSection = () => (
             asChild
             variant="outline"
             size="lg"
-            className="border-white hover:bg-secondary text-white"
+            className="border-white !bg-transparent !text-white hover:!bg-white hover:!text-foreground"
           >
             <Link href="/contact">
               <Calendar className="mr-2 h-5 w-5" />
