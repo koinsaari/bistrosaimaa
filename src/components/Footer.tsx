@@ -13,7 +13,7 @@ export default function Footer() {
           <div className="text-center">
             <div className="text-2xl font-bold mb-2">Bistro Saimaa</div>
             <p className="text-muted-foreground text-sm max-w-md">
-              Makuelämyksiä Saimaan läheisyydessä
+              Ravintola, kabinetit ja pitopalvelut
             </p>
           </div>
 

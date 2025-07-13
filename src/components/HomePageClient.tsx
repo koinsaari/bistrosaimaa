@@ -43,11 +43,11 @@ const HeroSection = () => (
       >
         <h1 className="text-5xl md:text-7xl font-bold mb-6">Bistro Saimaa</h1>
         <p className="text-xl md:text-2xl mb-8 text-white/90">
-          Makuelämyksiä Saimaan läheisyydessä
+          Ravintola, kabinetit ja pitopalvelut
         </p>
         <p className="text-lg md:text-xl mb-10 max-w-2xl mx-auto">
-          Tervetuloa nauttimaan laadukkaasta ruoasta ja sydämellisestä palvelusta kauniissa
-          Ristiinan maisemissa.
+          Täyden palvelun ravintola Ristiinassa: pitopalvelut koko Etelä-Savossa, kabinetit
+          tilaisuuksiin ja upea sijainti Saimaan rannalla.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Button asChild size="lg" className="bg-primary hover:bg-primary/90">

@@ -16,17 +16,18 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Bistro Saimaa - Makuelämyksiä Saimaan läheisyydessä',
+  title: 'Bistro Saimaa - Ravintola, kabinetit ja pitopalvelut',
   description:
-    'Bistro Saimaa tarjoaa laadukasta ruokaa ja sydämellisestä palvelua kauniissa Ristiinan maisemissa. Kabinetit, pitopalvelut ja à la carte -menu.',
-  keywords: 'bistro, ravintola, saimaa, ristiina, ruoka, kabinetti, pitopalvelu, mikkeli, lounas',
+    'Täyden palvelun ravintola Ristiinassa: pitopalvelut koko Etelä-Savossa, kabinetit tilaisuuksiin ja upea sijainti Saimaan rannalla.',
+  keywords:
+    'bistro, ravintola, saimaa, ristiina, ruoka, kabinetti, pitopalvelu, mikkeli, lounas, etelä-savo',
   authors: [{ name: 'Aaro Koinsaari' }],
   creator: 'Aaro Koinsaari',
   publisher: 'Bistro Saimaa',
   openGraph: {
-    title: 'Bistro Saimaa - Makuelämyksiä Saimaan läheisyydessä',
+    title: 'Bistro Saimaa - Ravintola, kabinetit ja pitopalvelut',
     description:
-      'Bistro Saimaa tarjoaa laadukasta ruokaa ja sydämellisestä palvelua kauniissa Ristiinan maisemissa.',
+      'Täyden palvelun ravintola Ristiinassa: pitopalvelut koko Etelä-Savossa, kabinetit tilaisuuksiin ja upea sijainti Saimaan rannalla.',
     url: 'https://bistrosaimaa.fi',
     siteName: 'Bistro Saimaa',
     locale: 'fi_FI',

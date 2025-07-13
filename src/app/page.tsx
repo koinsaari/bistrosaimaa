@@ -5,10 +5,11 @@
 import HomePageClient from '@/components/HomePageClient';
 
 export const metadata = {
-  title: 'Bistro Saimaa - Makuelämyksiä Saimaan rannalla',
+  title: 'Bistro Saimaa - Ravintola, kabinetit ja pitopalvelut',
   description:
-    'Tervetuloa Bistro Saimaalle nauttimaan laadukkaasta ruoasta ja sydämellisestä palvelusta kauniissa Ristiinan maisemissa. Kabinetit ja pitopalvelut.',
-  keywords: 'bistro, ravintola, saimaa, ristiina, ruoka, kabinetti, pitopalvelu, mikkeli',
+    'Täyden palvelun ravintola Ristiinassa: pitopalvelut koko Etelä-Savossa, kabinetit tilaisuuksiin ja upea sijainti Saimaan rannalla.',
+  keywords:
+    'bistro, ravintola, saimaa, ristiina, ruoka, kabinetti, pitopalvelu, mikkeli, lounas, etelä-savo',
   robots: {
     index: true,
     follow: true,
