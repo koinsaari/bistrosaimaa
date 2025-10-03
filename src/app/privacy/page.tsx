@@ -2,7 +2,7 @@
  * Copyright (c) 2025 Aaro Koinsaari
  */
 
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 import PrivacyPolicyPageClient from './PrivacyPolicyPageClient';
 
 export const metadata: Metadata = {
@@ -13,6 +13,9 @@ export const metadata: Metadata = {
   robots: {
     index: false,
     follow: false,
+  },
+  alternates: {
+    canonical: 'https://bistrosaimaa.fi/privacy',
   },
 };
 

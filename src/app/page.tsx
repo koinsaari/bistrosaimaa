@@ -2,9 +2,10 @@
  * Copyright (c) 2025 Aaro Koinsaari
  */
 
+import type { Metadata } from 'next';
 import HomePageClient from '@/components/HomePageClient';
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'Bistro Saimaa - Ravintola, kabinetit ja pitopalvelut',
   description:
     'Täyden palvelun ravintola Ristiinassa: pitopalvelut koko Etelä-Savossa, kabinetit tilaisuuksiin ja upea sijainti Saimaan rannalla.',
@@ -13,6 +14,9 @@ export const metadata = {
   robots: {
     index: true,
     follow: true,
+  },
+  alternates: {
+    canonical: 'https://bistrosaimaa.fi',
   },
 };
 

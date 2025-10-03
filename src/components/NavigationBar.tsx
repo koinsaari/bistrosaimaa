@@ -5,10 +5,12 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { Menu, X, Calendar, Mail } from 'lucide-react';
+import { Menu, X, Calendar, Mail, Globe } from 'lucide-react';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
+import LanguageSelector from './LanguageSelector';
 
 export default function NavigationBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -16,6 +18,8 @@ export default function NavigationBar() {
   const [isVisible, setIsVisible] = useState(true);
   const navbarRef = useRef<HTMLElement>(null);
   const lastScrollY = useRef(0);
+  const firstMenuItemRef = useRef<HTMLButtonElement>(null);
+  const t = useTranslations('Navigation');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -55,7 +59,15 @@ export default function NavigationBar() {
     };
   }, []);
 
-  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+  const toggleMenu = () => {
+    setIsMenuOpen((prev) => {
+      const newState = !prev;
+      if (newState) {
+        setTimeout(() => firstMenuItemRef.current?.focus(), 100);
+      }
+      return newState;
+    });
+  };
 
   return (
     <nav
@@ -71,17 +83,17 @@ export default function NavigationBar() {
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-3 group">
+          <Link href="/" className="flex items-center space-x-3 gap-4 ml-2 sm:ml-0">
             <div className="relative h-12 w-12">
               <Image
-                src="/logo-saimaa.png"
+                src="/logo-saimaa-white.png"
                 alt="Bistro Saimaa"
                 fill
-                className="object-contain transition-all duration-300 group-hover:scale-105"
+                className="object-contain transition-all duration-300 scale-150"
               />
             </div>
-            <div className="hidden sm:block">
-              <div className="font-bold text-lg text-foreground">Bistro Saimaa</div>
+            <div>
+              <div className="font-bold text-base sm:text-lg text-foreground">Bistro Saimaa</div>
               <div className="text-xs text-muted-foreground">
                 Ravintola, kabinetit ja pitopalvelut
               </div>
@@ -97,7 +109,7 @@ export default function NavigationBar() {
                 size="sm"
                 className="rounded-full px-5 py-2 text-foreground hover:bg-background hover:text-primary hover:shadow-sm transition-all duration-200"
               >
-                <Link href="/">Etusivu</Link>
+                <Link href="/">{t('home')}</Link>
               </Button>
               <Button
                 asChild
@@ -105,7 +117,7 @@ export default function NavigationBar() {
                 size="sm"
                 className="rounded-full px-5 py-2 text-foreground hover:bg-background hover:text-primary hover:shadow-sm transition-all duration-200"
               >
-                <Link href="/menu">Menu</Link>
+                <Link href="/menu">{t('menu')}</Link>
               </Button>
             </div>
 
@@ -115,9 +127,11 @@ export default function NavigationBar() {
             >
               <Link href="/contact" className="flex items-center space-x-2">
                 <Mail className="h-4 w-4" />
-                <span>Ota yhteyttä</span>
+                <span>{t('contact')}</span>
               </Link>
             </Button>
+
+            <LanguageSelector />
           </div>
 
           {/* Mobile Menu Button */}
@@ -142,19 +156,20 @@ export default function NavigationBar() {
       {/* Mobile Menu */}
       <div
         className={`md:hidden transition-all duration-300 ${
-          isMenuOpen ? 'max-h-80 opacity-100' : 'max-h-0 opacity-0 overflow-hidden'
+          isMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0 overflow-hidden'
         }`}
       >
         <div className="bg-background/95 backdrop-blur-lg border-t border-border/50">
           <div className="container mx-auto px-6 py-4">
             <div className="flex flex-col space-y-2">
               <Button
+                ref={firstMenuItemRef}
                 asChild
                 variant="ghost"
                 className="justify-start text-foreground hover:bg-muted hover:text-primary rounded-lg py-3 transition-all duration-200"
                 onClick={() => setIsMenuOpen(false)}
               >
-                <Link href="/">Etusivu</Link>
+                <Link href="/">{t('home')}</Link>
               </Button>
               <Button
                 asChild
@@ -162,7 +177,7 @@ export default function NavigationBar() {
                 className="justify-start text-foreground hover:bg-muted hover:text-primary rounded-lg py-3 transition-all duration-200"
                 onClick={() => setIsMenuOpen(false)}
               >
-                <Link href="/menu">Menu</Link>
+                <Link href="/menu">{t('menu')}</Link>
               </Button>
               <Button
                 asChild
@@ -171,9 +186,14 @@ export default function NavigationBar() {
               >
                 <Link href="/contact" className="flex items-center space-x-2">
                   <Calendar className="h-4 w-4" />
-                  <span>Ota yhteyttä</span>
+                  <span>{t('contact')}</span>
                 </Link>
               </Button>
+
+              <div className="flex items-center justify-center gap-2 pt-4 border-t border-border/50 mt-2">
+                <Globe className="h-4 w-4 text-muted-foreground" />
+                <LanguageSelector variant="mobile" onLanguageChange={() => setIsMenuOpen(false)} />
+              </div>
             </div>
           </div>
         </div>

@@ -6,23 +6,38 @@
 
 import { motion } from 'framer-motion';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useTranslations } from 'next-intl';
 
-const PrivacyPolicyHero = () => (
-  <div className="bg-primary text-primary-foreground py-24 relative overflow-hidden">
+const PrivacyPolicyHero = () => {
+  const t = useTranslations('PrivacyPage');
+
+  return (
+  <div
+    className="text-primary-foreground pt-32 pb-16 relative overflow-hidden"
+    style={{
+      background:
+        'radial-gradient(ellipse at top, rgba(223, 81, 35, 0.2) 0%, rgba(42, 42, 42, 0.9) 40%, #1c1c1c 100%)',
+      boxShadow: '0 10px 40px -10px rgba(223, 81, 35, 0.3), inset 0 1px 0 rgba(255, 107, 61, 0.1)',
+    }}
+  >
     <div className="container mx-auto px-4 relative z-10">
       <motion.h1
-        className="text-3xl md:text-4xl font-bold mb-4 text-center"
+        className="text-3xl md:text-4xl font-bold mb-4 text-center text-foreground drop-shadow-lg"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        Tietosuojaseloste
+        {t('title')}
       </motion.h1>
     </div>
   </div>
-);
+  );
+};
 
-const PrivacyPolicyContent = () => (
+const PrivacyPolicyContent = () => {
+  const t = useTranslations('PrivacyPage');
+
+  return (
   <motion.div
     className="max-w-4xl mx-auto"
     initial={{ opacity: 0, y: 20 }}
@@ -31,70 +46,78 @@ const PrivacyPolicyContent = () => (
   >
     <Card>
       <CardHeader>
-        <CardTitle className="text-2xl">Bistro Saimaan tietosuojaseloste</CardTitle>
-        <p className="text-muted-foreground">Viimeksi päivitetty: 14.5.2025</p>
+        <CardTitle className="text-2xl">{t('cardTitle')}</CardTitle>
+        <p className="text-muted-foreground">{t('lastUpdated')}</p>
       </CardHeader>
       <CardContent className="space-y-8">
         <section>
           <p className="text-foreground">
-            Tämä tietosuojaseloste kuvaa, miten Bistro Saimaa käsittelee henkilötietoja, joita
-            keräämme yhteydenottolomakkeen kautta.
+            {t('intro')}
           </p>
         </section>
 
         <section>
-          <h3 className="text-xl font-semibold text-foreground mb-3">1. Kerättävät tiedot</h3>
+          <h3 className="text-xl font-semibold text-foreground mb-3">{t('section1Title')}</h3>
           <p className="text-foreground mb-3">
-            Keräämme yhteydenottolomakkeen kautta seuraavat tiedot:
+            {t('section1Intro')}
           </p>
           <ul className="list-disc pl-6 text-foreground space-y-1">
-            <li>Nimi</li>
-            <li>Sähköpostiosoite</li>
-            <li>Puhelinnumero (vapaaehtoinen)</li>
-            <li>Yhteydenoton aihe</li>
-            <li>Viestin sisältö</li>
+            <li>{t('section1Item1')}</li>
+            <li>{t('section1Item2')}</li>
+            <li>{t('section1Item3')}</li>
+            <li>{t('section1Item4')}</li>
+            <li>{t('section1Item5')}</li>
           </ul>
         </section>
 
         <section>
           <h3 className="text-xl font-semibold text-foreground mb-3">
-            2. Tietojen käyttötarkoitus
+            {t('section2Title')}
           </h3>
           <p className="text-foreground">
-            Kerättyjä tietoja käytetään ainoastaan asiakasviestintään, kuten yhteydenottoihin
-            vastaamiseen, varauspyyntöjen käsittelemiseen ja viestien selkeämpään organisointiin
-            sähköpostissa.
+            {t('section2Text')}
           </p>
         </section>
 
         <section>
           <h3 className="text-xl font-semibold text-foreground mb-3">
-            3. Tietojen säilytys ja jakaminen
+            {t('section3Title')}
           </h3>
-          <p className="text-foreground mb-4">Lomakkeen kautta kerättyjä tietoja:</p>
+          <p className="text-foreground mb-4">{t('section3Intro')}</p>
           <ul className="list-disc pl-6 text-foreground space-y-1">
-            <li>Käsitellään ainoastaan Bistro Saimaan henkilökunnan toimesta</li>
-            <li>
-              Säilytetään rekisterissä (sähköpostissa) toistaiseksi, ellei poistamista pyydetä
-            </li>
-            <li>Ei luovuteta kolmansille osapuolille markkinointi- tai muihin tarkoituksiin</li>
-            <li>Ei siirretä EU/ETA-alueen ulkopuolelle</li>
-            <li>Viestin tekninen välitys tapahtuu Web3Forms-palvelun kautta (web3forms.com)</li>
+            <li>{t('section3Item1')}</li>
+            <li>{t('section3Item2')}</li>
+            <li>{t('section3Item3')}</li>
+            <li>{t('section3Item4')}</li>
+            <li>{t('section3Item5')}</li>
           </ul>
         </section>
 
         <section>
-          <h3 className="text-xl font-semibold text-foreground mb-3">4. Verkkosivuanalytiikka</h3>
+          <h3 className="text-xl font-semibold text-foreground mb-3">{t('section4Title')}</h3>
           <p className="text-foreground mb-4">
-            Käytämme Vercel Analytics -palvelua kerätäksemme anonyymia käyttötietoa sivustostamme:
+            {t('section4Text')}
           </p>
           <ul className="list-disc pl-6 text-foreground space-y-1">
-            <li>Keräämme anonyymiä tietoa sivuston kävijämääristä ja suosituimmista sivuista</li>
-            <li>Tietoa käytetään sivuston käytettävyyden ja toiminnan parantamiseen</li>
-            <li>Emme yhdistä analytiikkatietoja henkilötietoihin</li>
-            <li>Vercel Analytics ei käytä evästeitä eikä kerää yksilöivää käyttäjätietoa</li>
+            <li>{t('section4Item1')}</li>
+            <li>{t('section4Item2')}</li>
+            <li>{t('section4Item3')}</li>
+            <li>{t('section4Item4')}</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3 className="text-xl font-semibold text-foreground mb-3">{t('section5Title')}</h3>
+          <p className="text-foreground mb-4">
+            {t('section5Intro')}
+          </p>
+          <ul className="list-disc pl-6 text-foreground space-y-1">
+            <li>{t('section5Item1')}</li>
+            <li>{t('section5Item2')}</li>
+            <li>{t('section5Item3')}</li>
+            <li>{t('section5Item4')}</li>
             <li>
-              Voit lukea lisää Vercel Analyticsin tietosuojasta osoitteesta:{' '}
+              {t('section5Item5')}{' '}
               <a
                 href="https://vercel.com/docs/analytics/privacy-policy"
                 target="_blank"
@@ -108,33 +131,30 @@ const PrivacyPolicyContent = () => (
         </section>
 
         <section>
-          <h3 className="text-xl font-semibold text-foreground mb-3">5. Rekisteröidyn oikeudet</h3>
-          <p className="text-foreground mb-3">Sinulla on oikeus:</p>
+          <h3 className="text-xl font-semibold text-foreground mb-3">{t('section6Title')}</h3>
+          <p className="text-foreground mb-3">{t('section6Intro')}</p>
           <ul className="list-disc pl-6 text-foreground space-y-1">
-            <li>
-              Tarkastaa mitä tietoja olemme sinusta keränneet, eli viestit joita olet lähettänyt
-              lomakkeen kautta
-            </li>
-            <li>Pyytää tietojesi poistamista sähköpostistamme</li>
-            <li>Pyytää tietojesi oikaisemista</li>
+            <li>{t('section6Item1')}</li>
+            <li>{t('section6Item2')}</li>
+            <li>{t('section6Item3')}</li>
           </ul>
           <p className="text-foreground mt-3">
-            Voit käyttää näitä oikeuksia ottamalla yhteyttä sähköpostitse osoitteeseen
-            bistrosaimaa@gmail.com.
+            {t('section6Text')}
           </p>
         </section>
 
         <section>
-          <h3 className="text-xl font-semibold text-foreground mb-3">6. Yhteystiedot</h3>
-          <p className="text-foreground mb-3">Rekisterinpitäjä: Bistro Saimaa Oy</p>
-          <p className="text-foreground mb-1">Osoite: Brahentie 42, 52300 Ristiina</p>
-          <p className="text-foreground mb-1">Puhelin: +358 50 4499 322</p>
-          <p className="text-foreground">Sähköposti: bistrosaimaa@gmail.com</p>
+          <h3 className="text-xl font-semibold text-foreground mb-3">{t('section7Title')}</h3>
+          <p className="text-foreground mb-3">{t('section7Line1')}</p>
+          <p className="text-foreground mb-1">{t('section7Line2')}</p>
+          <p className="text-foreground mb-1">{t('section7Line3')}</p>
+          <p className="text-foreground">{t('section7Line4')}</p>
         </section>
       </CardContent>
     </Card>
   </motion.div>
-);
+  );
+};
 
 export default function PrivacyPolicyPageClient() {
   return (

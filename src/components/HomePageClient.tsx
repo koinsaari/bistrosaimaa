@@ -19,79 +19,90 @@ import {
 } from '@/components/ui/carousel';
 import Autoplay from 'embla-carousel-autoplay';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 
-const HeroSection = () => (
-  <div
-    id="home-hero"
-    className="text-white relative overflow-hidden min-h-screen flex items-center justify-center"
-  >
+const HeroSection = () => {
+  const t = useTranslations('HomePage');
+
+  return (
     <div
-      className="absolute inset-0 w-full h-full"
-      style={{
-        backgroundImage: "url('/saimaa-interior_1.jpeg')",
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-      }}
-    />
-    <div className="absolute inset-0 bg-black/50"></div>
-    <div className="container mx-auto px-4 relative z-10 py-32">
-      <motion.div
-        className="max-w-4xl mx-auto text-center"
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-      >
-        <h1 className="text-5xl md:text-7xl font-bold mb-6">Bistro Saimaa</h1>
-        <p className="text-xl md:text-2xl mb-8 text-white/90">
-          Ravintola, kabinetit ja pitopalvelut
-        </p>
-        <p className="text-lg md:text-xl mb-10 max-w-2xl mx-auto">
-          Täyden palvelun ravintola Ristiinassa: pitopalvelut koko Etelä-Savossa, kabinetit
-          tilaisuuksiin ja upea sijainti Saimaan rannalla.
-        </p>
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Button asChild size="lg" className="bg-primary hover:bg-primary/90">
-            <Link href="/menu">
-              <Utensils className="mr-2 h-5 w-5" />
-              Tutustu menuun
-            </Link>
-          </Button>
-          <Button
-            asChild
-            variant="outline"
-            size="lg"
-            className="border-white !bg-transparent !text-white hover:!bg-white hover:!text-foreground"
-          >
-            <Link href="/contact">
-              <Calendar className="mr-2 h-5 w-5" />
-              Tee varaus
-            </Link>
-          </Button>
-        </div>
-      </motion.div>
+      id="home-hero"
+      className="text-white relative overflow-hidden min-h-screen flex items-center justify-center"
+    >
+      <div
+        className="absolute inset-0 w-full h-full"
+        style={{
+          backgroundImage: "url('/saimaa-interior_1.jpeg')",
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+      />
+      <div className="absolute inset-0 bg-black/60"></div>
+      <div className="container mx-auto px-4 relative z-10 py-32">
+        <motion.div
+          className="max-w-4xl mx-auto text-center"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+          <h1 className="text-5xl md:text-7xl font-bold mb-6 drop-shadow-lg">{t('title')}</h1>
+          <p className="text-xl md:text-2xl mb-8 text-white/95 drop-shadow-md">{t('subtitle')}</p>
+          <p className="text-lg md:text-xl mb-10 max-w-2xl mx-auto drop-shadow-md">
+            {t('description')}
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button asChild size="lg" className="bg-primary hover:bg-primary/90">
+              <Link href="/menu">
+                <Utensils className="mr-2 h-5 w-5" />
+                {t('exploreMenu')}
+              </Link>
+            </Button>
+            <Button
+              asChild
+              variant="outline"
+              size="lg"
+              className="border-white !bg-transparent !text-white hover:!bg-primary hover:!text-white hover:!border-primary"
+            >
+              <Link href="/contact">
+                <Calendar className="mr-2 h-5 w-5" />
+                {t('makeReservation')}
+              </Link>
+            </Button>
+          </div>
+        </motion.div>
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 const FeaturedSection = () => {
+  const t = useTranslations('HomePage');
   const sectionRef = useRef(null);
 
   return (
     <section ref={sectionRef} className="py-16 bg-muted/30">
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-bold text-center mb-12 text-foreground">Tarjontamme</h2>
+        <h2 className="text-3xl font-bold text-center mb-12 text-foreground">
+          {t('ourOfferings')}
+        </h2>
 
-        <div className="flex flex-col md:flex-row justify-center gap-8 mb-8">
+        <div className="flex flex-col md:flex-row justify-center items-center gap-8 mb-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.1 }}
             whileHover={{ y: -5 }}
-            className="flex-1 max-w-sm"
+            className="w-full md:flex-1 max-w-sm"
           >
-            <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow h-full flex flex-col">
-              <div className="h-48 overflow-hidden relative">
+            <Card
+              className="overflow-hidden hover:shadow-2xl transition-all duration-300 h-full flex flex-col border-primary/20 p-0"
+              style={{
+                boxShadow:
+                  '0 10px 30px -5px rgba(0, 0, 0, 0.5), 0 0 20px rgba(223, 81, 35, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.05)',
+              }}
+            >
+              <div className="h-64 overflow-hidden relative">
                 <Image
                   src="/lounas_3.jpeg"
                   alt="À la carte menu"
@@ -99,13 +110,18 @@ const FeaturedSection = () => {
                   className="object-cover hover:scale-105 transition-transform duration-300"
                 />
               </div>
-              <CardContent className="p-6 text-center flex-1 flex flex-col">
-                <CardTitle className="text-foreground font-bold mb-2">Menu</CardTitle>
+              <CardContent
+                className="p-6 text-center flex-1 flex flex-col"
+                style={{
+                  background: 'linear-gradient(135deg, #2a2a2a 0%, #232323 100%)',
+                }}
+              >
+                <CardTitle className="text-foreground font-bold mb-2">{t('menuTitle')}</CardTitle>
                 <CardDescription className="text-muted-foreground mb-4 flex-1">
-                  Tutustu à la carte -menuumme.
+                  {t('menuDescription')}
                 </CardDescription>
                 <Button asChild className="bg-primary hover:bg-primary/90 mt-auto">
-                  <Link href="/menu">Katso menu</Link>
+                  <Link href="/menu">{t('viewMenu')}</Link>
                 </Button>
               </CardContent>
             </Card>
@@ -117,10 +133,16 @@ const FeaturedSection = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.3 }}
             whileHover={{ y: -5 }}
-            className="flex-1 max-w-sm"
+            className="w-full md:flex-1 max-w-sm"
           >
-            <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow h-full flex flex-col">
-              <div className="h-48 overflow-hidden relative">
+            <Card
+              className="overflow-hidden hover:shadow-2xl transition-all duration-300 h-full flex flex-col border-primary/20 p-0"
+              style={{
+                boxShadow:
+                  '0 10px 30px -5px rgba(0, 0, 0, 0.5), 0 0 20px rgba(223, 81, 35, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.05)',
+              }}
+            >
+              <div className="h-64 overflow-hidden relative">
                 <Image
                   src="/lounas_1.jpeg"
                   alt="Lounas"
@@ -128,12 +150,15 @@ const FeaturedSection = () => {
                   className="object-cover hover:scale-105 transition-transform duration-300"
                 />
               </div>
-              <CardContent className="p-6 text-center flex-1 flex flex-col">
-                <CardTitle className="text-foreground font-bold mb-2">
-                  Viikoittain vaihtuva lounas
-                </CardTitle>
+              <CardContent
+                className="p-6 text-center flex-1 flex flex-col"
+                style={{
+                  background: 'linear-gradient(135deg, #2a2a2a 0%, #232323 100%)',
+                }}
+              >
+                <CardTitle className="text-foreground font-bold mb-2">{t('lunchTitle')}</CardTitle>
                 <CardDescription className="text-muted-foreground mb-4 flex-1">
-                  Tarjoamme viikoittain vaihtuvan lounaan
+                  {t('lunchDescription')}
                 </CardDescription>
                 <Button asChild className="bg-primary hover:bg-primary/90 mt-auto">
                   <a
@@ -142,7 +167,7 @@ const FeaturedSection = () => {
                     rel="noopener noreferrer"
                   >
                     <ExternalLink className="mr-2 h-4 w-4" />
-                    Näytä lounaslista Facebookissa
+                    {t('viewLunchFacebook')}
                   </a>
                 </Button>
               </CardContent>
@@ -155,10 +180,16 @@ const FeaturedSection = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.5 }}
             whileHover={{ y: -5 }}
-            className="flex-1 max-w-sm"
+            className="w-full md:flex-1 max-w-sm"
           >
-            <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow h-full flex flex-col">
-              <div className="h-48 overflow-hidden relative">
+            <Card
+              className="overflow-hidden hover:shadow-2xl transition-all duration-300 h-full flex flex-col border-primary/20 p-0"
+              style={{
+                boxShadow:
+                  '0 10px 30px -5px rgba(0, 0, 0, 0.5), 0 0 20px rgba(223, 81, 35, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.05)',
+              }}
+            >
+              <div className="h-64 overflow-hidden relative">
                 <Image
                   src="/kakku.jpeg"
                   alt="Pitopalvelut"
@@ -166,15 +197,20 @@ const FeaturedSection = () => {
                   className="object-cover hover:scale-105 transition-transform duration-300"
                 />
               </div>
-              <CardContent className="p-6 text-center flex-1 flex flex-col">
+              <CardContent
+                className="p-6 text-center flex-1 flex flex-col"
+                style={{
+                  background: 'linear-gradient(135deg, #2a2a2a 0%, #232323 100%)',
+                }}
+              >
                 <CardTitle className="text-foreground font-bold mb-2">
-                  Pitopalvelut & kabinetti
+                  {t('cateringTitle')}
                 </CardTitle>
                 <CardDescription className="text-muted-foreground mb-4 flex-1">
-                  Ruokaa ja tarjoilua joko paikan päällä kabinetissa tai toimitettuna muualle.
+                  {t('cateringDescription')}
                 </CardDescription>
                 <Button asChild className="bg-primary hover:bg-primary/90 mt-auto">
-                  <Link href="/contact">Kysy lisää</Link>
+                  <Link href="/contact">{t('askMore')}</Link>
                 </Button>
               </CardContent>
             </Card>
@@ -186,6 +222,8 @@ const FeaturedSection = () => {
 };
 
 const ReviewsSection = () => {
+  const t = useTranslations('HomePage');
+
   const reviews = [
     {
       id: 1,
@@ -216,40 +254,47 @@ const ReviewsSection = () => {
     },
     {
       id: 5,
+      quote: 'Todella kiva viihtyisä ja hyvä ruoka, 10 pistettä!',
+      author: 'Mirja H.',
+      rating: 1,
+      note: '(Tarkoitti varmaan 5/5 ⭐)',
+    },
+    {
+      id: 6,
       quote:
         'Parhaat ranskalaiset mitä ikinä syönyt nii rapeat 😋 samoin hampurilainen oli mehevä ja Hyvä 💖💖',
       author: 'Ulla H.',
       rating: 5,
     },
     {
-      id: 6,
+      id: 7,
       quote:
         'Ystävällinen ja hyvä palvelu. Haettiin salaatit mukaan rantaan. Olivat hyvät ja runsaat, hyvin pakattu kuljetettavaksi, mukaan saatiin aterimet sekä leipäpalat.',
       author: 'Riitu',
       rating: 5,
     },
     {
-      id: 7,
+      id: 8,
       quote: 'Erinomainen ruoka. Mukava henkilökunta.',
       author: 'Ville',
       rating: 5,
     },
     {
-      id: 8,
+      id: 9,
       quote:
         'Ruoka oli hyvää ja palvelu ystävällistä. Varmasti käymme uudestaan jos Ristiinan suunnille uudestaan eksymme.',
       author: 'Mirja F.',
       rating: 5,
     },
     {
-      id: 9,
+      id: 10,
       quote:
         'Enpä uskonut Ristiinasta löytäväni vegaanista ruokaa, mutta Saimaan ystävällinen henkilökunta pyöräytti neille vegeburgerit! Ja ranskalaiset ovat kyllä taivaallisia. Kiitos tästä!',
       author: 'Veikko S.',
       rating: 5,
     },
     {
-      id: 10,
+      id: 11,
       quote:
         'Iso suositus paikasta! Äärettömän hyvät ateriat, aura-pekoni ateria ja Saimaan makkis-pekkikset testauksessa 🤤',
       author: 'Noora V.',
@@ -258,16 +303,15 @@ const ReviewsSection = () => {
   ];
 
   return (
-    <section className="relative py-24 overflow-hidden">
-      <Image
-        src="https://images.pexels.com/photos/27798098/pexels-photo-27798098/free-photo-of-lake-saimaa-1.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-        alt="Lake Saimaa"
-        fill
-        className="object-cover"
-      />
-      <div className="absolute inset-0 bg-black/50"></div>
+    <section
+      className="relative py-24 overflow-hidden"
+      style={{
+        background:
+          'radial-gradient(ellipse at center, rgba(223, 81, 35, 0.35) 0%, rgba(223, 81, 35, 0.15) 30%, rgba(42, 42, 42, 0.6) 60%, #1c1c1c 100%)',
+      }}
+    >
       <div className="container mx-auto px-4 relative z-10">
-        <h2 className="text-3xl font-bold text-center mb-16 text-white">Arvostelut</h2>
+        <h2 className="text-3xl font-bold text-center mb-16 text-foreground">{t('reviews')}</h2>
 
         <div className="max-w-4xl mx-auto">
           <Carousel
@@ -286,14 +330,21 @@ const ReviewsSection = () => {
               {reviews.map((review) => (
                 <CarouselItem key={review.id}>
                   <div className="p-1">
-                    <Card className="bg-white/20 backdrop-blur-lg border-white/20 h-80">
-                      <CardContent className="p-8 h-full flex flex-col justify-center">
+                    <Card
+                      className="h-80 md:h-80 min-h-[400px] md:min-h-0 border-primary/20 relative overflow-hidden"
+                      style={{
+                        background: 'linear-gradient(135deg, #2a2a2a 0%, #232323 100%)',
+                        boxShadow:
+                          '0 10px 30px -5px rgba(0, 0, 0, 0.5), 0 0 20px rgba(223, 81, 35, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.05)',
+                      }}
+                    >
+                      <CardContent className="p-6 md:p-8 h-full flex flex-col justify-center overflow-y-auto">
                         <div className="flex flex-col items-center text-center">
-                          <div className="text-5xl text-amber-400 font-serif leading-none mb-6">
+                          <div className="text-4xl md:text-5xl text-primary font-serif leading-none mb-4 md:mb-6 drop-shadow-lg">
                             ❝
                           </div>
                           <div className="flex-1 flex flex-col justify-center">
-                            <p className="text-lg md:text-xl text-foreground mb-6 italic leading-relaxed">
+                            <p className="text-base md:text-lg lg:text-xl text-foreground mb-4 md:mb-6 italic leading-relaxed">
                               &ldquo;{review.quote}&rdquo;
                             </p>
                           </div>
@@ -310,10 +361,15 @@ const ReviewsSection = () => {
                             <h3 className="font-semibold text-foreground text-lg">
                               {review.author}
                             </h3>
+                            {review.note && (
+                              <p className="text-xs text-muted-foreground italic mt-1">
+                                {review.note}
+                              </p>
+                            )}
                           </div>
                         </div>
                         <div className="absolute bottom-2 right-3">
-                          <p className="text-xs text-muted-foreground">Lähde: Google</p>
+                          <p className="text-xs text-muted-foreground">{t('reviewSource')}</p>
                         </div>
                       </CardContent>
                     </Card>
@@ -321,24 +377,20 @@ const ReviewsSection = () => {
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <CarouselPrevious className="bg-white/20 backdrop-blur-lg text-white hover:bg-white/30 border-white/20" />
-            <CarouselNext className="bg-white/20 backdrop-blur-lg text-white hover:bg-white/30 border-white/20" />
+            <CarouselPrevious className="bg-card text-foreground hover:bg-card/80 border-border shadow-lg" />
+            <CarouselNext className="bg-card text-foreground hover:bg-card/80 border-border shadow-lg" />
           </Carousel>
 
           {/* Google reviews link */}
           <div className="mt-8 flex justify-center">
-            <Button
-              asChild
-              variant="secondary"
-              className="bg-white/90 text-foreground hover:bg-white"
-            >
+            <Button asChild className="bg-primary hover:bg-primary/90">
               <a
                 href="https://www.google.com/maps/place/Kahvila+Ravintola+Saimaa+Oy/@61.5066667,27.2560361,17z/data=!4m8!3m7!1s0x469073801b964d6d:0xa50b1dbd31d8cb94!8m2!3d61.5066667!4d27.258611!9m1!1b1!16s%2Fg%2F11dxhzpvtq"
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 <Star className="mr-2 h-4 w-4" />
-                Jätä arvostelu Googleen
+                {t('leaveReviewGoogle')}
                 <ArrowRight className="ml-2 h-4 w-4" />
               </a>
             </Button>

@@ -4,7 +4,7 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -29,6 +29,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { useTranslations } from 'next-intl';
 
 interface ContactFormProps {
   initialSubject?: string;
@@ -40,52 +41,57 @@ const MESSAGE_MAX_LENGTH = 1000;
 const NAME_MAX_LENGTH = 50;
 const PHONE_MAX_LENGTH = 25;
 
-const formSchema = z.object({
-  name: z
-    .string()
-    .min(1, 'Nimi on pakollinen')
-    .max(NAME_MAX_LENGTH, `Nimi on liian pitkä (max ${NAME_MAX_LENGTH} merkkiä)`)
-    .refine((value) => !/^\d+$/.test(value), 'Nimi ei voi koostua pelkistä numeroista')
-    .refine((value) => /^[\p{L}\p{M}\s\-']+$/u.test(value), 'Nimi sisältää kiellettyjä merkkejä'),
+const createFormSchema = (t: (key: string) => string) =>
+  z.object({
+    name: z
+      .string()
+      .min(1, t('validation.nameRequired'))
+      .max(NAME_MAX_LENGTH, t('validation.nameTooLong'))
+      .refine((value) => !/^\d+$/.test(value), t('validation.nameOnlyNumbers'))
+      .refine(
+        (value) => /^[\p{L}\p{M}\s\-']+$/u.test(value),
+        t('validation.nameInvalidCharacters')
+      ),
 
-  email: z
-    .string()
-    .min(1, 'Sähköposti on pakollinen')
-    .regex(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'Virheellinen sähköpostiosoite'),
+    email: z
+      .string()
+      .min(1, t('validation.emailRequired'))
+      .regex(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, t('validation.emailInvalid')),
 
-  phone: z
-    .string()
-    .optional()
-    .refine(
-      (value) => !value || value.length <= PHONE_MAX_LENGTH,
-      `Puhelinnumero on liian pitkä (max ${PHONE_MAX_LENGTH} merkkiä)`
-    )
-    .refine(
-      (value) => !value || /^[0-9+\-() .]+$/.test(value),
-      'Puhelinnumero sisältää kiellettyjä merkkejä'
-    )
-    .refine((value) => !value || /[0-9]/.test(value), 'Puhelinnumero täytyy sisältää numeroita'),
+    phone: z
+      .string()
+      .optional()
+      .refine((value) => !value || value.length <= PHONE_MAX_LENGTH, t('validation.phoneTooLong'))
+      .refine(
+        (value) => !value || /^[0-9+\-() .]+$/.test(value),
+        t('validation.phoneInvalidCharacters')
+      )
+      .refine((value) => !value || /[0-9]/.test(value), t('validation.phoneNeedsNumbers')),
 
-  subject: z.string().min(1, 'Aihe on pakollinen'),
+    subject: z.string().min(1, t('validation.subjectRequired')),
 
-  message: z
-    .string()
-    .min(1, 'Viesti on pakollinen')
-    .max(MESSAGE_MAX_LENGTH, `Viesti on liian pitkä (max ${MESSAGE_MAX_LENGTH} merkkiä)`),
+    message: z
+      .string()
+      .min(1, t('validation.messageRequired'))
+      .max(MESSAGE_MAX_LENGTH, t('validation.messageTooLong')),
 
-  privacy: z.boolean().refine((value) => value === true, 'Tietosuojakäytäntö on hyväksyttävä'),
-});
+    privacy: z.boolean().refine((value) => value === true, t('validation.privacyRequired')),
+  });
 
-type FormData = z.infer<typeof formSchema>;
+type FormData = z.infer<ReturnType<typeof createFormSchema>>;
 
 export default function ContactForm({
-  initialSubject = 'Kabinettivaraus',
+  initialSubject,
   className = 'lg:w-3/5',
   onSubmitSuccess,
 }: ContactFormProps) {
+  const t = useTranslations('ContactPage');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [submitMessage, setSubmitMessage] = useState('');
+
+  const formSchema = createFormSchema(t);
+  const defaultSubject = initialSubject || t('subjectGeneral');
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -93,15 +99,31 @@ export default function ContactForm({
       name: '',
       email: '',
       phone: '',
-      subject: initialSubject,
+      subject: defaultSubject,
       message: '',
       privacy: false,
     },
   });
 
+  // Update form when language changes
+  useEffect(() => {
+    if (!initialSubject) {
+      form.setValue('subject', t('subjectGeneral'));
+    }
+  }, [t, form, initialSubject]);
+
   const handleSubmit = async (values: FormData) => {
     setIsSubmitting(true);
     setSubmitStatus('idle');
+
+    let finnishSubject = values.subject;
+    if (values.subject === 'Event Room Reservation') {
+      finnishSubject = 'Kabinettivaraus';
+    } else if (values.subject === 'Catering') {
+      finnishSubject = 'Pitopalvelut';
+    } else if (values.subject === 'General Inquiry') {
+      finnishSubject = 'Yleinen kysely';
+    }
 
     try {
       const response = await fetch('https://api.web3forms.com/submit', {
@@ -114,7 +136,7 @@ export default function ContactForm({
           name: values.name,
           email: values.email,
           phone: values.phone || 'Ei annettu',
-          subject: `Yhteydenotto: ${values.subject}`,
+          subject: `Yhteydenotto: ${finnishSubject}`,
           message: values.message,
           from_name: values.email,
         }),
@@ -124,31 +146,32 @@ export default function ContactForm({
 
       if (data.success) {
         setSubmitStatus('success');
-        setSubmitMessage('Kiitos yhteydenotostasi! Palaamme asiaan mahdollisimman pian.');
+        setSubmitMessage(t('formSuccess'));
 
         form.reset({
           name: '',
           email: '',
           phone: '',
-          subject: initialSubject,
+          subject: defaultSubject,
           message: '',
           privacy: false,
         });
+
+        // Force re-render
+        setTimeout(() => {
+          form.setValue('subject', defaultSubject);
+        }, 0);
 
         if (onSubmitSuccess) {
           onSubmitSuccess();
         }
       } else {
-        throw new Error(data.message || 'Lomakkeen lähetyksessä tapahtui virhe');
+        throw new Error(data.message || t('formError'));
       }
     } catch (error) {
       console.error('Form submission error:', error);
       setSubmitStatus('error');
-      setSubmitMessage(
-        error instanceof Error
-          ? error.message
-          : 'Lomakkeen lähetyksessä tapahtui virhe. Yritä uudelleen.'
-      );
+      setSubmitMessage(error instanceof Error ? error.message : t('formError'));
     } finally {
       setIsSubmitting(false);
     }
@@ -163,12 +186,17 @@ export default function ContactForm({
       animate={{ opacity: 1, x: 0 }}
       transition={{ delay: 0.5 }}
     >
-      <Card>
+      <Card
+        className="border-primary/20"
+        style={{
+          background: 'linear-gradient(135deg, #2a2a2a 0%, #232323 100%)',
+          boxShadow:
+            '0 10px 30px -5px rgba(0, 0, 0, 0.5), 0 0 20px rgba(223, 81, 35, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.05)',
+        }}
+      >
         <CardHeader>
-          <CardTitle className="text-2xl">Lähetä viesti</CardTitle>
-          <CardDescription>
-            Täytä alla oleva lomake, niin otamme yhteyttä mahdollisimman pian.
-          </CardDescription>
+          <CardTitle className="text-2xl">{t('formTitle')}</CardTitle>
+          <CardDescription>{t('formDescription')}</CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
@@ -179,9 +207,14 @@ export default function ContactForm({
                   name="name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Nimi *</FormLabel>
+                      <FormLabel>{t('formName')} *</FormLabel>
                       <FormControl>
-                        <Input placeholder="Nimesi" {...field} maxLength={NAME_MAX_LENGTH} />
+                        <Input
+                          placeholder={t('formName')}
+                          {...field}
+                          maxLength={NAME_MAX_LENGTH}
+                          className="border-border/60 bg-background/30"
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -192,9 +225,14 @@ export default function ContactForm({
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Sähköposti *</FormLabel>
+                      <FormLabel>{t('formEmail')} *</FormLabel>
                       <FormControl>
-                        <Input type="email" placeholder="sahkoposti@esimerkki.fi" {...field} />
+                        <Input
+                          type="email"
+                          placeholder={t('formEmail')}
+                          {...field}
+                          className="border-border/60 bg-background/30"
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -207,13 +245,14 @@ export default function ContactForm({
                 name="phone"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Puhelinnumero</FormLabel>
+                    <FormLabel>{t('formPhone')}</FormLabel>
                     <FormControl>
                       <Input
                         type="tel"
                         placeholder="+358 50 123 4567"
                         {...field}
                         maxLength={PHONE_MAX_LENGTH}
+                        className="border-border/60 bg-background/30"
                       />
                     </FormControl>
                     <FormMessage />
@@ -226,19 +265,26 @@ export default function ContactForm({
                 name="subject"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Aihe *</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormLabel>{t('formSubject')} *</FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      value={field.value}
+                      defaultValue={field.value}
+                    >
                       <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Valitse aihe" />
+                        <SelectTrigger className="border-border/60 bg-background/30 min-w-[150px]">
+                          <SelectValue
+                            placeholder={`${t('formSubject')}...`}
+                            className="text-foreground"
+                          />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="Kabinettivaraus">Kabinettivaraus</SelectItem>
-                        <SelectItem value="Pitopalvelu">Pitopalvelu</SelectItem>
-                        <SelectItem value="Tapahtumatiedustelu">Tapahtumatiedustelu</SelectItem>
-                        <SelectItem value="Palaute">Palaute</SelectItem>
-                        <SelectItem value="Muu">Muu</SelectItem>
+                        <SelectItem value={t('subjectGeneral')}>{t('subjectGeneral')}</SelectItem>
+                        <SelectItem value={t('subjectCabinetReservation')}>
+                          {t('subjectCabinetReservation')}
+                        </SelectItem>
+                        <SelectItem value={t('subjectCatering')}>{t('subjectCatering')}</SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -252,7 +298,7 @@ export default function ContactForm({
                 render={({ field }) => (
                   <FormItem>
                     <div className="flex justify-between items-center">
-                      <FormLabel>Viesti *</FormLabel>
+                      <FormLabel>{t('formMessage')} *</FormLabel>
                       <span
                         className={`text-xs ${
                           messageLength > MESSAGE_MAX_LENGTH
@@ -264,7 +310,12 @@ export default function ContactForm({
                       </span>
                     </div>
                     <FormControl>
-                      <Textarea placeholder="Kerro lisää..." rows={5} {...field} />
+                      <Textarea
+                        placeholder={t('formMessage')}
+                        rows={5}
+                        {...field}
+                        className="border-border/60 bg-background/30"
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -275,24 +326,26 @@ export default function ContactForm({
                 control={form.control}
                 name="privacy"
                 render={({ field }) => (
-                  <FormItem className="flex flex-row items-center space-x-2 space-y-0">
-                    <FormControl>
-                      <input
-                        type="checkbox"
-                        className="h-4 w-4 text-primary border-input rounded focus:ring-ring focus:ring-2 accent-primary mt-0.5"
-                        checked={field.value}
-                        onChange={field.onChange}
-                      />
-                    </FormControl>
-                    <div className="leading-none">
-                      <FormLabel className="text-sm font-normal">
-                        Hyväksyn{' '}
-                        <a href="/privacy" className="text-primary hover:underline">
-                          tietosuojakäytännön
-                        </a>
+                  <FormItem>
+                    <div className="flex flex-row items-start space-x-2">
+                      <FormControl>
+                        <input
+                          type="checkbox"
+                          className="h-4 w-4 text-primary border-input rounded focus:ring-ring focus:ring-2 accent-primary mt-0.5"
+                          checked={field.value}
+                          onChange={field.onChange}
+                        />
+                      </FormControl>
+                      <FormLabel className="text-sm font-normal cursor-pointer !text-foreground">
+                        {t('privacyAccept')}{' '}
+                        <Button variant="link" asChild className="h-auto p-0 text-sm">
+                          <a href="/privacy" target="_blank" rel="noopener noreferrer">
+                            {t('privacyPolicy')}
+                          </a>
+                        </Button>
                       </FormLabel>
-                      <FormMessage />
                     </div>
+                    <FormMessage className="ml-6" />
                   </FormItem>
                 )}
               />
@@ -323,23 +376,19 @@ export default function ContactForm({
                 {isSubmitting ? (
                   <>
                     <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2" />
-                    Lähetetään...
+                    {t('formSending')}
                   </>
                 ) : (
                   <>
                     <Send className="h-4 w-4 mr-2" />
-                    Lähetä viesti
+                    {t('formSubmit')}
                   </>
                 )}
               </Button>
 
-              <p className="text-sm text-muted-foreground text-center">* Pakolliset kentät</p>
-              <p className="text-sm text-muted-foreground text-center">
-                Kiireellisissä asioissa suosittelemme soittamaan suoraan ravintolaamme.
-              </p>
-              <p className="text-sm text-muted-foreground text-center">
-                Pöytävaraukset hoidetaan puhelimitse.
-              </p>
+              <p className="text-sm text-muted-foreground text-center">{t('requiredFields')}</p>
+              <p className="text-sm text-muted-foreground text-center">{t('urgentMatters')}</p>
+              <p className="text-sm text-muted-foreground text-center">{t('tableReservations')}</p>
             </form>
           </Form>
         </CardContent>

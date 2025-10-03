@@ -2,7 +2,7 @@
  * Copyright (c) 2025 Aaro Koinsaari
  */
 
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 import MenuPageClient from './MenuPageClient';
 
 export const metadata: Metadata = {
@@ -13,6 +13,9 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
+  },
+  alternates: {
+    canonical: 'https://bistrosaimaa.fi/menu',
   },
 };
 

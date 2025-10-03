@@ -2,69 +2,91 @@
  * Copyright (c) 2025 Aaro Koinsaari
  */
 
+'use client';
+
 import { Facebook, MapPin, Phone, Mail, Clock } from 'lucide-react';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { useTranslations } from 'next-intl';
 
 export default function Footer() {
+  const t = useTranslations('Footer');
+
   return (
-    <footer className="bg-card text-card-foreground py-12 border-t border-border">
+    <footer className="text-card-foreground py-12 border-t border-primary/20 gradient-dark footer-shadow">
       <div className="container mx-auto px-4">
         <div className="flex flex-col items-center space-y-8">
           {/* Logo and Title */}
           <div className="text-center">
-            <div className="text-2xl font-bold mb-2">Bistro Saimaa</div>
-            <p className="text-muted-foreground text-sm max-w-md">
-              Ravintola, kabinetit ja pitopalvelut
-            </p>
+            <div className="text-2xl font-bold mb-2">{t('bistroSaimaa')}</div>
+            <p className="text-muted-foreground text-sm max-w-md">{t('subtitle')}</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-2xl">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 w-full md:pl-16 max-w-2xl justify-items-center md:justify-items-start">
             {/* Contact Information */}
             <div className="text-center md:text-left">
-              <h3 className="text-lg font-semibold mb-3 flex items-center justify-center md:justify-start">
+              <h3 className="text-lg font-semibold mb-3 flex items-center justify-center">
                 <MapPin className="mr-2 h-5 w-5" />
-                Yhteystiedot
+                {t('contactInfo')}
               </h3>
-              <div className="space-y-2 text-sm text-muted-foreground">
-                <div className="flex items-center justify-center md:justify-start">
-                  <MapPin className="mr-2 h-4 w-4" />
-                  <span>Brahentie 42, 52300 Ristiina</span>
-                </div>
-                <div className="flex items-center justify-center md:justify-start">
-                  <Phone className="mr-2 h-4 w-4" />
-                  <a href="tel:+358504499322" className="hover:text-primary transition-colors">
-                    +358 50 4499 322
-                  </a>
-                </div>
-                <div className="flex items-center justify-center md:justify-start">
-                  <Mail className="mr-2 h-4 w-4" />
-                  <a
-                    href="mailto:bistrosaimaa@gmail.com"
-                    className="hover:text-primary transition-colors"
+              <div className="space-y-2 text-sm text-muted-foreground inline-block text-left">
+                <div className="flex items-center">
+                  <MapPin className="mr-2 h-4 w-4 flex-shrink-0" />
+                  <Button
+                    variant="link"
+                    asChild
+                    className="h-auto p-0 text-sm text-muted-foreground hover:text-primary"
                   >
-                    bistrosaimaa@gmail.com
-                  </a>
+                    <Link
+                      href="https://maps.google.com/?q=Bistro+Saimaa+Ristiina"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {t('addressLine1')}
+                    </Link>
+                  </Button>
+                </div>
+                <div className="flex items-center">
+                  <Phone className="mr-2 h-4 w-4 flex-shrink-0" />
+                  <Button
+                    variant="link"
+                    asChild
+                    className="h-auto p-0 text-sm text-muted-foreground hover:text-primary"
+                  >
+                    <Link href="tel:+358504499322">+358 50 4499 322</Link>
+                  </Button>
+                </div>
+                <div className="flex items-center">
+                  <Mail className="mr-2 h-4 w-4 flex-shrink-0" />
+                  <Button
+                    variant="link"
+                    asChild
+                    className="h-auto p-0 text-sm text-muted-foreground hover:text-primary"
+                  >
+                    <Link href="mailto:bistrosaimaa@gmail.com">bistrosaimaa@gmail.com</Link>
+                  </Button>
                 </div>
               </div>
             </div>
 
             {/* Opening Hours */}
             <div className="text-center md:text-left">
-              <h3 className="text-lg font-semibold mb-3 flex items-center justify-center md:justify-start">
+              <h3 className="text-lg font-semibold mb-3 flex items-center justify-center">
                 <Clock className="mr-2 h-5 w-5" />
-                Aukioloajat
+                {t('openingHours')}
               </h3>
-              <div className="space-y-2 text-sm text-muted-foreground">
-                <div className="flex justify-between max-w-48 mx-auto md:mx-0">
-                  <span>Ma-Pe:</span>
-                  <span>07:00 - 20:00</span>
+              <div className="space-y-2 text-sm text-muted-foreground inline-block text-left">
+                <div className="flex gap-4">
+                  <span className="w-16">{t('monFri')}</span>
+                  <span>{t('monFriHours')}</span>
                 </div>
-                <div className="flex justify-between max-w-48 mx-auto md:mx-0">
-                  <span>La:</span>
-                  <span>09:00 - 20:00</span>
+                <div className="flex gap-4">
+                  <span className="w-16">{t('saturday')}</span>
+                  <span>{t('saturdayHours')}</span>
                 </div>
-                <div className="flex justify-between max-w-48 mx-auto md:mx-0">
-                  <span>Su:</span>
-                  <span>11:00 - 20:00</span>
+                <div className="flex gap-4">
+                  <span className="w-16">{t('sunday')}</span>
+                  <span>{t('sundayHours')}</span>
                 </div>
               </div>
             </div>
@@ -72,30 +94,40 @@ export default function Footer() {
 
           {/* Social Media Links */}
           <div className="flex gap-6">
-            <a
+            <Link
               href="https://www.facebook.com/bistrosaimaaoy"
-              className="hover:text-primary transition-colors"
               target="_blank"
               rel="noopener noreferrer"
+              className="bg-muted hover:bg-primary/10 text-muted-foreground hover:text-primary h-12 w-12 rounded-full flex items-center justify-center transition-colors"
             >
               <Facebook className="h-5 w-5" />
-            </a>
+            </Link>
             {/* <a href="#" className="hover:text-primary transition-colors">
               <Instagram className="h-5 w-5" />
             </a> */}
           </div>
 
-          {/* Copyright */}
+          {/* Copyright and Privacy Policy */}
           <div className="text-center border-t border-border pt-6 w-full">
-            <p className="text-muted-foreground text-sm">
-              &copy; 2025 Bistro Saimaa Oy. Kaikki oikeudet pidätetään. &nbsp;|&nbsp; Made with 🩵 by{' '}
+            <div className="mb-3">
+              <Button
+                variant="link"
+                asChild
+                className="h-auto p-0 text-sm text-muted-foreground hover:text-primary"
+              >
+                <Link href="/privacy">{t('privacyPolicy')}</Link>
+              </Button>
+            </div>
+            <p className="text-muted-foreground text-sm">&copy; {t('copyright')}</p>
+            <p className="text-muted-foreground text-sm mt-2">
+              {t('madeWith')}{' '}
               <a
                 href="https://github.com/koinsaari"
-                className="hover:underline transition-colors hover:text-primary"
+                className="underline hover:text-primary transition-colors"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Aaro
+                {t('authorName')}
               </a>
             </p>
           </div>
