@@ -16,8 +16,8 @@ const PrivacyPolicyHero = () => {
     className="text-primary-foreground pt-32 pb-16 relative overflow-hidden"
     style={{
       background:
-        'radial-gradient(ellipse at top, rgba(223, 81, 35, 0.2) 0%, rgba(42, 42, 42, 0.9) 40%, #1c1c1c 100%)',
-      boxShadow: '0 10px 40px -10px rgba(223, 81, 35, 0.3), inset 0 1px 0 rgba(255, 107, 61, 0.1)',
+        'radial-gradient(ellipse at top, rgba(93, 138, 122, 0.15) 0%, rgba(248, 246, 241, 0.9) 40%, #f8f6f1 100%)',
+      boxShadow: '0 10px 40px -10px rgba(93, 138, 122, 0.2), inset 0 1px 0 rgba(122, 163, 150, 0.1)',
     }}
   >
     <div className="container mx-auto px-4 relative z-10">

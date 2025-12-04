@@ -115,9 +115,9 @@ export default function MenuPageClient() {
         className="pt-32 pb-16"
         style={{
           background:
-            'radial-gradient(ellipse at top, rgba(223, 81, 35, 0.2) 0%, rgba(42, 42, 42, 0.9) 40%, #1c1c1c 100%)',
+            'radial-gradient(ellipse at top, rgba(93, 138, 122, 0.15) 0%, rgba(248, 246, 241, 0.9) 40%, #f8f6f1 100%)',
           boxShadow:
-            '0 10px 40px -10px rgba(223, 81, 35, 0.3), inset 0 1px 0 rgba(255, 107, 61, 0.1)',
+            '0 10px 40px -10px rgba(93, 138, 122, 0.2), inset 0 1px 0 rgba(122, 163, 150, 0.1)',
         }}
       >
         <div className="container mx-auto px-4 text-center">
@@ -145,7 +145,7 @@ export default function MenuPageClient() {
         className="py-8 md:py-16 relative overflow-hidden"
         style={{
           background:
-            'radial-gradient(ellipse at center, rgba(223, 81, 35, 0.3) 0%, rgba(223, 81, 35, 0.1) 30%, rgba(28, 28, 28, 0) 60%)',
+            'radial-gradient(ellipse at center, rgba(223, 81, 35, 0.15) 0%, rgba(223, 81, 35, 0.05) 30%, transparent 60%)',
         }}
         onMouseMove={handleMouseMove}
       >
@@ -154,7 +154,7 @@ export default function MenuPageClient() {
           className="absolute inset-0 pointer-events-none md:hidden"
           style={{
             background:
-              'radial-gradient(ellipse at center, rgba(223, 81, 35, 0.4) 0%, rgba(223, 81, 35, 0.15) 40%, transparent 70%)',
+              'radial-gradient(ellipse at center, rgba(223, 81, 35, 0.25) 0%, rgba(223, 81, 35, 0.1) 40%, transparent 70%)',
           }}
           animate={{
             opacity: [0.5, 0.8, 0.5],
@@ -197,7 +197,7 @@ export default function MenuPageClient() {
             transition={{ duration: 0.7 }}
           >
             <h2
-              className="text-3xl md:text-4xl font-bold mb-2 drop-shadow-lg bg-gradient-to-r from-primary via-primary-foreground to-primary bg-clip-text text-transparent animate-gradient"
+              className="text-3xl md:text-4xl font-bold mb-2 drop-shadow-lg bg-gradient-to-r from-[#df5123] via-[#ff6b3d] to-[#df5123] bg-clip-text text-transparent animate-gradient"
               style={{
                 backgroundSize: '200% auto',
                 animation: 'gradient 8s linear infinite',
@@ -222,7 +222,7 @@ export default function MenuPageClient() {
                         className="relative w-full aspect-[1414/2000] max-h-[85vh] md:max-h-none rounded-lg md:border-2 md:border-primary/20 cursor-pointer transition-transform hover:scale-[1.02]"
                         style={{
                           boxShadow:
-                            '0 20px 50px -10px rgba(0, 0, 0, 0.6), 0 0 30px rgba(223, 81, 35, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.05)',
+                            '0 20px 50px -10px rgba(0, 0, 0, 0.1), 0 0 30px rgba(93, 138, 122, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.8)',
                         }}
                         onClick={() => setSelectedImage(photo.src)}
                       >

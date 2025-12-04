@@ -20,9 +20,9 @@ const ContactHero = () => {
       className="pt-32 pb-16"
       style={{
         background:
-          'radial-gradient(ellipse at top, rgba(223, 81, 35, 0.2) 0%, rgba(42, 42, 42, 0.9) 40%, #1c1c1c 100%)',
+          'radial-gradient(ellipse at top, rgba(93, 138, 122, 0.15) 0%, rgba(248, 246, 241, 0.9) 40%, #f8f6f1 100%)',
         boxShadow:
-          '0 10px 40px -10px rgba(223, 81, 35, 0.3), inset 0 1px 0 rgba(255, 107, 61, 0.1)',
+          '0 10px 40px -10px rgba(93, 138, 122, 0.2), inset 0 1px 0 rgba(122, 163, 150, 0.1)',
       }}
     >
       <div className="container mx-auto px-4">
@@ -61,9 +61,9 @@ const ContactInfoCard = () => {
       <Card
         className="border-primary/20"
         style={{
-          background: 'linear-gradient(135deg, #2a2a2a 0%, #232323 100%)',
+          background: 'linear-gradient(135deg, #ffffff 0%, #f8f6f1 100%)',
           boxShadow:
-            '0 10px 30px -5px rgba(0, 0, 0, 0.5), 0 0 20px rgba(223, 81, 35, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.05)',
+            '0 10px 30px -5px rgba(0, 0, 0, 0.08), 0 0 20px rgba(93, 138, 122, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.8)',
         }}
       >
         <CardHeader>
@@ -197,9 +197,9 @@ const MapSection = () => {
       <Card
         className="border-primary/20"
         style={{
-          background: 'linear-gradient(135deg, #2a2a2a 0%, #232323 100%)',
+          background: 'linear-gradient(135deg, #ffffff 0%, #f8f6f1 100%)',
           boxShadow:
-            '0 10px 30px -5px rgba(0, 0, 0, 0.5), 0 0 20px rgba(223, 81, 35, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.05)',
+            '0 10px 30px -5px rgba(0, 0, 0, 0.08), 0 0 20px rgba(93, 138, 122, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.8)',
         }}
       >
         <CardHeader>

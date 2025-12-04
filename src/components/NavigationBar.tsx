@@ -86,7 +86,7 @@ export default function NavigationBar() {
           <Link href="/" className="flex items-center space-x-3 gap-4 ml-2 sm:ml-0">
             <div className="relative h-12 w-12">
               <Image
-                src="/logo-saimaa-white.png"
+                src="/logo-saimaa.png"
                 alt="Bistro Saimaa"
                 fill
                 className="object-contain transition-all duration-300 scale-150"

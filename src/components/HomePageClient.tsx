@@ -99,7 +99,7 @@ const FeaturedSection = () => {
               className="overflow-hidden hover:shadow-2xl transition-all duration-300 h-full flex flex-col border-primary/20 p-0"
               style={{
                 boxShadow:
-                  '0 10px 30px -5px rgba(0, 0, 0, 0.5), 0 0 20px rgba(223, 81, 35, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.05)',
+                  '0 10px 30px -5px rgba(0, 0, 0, 0.08), 0 0 20px rgba(93, 138, 122, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.8)',
               }}
             >
               <div className="h-64 overflow-hidden relative">
@@ -113,7 +113,7 @@ const FeaturedSection = () => {
               <CardContent
                 className="p-6 text-center flex-1 flex flex-col"
                 style={{
-                  background: 'linear-gradient(135deg, #2a2a2a 0%, #232323 100%)',
+                  background: 'linear-gradient(135deg, #ffffff 0%, #f8f6f1 100%)',
                 }}
               >
                 <CardTitle className="text-foreground font-bold mb-2">{t('menuTitle')}</CardTitle>
@@ -139,7 +139,7 @@ const FeaturedSection = () => {
               className="overflow-hidden hover:shadow-2xl transition-all duration-300 h-full flex flex-col border-primary/20 p-0"
               style={{
                 boxShadow:
-                  '0 10px 30px -5px rgba(0, 0, 0, 0.5), 0 0 20px rgba(223, 81, 35, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.05)',
+                  '0 10px 30px -5px rgba(0, 0, 0, 0.08), 0 0 20px rgba(93, 138, 122, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.8)',
               }}
             >
               <div className="h-64 overflow-hidden relative">
@@ -153,7 +153,7 @@ const FeaturedSection = () => {
               <CardContent
                 className="p-6 text-center flex-1 flex flex-col"
                 style={{
-                  background: 'linear-gradient(135deg, #2a2a2a 0%, #232323 100%)',
+                  background: 'linear-gradient(135deg, #ffffff 0%, #f8f6f1 100%)',
                 }}
               >
                 <CardTitle className="text-foreground font-bold mb-2">{t('lunchTitle')}</CardTitle>
@@ -186,7 +186,7 @@ const FeaturedSection = () => {
               className="overflow-hidden hover:shadow-2xl transition-all duration-300 h-full flex flex-col border-primary/20 p-0"
               style={{
                 boxShadow:
-                  '0 10px 30px -5px rgba(0, 0, 0, 0.5), 0 0 20px rgba(223, 81, 35, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.05)',
+                  '0 10px 30px -5px rgba(0, 0, 0, 0.08), 0 0 20px rgba(93, 138, 122, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.8)',
               }}
             >
               <div className="h-64 overflow-hidden relative">
@@ -200,7 +200,7 @@ const FeaturedSection = () => {
               <CardContent
                 className="p-6 text-center flex-1 flex flex-col"
                 style={{
-                  background: 'linear-gradient(135deg, #2a2a2a 0%, #232323 100%)',
+                  background: 'linear-gradient(135deg, #ffffff 0%, #f8f6f1 100%)',
                 }}
               >
                 <CardTitle className="text-foreground font-bold mb-2">
@@ -307,7 +307,7 @@ const ReviewsSection = () => {
       className="relative py-24 overflow-hidden"
       style={{
         background:
-          'radial-gradient(ellipse at center, rgba(223, 81, 35, 0.35) 0%, rgba(223, 81, 35, 0.15) 30%, rgba(42, 42, 42, 0.6) 60%, #1c1c1c 100%)',
+          'radial-gradient(ellipse at center, rgba(93, 138, 122, 0.2) 0%, rgba(93, 138, 122, 0.08) 30%, rgba(248, 246, 241, 0.9) 60%, #f8f6f1 100%)',
       }}
     >
       <div className="container mx-auto px-4 relative z-10">
@@ -333,9 +333,9 @@ const ReviewsSection = () => {
                     <Card
                       className="h-80 md:h-80 min-h-[400px] md:min-h-0 border-primary/20 relative overflow-hidden"
                       style={{
-                        background: 'linear-gradient(135deg, #2a2a2a 0%, #232323 100%)',
+                        background: 'linear-gradient(135deg, #ffffff 0%, #f8f6f1 100%)',
                         boxShadow:
-                          '0 10px 30px -5px rgba(0, 0, 0, 0.5), 0 0 20px rgba(223, 81, 35, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.05)',
+                          '0 10px 30px -5px rgba(0, 0, 0, 0.08), 0 0 20px rgba(93, 138, 122, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.8)',
                       }}
                     >
                       <CardContent className="p-6 md:p-8 h-full flex flex-col justify-center overflow-y-auto">

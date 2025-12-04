@@ -189,9 +189,9 @@ export default function ContactForm({
       <Card
         className="border-primary/20"
         style={{
-          background: 'linear-gradient(135deg, #2a2a2a 0%, #232323 100%)',
+          background: 'linear-gradient(135deg, #ffffff 0%, #f8f6f1 100%)',
           boxShadow:
-            '0 10px 30px -5px rgba(0, 0, 0, 0.5), 0 0 20px rgba(223, 81, 35, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.05)',
+            '0 10px 30px -5px rgba(0, 0, 0, 0.08), 0 0 20px rgba(93, 138, 122, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.8)',
         }}
       >
         <CardHeader>
