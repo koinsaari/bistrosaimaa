@@ -2,6 +2,7 @@
   "Navigation": {
     "home": "Etusivu",
     "menu": "Menu",
+    "gallery": "Galleria",
     "contact": "Ota yhteyttä"
   },
   "HomePage": {
@@ -120,6 +121,18 @@
     "title": "404 - Sivua ei löytynyt",
     "description": "Pahoittelemme, mutta etsimääsi sivua ei löydy.",
     "backToHome": "Palaa etusivulle"
+  },
+  "Gallery": {
+    "title": "Galleria",
+    "subtitle": "Tutustu ravintolaamme",
+    "viewGallery": "Katso galleria",
+    "noImages": "Kuvia ei ole vielä saatavilla",
+    "categoryAll": "Kaikki",
+    "categoryInterior": "Sisätilat",
+    "categoryOutside": "Ulkotilat",
+    "categoryFood": "Ruoka",
+    "categorySauna": "Saunatilat",
+    "categoryKabinetti": "Kabinetti"
   },
   "PrivacyPage": {
     "title": "Tietosuojaseloste",

@@ -2,6 +2,7 @@
   "Navigation": {
     "home": "Home",
     "menu": "Menu",
+    "gallery": "Gallery",
     "contact": "Contact Us"
   },
   "HomePage": {
@@ -120,6 +121,18 @@
     "title": "404 - Page Not Found",
     "description": "Sorry, the page you are looking for does not exist.",
     "backToHome": "Back to Home"
+  },
+  "Gallery": {
+    "title": "Gallery",
+    "subtitle": "Explore our restaurant",
+    "viewGallery": "View Gallery",
+    "noImages": "No images available yet",
+    "categoryAll": "All",
+    "categoryInterior": "Interior",
+    "categoryOutside": "Outside",
+    "categoryFood": "Food",
+    "categorySauna": "Sauna Facilities",
+    "categoryKabinetti": "Event Room"
   },
   "PrivacyPage": {
     "title": "Privacy Policy",

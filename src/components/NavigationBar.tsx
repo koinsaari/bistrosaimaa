@@ -109,7 +109,7 @@ export default function NavigationBar() {
                 size="sm"
                 className="rounded-full px-5 py-2 text-foreground hover:bg-background hover:text-primary hover:shadow-sm transition-all duration-200"
               >
-                <Link href="/">{t('home')}</Link>
+                <Link href="/menu">{t('menu')}</Link>
               </Button>
               <Button
                 asChild
@@ -117,7 +117,7 @@ export default function NavigationBar() {
                 size="sm"
                 className="rounded-full px-5 py-2 text-foreground hover:bg-background hover:text-primary hover:shadow-sm transition-all duration-200"
               >
-                <Link href="/menu">{t('menu')}</Link>
+                <Link href="/gallery">{t('gallery')}</Link>
               </Button>
             </div>
 
@@ -169,7 +169,7 @@ export default function NavigationBar() {
                 className="justify-start text-foreground hover:bg-muted hover:text-primary rounded-lg py-3 transition-all duration-200"
                 onClick={() => setIsMenuOpen(false)}
               >
-                <Link href="/">{t('home')}</Link>
+                <Link href="/menu">{t('menu')}</Link>
               </Button>
               <Button
                 asChild
@@ -177,7 +177,7 @@ export default function NavigationBar() {
                 className="justify-start text-foreground hover:bg-muted hover:text-primary rounded-lg py-3 transition-all duration-200"
                 onClick={() => setIsMenuOpen(false)}
               >
-                <Link href="/menu">{t('menu')}</Link>
+                <Link href="/gallery">{t('gallery')}</Link>
               </Button>
               <Button
                 asChild

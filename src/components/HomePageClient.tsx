@@ -20,6 +20,7 @@ import {
 import Autoplay from 'embla-carousel-autoplay';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
+import GalleryPreviewSection from './GalleryPreviewSection';
 
 const HeroSection = () => {
   const t = useTranslations('HomePage');
@@ -32,7 +33,7 @@ const HeroSection = () => {
       <div
         className="absolute inset-0 w-full h-full"
         style={{
-          backgroundImage: "url('/saimaa-interior_1.jpeg')",
+          backgroundImage: "url('/gallery/interior-4.jpg')",
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }}
@@ -104,7 +105,7 @@ const FeaturedSection = () => {
             >
               <div className="h-64 overflow-hidden relative">
                 <Image
-                  src="/lounas_3.jpeg"
+                  src="/gallery/food-3.jpeg"
                   alt="À la carte menu"
                   fill
                   className="object-cover hover:scale-105 transition-transform duration-300"
@@ -144,7 +145,7 @@ const FeaturedSection = () => {
             >
               <div className="h-64 overflow-hidden relative">
                 <Image
-                  src="/lounas_1.jpeg"
+                  src="/gallery/food-1.jpeg"
                   alt="Lounas"
                   fill
                   className="object-cover hover:scale-105 transition-transform duration-300"
@@ -191,7 +192,7 @@ const FeaturedSection = () => {
             >
               <div className="h-64 overflow-hidden relative">
                 <Image
-                  src="/kakku.jpeg"
+                  src="/gallery/food-4.jpeg"
                   alt="Pitopalvelut"
                   fill
                   className="object-cover hover:scale-105 transition-transform duration-300"
@@ -257,7 +258,7 @@ const ReviewsSection = () => {
       quote: 'Todella kiva viihtyisä ja hyvä ruoka, 10 pistettä!',
       author: 'Mirja H.',
       rating: 1,
-      note: '(Tarkoitti varmaan 5/5 ⭐)',
+      note: '(10 pistettä mutta 1 tähti?? Varmaan tarkoitti että ihan ykkösravintola 😉)',
     },
     {
       id: 6,
@@ -406,6 +407,7 @@ export default function HomePageClient() {
     <div className="font-sans bg-background">
       <HeroSection />
       <FeaturedSection />
+      <GalleryPreviewSection />
       <ReviewsSection />
     </div>
   );

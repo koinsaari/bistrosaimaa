@@ -17,17 +17,20 @@ const ContactHero = () => {
   return (
     <div
       id="contact-hero"
-      className="pt-32 pb-16"
-      style={{
-        background:
-          'radial-gradient(ellipse at top, rgba(93, 138, 122, 0.15) 0%, rgba(248, 246, 241, 0.9) 40%, #f8f6f1 100%)',
-        boxShadow:
-          '0 10px 40px -10px rgba(93, 138, 122, 0.2), inset 0 1px 0 rgba(122, 163, 150, 0.1)',
-      }}
+      className="relative min-h-[40vh] flex items-center justify-center text-white"
     >
-      <div className="container mx-auto px-4">
+      <div
+        className="absolute inset-0 w-full h-full"
+        style={{
+          backgroundImage: "url('/gallery/outside-3.jpg')",
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+      />
+      <div className="absolute inset-0 bg-black/50" />
+      <div className="container mx-auto px-4 relative z-10 py-20">
         <motion.h1
-          className="text-4xl md:text-6xl font-bold mb-6 text-center text-foreground drop-shadow-lg"
+          className="text-4xl md:text-6xl font-bold mb-6 text-center drop-shadow-lg"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
@@ -36,7 +39,7 @@ const ContactHero = () => {
         </motion.h1>
 
         <motion.p
-          className="text-center text-lg md:text-xl max-w-2xl mx-auto text-muted-foreground"
+          className="text-center text-lg md:text-xl max-w-2xl mx-auto text-white/90"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3, duration: 0.7 }}
