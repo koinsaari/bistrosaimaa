@@ -38,6 +38,9 @@ updates:
           - "@eslint/*"
           - "postcss"
           - "autoprefixer"
+      everything-else:
+        patterns:
+          - "*"
 
   - package-ecosystem: "github-actions"
     directory: "/"
