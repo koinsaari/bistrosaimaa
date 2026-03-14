@@ -1,28 +1,29 @@
 import { Page, expect } from '@playwright/test';
 
 export class NavigationPage {
+  private desktopNav = this.page.locator('[data-testid="nav-desktop"]');
+
   constructor(private page: Page) {}
 
   async clickLogo() {
-    await this.page.locator('nav a[href="/"]').click();
+    await this.page.locator('[data-testid="nav-logo"]').click();
   }
 
   async clickMenu() {
-    await this.page.locator('nav .hidden.md\\:flex a[href="/menu"]').click();
+    await this.desktopNav.locator('[data-testid="nav-link-menu"]').click();
   }
 
   async clickGallery() {
-    await this.page.locator('nav .hidden.md\\:flex a[href="/gallery"]').click();
+    await this.desktopNav.locator('[data-testid="nav-link-gallery"]').click();
   }
 
   async clickContact() {
-    await this.page.locator('nav .hidden.md\\:flex a[href="/contact"]').click();
+    await this.desktopNav.locator('[data-testid="nav-link-contact"]').click();
   }
 
   async expectLinksVisible() {
-    const nav = this.page.locator('nav .hidden.md\\:flex');
-    await expect(nav.locator('a[href="/menu"]')).toBeVisible();
-    await expect(nav.locator('a[href="/gallery"]')).toBeVisible();
-    await expect(nav.locator('a[href="/contact"]')).toBeVisible();
+    await expect(this.desktopNav.locator('[data-testid="nav-link-menu"]')).toBeVisible();
+    await expect(this.desktopNav.locator('[data-testid="nav-link-gallery"]')).toBeVisible();
+    await expect(this.desktopNav.locator('[data-testid="nav-link-contact"]')).toBeVisible();
   }
 }

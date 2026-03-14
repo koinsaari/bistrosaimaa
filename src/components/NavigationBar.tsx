@@ -71,6 +71,7 @@ export default function NavigationBar() {
 
   return (
     <nav
+      data-testid="navbar"
       ref={navbarRef}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isVisible ? 'translate-y-0' : '-translate-y-full'
@@ -83,7 +84,7 @@ export default function NavigationBar() {
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-3 gap-4 ml-2 sm:ml-0">
+          <Link href="/" data-testid="nav-logo" className="flex items-center space-x-3 gap-4 ml-2 sm:ml-0">
             <div className="relative h-12 w-12">
               <Image
                 src="/logo-saimaa.png"
@@ -101,7 +102,7 @@ export default function NavigationBar() {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-2">
+          <div className="hidden md:flex items-center space-x-2" data-testid="nav-desktop">
             <div className="flex items-center space-x-1 bg-muted/50 backdrop-blur-sm rounded-full p-1">
               <Button
                 asChild
@@ -109,7 +110,7 @@ export default function NavigationBar() {
                 size="sm"
                 className="rounded-full px-5 py-2 text-foreground hover:bg-background hover:text-primary hover:shadow-sm transition-all duration-200"
               >
-                <Link href="/menu">{t('menu')}</Link>
+                <Link href="/menu" data-testid="nav-link-menu">{t('menu')}</Link>
               </Button>
               <Button
                 asChild
@@ -117,7 +118,7 @@ export default function NavigationBar() {
                 size="sm"
                 className="rounded-full px-5 py-2 text-foreground hover:bg-background hover:text-primary hover:shadow-sm transition-all duration-200"
               >
-                <Link href="/gallery">{t('gallery')}</Link>
+                <Link href="/gallery" data-testid="nav-link-gallery">{t('gallery')}</Link>
               </Button>
             </div>
 
@@ -125,7 +126,7 @@ export default function NavigationBar() {
               asChild
               className="ml-3 rounded-full px-5 py-2 bg-primary text-primary-foreground hover:bg-primary/90 shadow-md hover:shadow-lg transition-all duration-200 hover:scale-105"
             >
-              <Link href="/contact" className="flex items-center space-x-2">
+              <Link href="/contact" data-testid="nav-link-contact" className="flex items-center space-x-2">
                 <Mail className="h-4 w-4" />
                 <span>{t('contact')}</span>
               </Link>

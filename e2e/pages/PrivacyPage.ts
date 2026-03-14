@@ -13,7 +13,7 @@ export class PrivacyPage {
 
   async expectAllSectionsVisible() {
     for (let i = 1; i <= 7; i++) {
-      await expect(this.page.getByRole('heading', { name: new RegExp(`^${i}\\.`) })).toBeVisible();
+      await expect(this.page.locator(`[data-testid="privacy-section-${i}"]`)).toBeVisible();
     }
   }
 

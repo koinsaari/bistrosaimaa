@@ -220,7 +220,7 @@ export default function MenuPageClient() {
               <Carousel className="w-full relative" opts={{ align: 'center', loop: true }}>
                 <CarouselContent className="-ml-0">
                   {menuPhotos.map((photo) => (
-                    <CarouselItem key={photo.id} className="pl-0">
+                    <CarouselItem key={photo.id} className="pl-0" data-testid="menu-carousel-item">
                       <div
                         className="relative w-full aspect-[1414/2000] max-h-[85vh] md:max-h-none rounded-lg md:border-2 md:border-primary/20 cursor-pointer transition-transform hover:scale-[1.02]"
                         style={{
@@ -263,6 +263,7 @@ export default function MenuPageClient() {
 
       {selectedImage && (
         <div
+          data-testid="menu-fullscreen"
           className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4"
           onClick={() => setSelectedImage(null)}
         >

@@ -28,6 +28,7 @@ const HeroSection = () => {
   return (
     <div
       id="home-hero"
+      data-testid="home-hero"
       className="text-white relative overflow-hidden min-h-screen flex items-center justify-center"
     >
       <div
@@ -81,7 +82,7 @@ const FeaturedSection = () => {
   const sectionRef = useRef(null);
 
   return (
-    <section ref={sectionRef} className="py-16 bg-muted/30">
+    <section ref={sectionRef} data-testid="home-offerings" className="py-16 bg-muted/30">
       <div className="container mx-auto px-4">
         <h2 className="text-3xl font-bold text-center mb-12 text-foreground">
           {t('ourOfferings')}
@@ -97,6 +98,7 @@ const FeaturedSection = () => {
             className="w-full md:flex-1 max-w-sm"
           >
             <Card
+              data-testid="offering-card-menu"
               className="overflow-hidden hover:shadow-2xl transition-all duration-300 h-full flex flex-col border-primary/20 p-0"
               style={{
                 boxShadow:
@@ -137,6 +139,7 @@ const FeaturedSection = () => {
             className="w-full md:flex-1 max-w-sm"
           >
             <Card
+              data-testid="offering-card-lunch"
               className="overflow-hidden hover:shadow-2xl transition-all duration-300 h-full flex flex-col border-primary/20 p-0"
               style={{
                 boxShadow:
@@ -184,6 +187,7 @@ const FeaturedSection = () => {
             className="w-full md:flex-1 max-w-sm"
           >
             <Card
+              data-testid="offering-card-catering"
               className="overflow-hidden hover:shadow-2xl transition-all duration-300 h-full flex flex-col border-primary/20 p-0"
               style={{
                 boxShadow:
@@ -305,6 +309,7 @@ const ReviewsSection = () => {
 
   return (
     <section
+      data-testid="home-reviews"
       className="relative py-24 overflow-hidden"
       style={{
         background:

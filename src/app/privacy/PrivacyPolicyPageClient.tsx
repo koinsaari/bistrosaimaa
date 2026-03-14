@@ -57,7 +57,7 @@ const PrivacyPolicyContent = () => {
         </section>
 
         <section>
-          <h3 className="text-xl font-semibold text-foreground mb-3">{t('section1Title')}</h3>
+          <h3 data-testid="privacy-section-1" className="text-xl font-semibold text-foreground mb-3">{t('section1Title')}</h3>
           <p className="text-foreground mb-3">
             {t('section1Intro')}
           </p>
@@ -71,7 +71,7 @@ const PrivacyPolicyContent = () => {
         </section>
 
         <section>
-          <h3 className="text-xl font-semibold text-foreground mb-3">
+          <h3 data-testid="privacy-section-2" className="text-xl font-semibold text-foreground mb-3">
             {t('section2Title')}
           </h3>
           <p className="text-foreground">
@@ -80,7 +80,7 @@ const PrivacyPolicyContent = () => {
         </section>
 
         <section>
-          <h3 className="text-xl font-semibold text-foreground mb-3">
+          <h3 data-testid="privacy-section-3" className="text-xl font-semibold text-foreground mb-3">
             {t('section3Title')}
           </h3>
           <p className="text-foreground mb-4">{t('section3Intro')}</p>
@@ -94,7 +94,7 @@ const PrivacyPolicyContent = () => {
         </section>
 
         <section>
-          <h3 className="text-xl font-semibold text-foreground mb-3">{t('section4Title')}</h3>
+          <h3 data-testid="privacy-section-4" className="text-xl font-semibold text-foreground mb-3">{t('section4Title')}</h3>
           <p className="text-foreground mb-4">
             {t('section4Text')}
           </p>
@@ -107,7 +107,7 @@ const PrivacyPolicyContent = () => {
         </section>
 
         <section>
-          <h3 className="text-xl font-semibold text-foreground mb-3">{t('section5Title')}</h3>
+          <h3 data-testid="privacy-section-5" className="text-xl font-semibold text-foreground mb-3">{t('section5Title')}</h3>
           <p className="text-foreground mb-4">
             {t('section5Intro')}
           </p>
@@ -131,7 +131,7 @@ const PrivacyPolicyContent = () => {
         </section>
 
         <section>
-          <h3 className="text-xl font-semibold text-foreground mb-3">{t('section6Title')}</h3>
+          <h3 data-testid="privacy-section-6" className="text-xl font-semibold text-foreground mb-3">{t('section6Title')}</h3>
           <p className="text-foreground mb-3">{t('section6Intro')}</p>
           <ul className="list-disc pl-6 text-foreground space-y-1">
             <li>{t('section6Item1')}</li>
@@ -144,7 +144,7 @@ const PrivacyPolicyContent = () => {
         </section>
 
         <section>
-          <h3 className="text-xl font-semibold text-foreground mb-3">{t('section7Title')}</h3>
+          <h3 data-testid="privacy-section-7" className="text-xl font-semibold text-foreground mb-3">{t('section7Title')}</h3>
           <p className="text-foreground mb-3">{t('section7Line1')}</p>
           <p className="text-foreground mb-1">{t('section7Line2')}</p>
           <p className="text-foreground mb-1">{t('section7Line3')}</p>

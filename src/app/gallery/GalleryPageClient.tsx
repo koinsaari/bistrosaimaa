@@ -201,7 +201,7 @@ export default function GalleryPageClient() {
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: index * 0.05, duration: 0.3 }}
-                    className="aspect-square relative rounded-lg overflow-hidden cursor-pointer border border-primary/20 group"
+                    data-testid="gallery-image" className="aspect-square relative rounded-lg overflow-hidden cursor-pointer border border-primary/20 group"
                     style={{
                       boxShadow:
                         '0 4px 15px -3px rgba(0, 0, 0, 0.08), 0 0 10px rgba(93, 138, 122, 0.05)',
@@ -256,7 +256,7 @@ export default function GalleryPageClient() {
             <Button
               variant="ghost"
               size="icon"
-              className="absolute left-4 top-1/2 -translate-y-1/2 z-10 text-white hover:text-primary hover:bg-black/50 rounded-full h-12 w-12"
+              data-testid="lightbox-prev" className="absolute left-4 top-1/2 -translate-y-1/2 z-10 text-white hover:text-primary hover:bg-black/50 rounded-full h-12 w-12"
               onClick={(e) => {
                 e.stopPropagation();
                 handlePrevious();
@@ -270,7 +270,7 @@ export default function GalleryPageClient() {
             <Button
               variant="ghost"
               size="icon"
-              className="absolute right-4 top-1/2 -translate-y-1/2 z-10 text-white hover:text-primary hover:bg-black/50 rounded-full h-12 w-12"
+              data-testid="lightbox-next" className="absolute right-4 top-1/2 -translate-y-1/2 z-10 text-white hover:text-primary hover:bg-black/50 rounded-full h-12 w-12"
               onClick={(e) => {
                 e.stopPropagation();
                 handleNext();
@@ -295,7 +295,7 @@ export default function GalleryPageClient() {
 
             {/* Image counter */}
             {selectedIndex !== null && (
-              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white/70 text-sm">
+              <div data-testid="lightbox-counter" className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white/70 text-sm">
                 {selectedIndex + 1} / {filteredImages.length}
               </div>
             )}

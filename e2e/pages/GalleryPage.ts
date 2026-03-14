@@ -2,7 +2,7 @@ import { Page, expect } from '@playwright/test';
 
 export class GalleryPage {
   private dialog = this.page.locator('[role="dialog"]');
-  private images = this.page.locator('.grid .aspect-square');
+  private images = this.page.locator('[data-testid="gallery-image"]');
 
   constructor(private page: Page) {}
 
@@ -30,11 +30,11 @@ export class GalleryPage {
   }
 
   async expectLightboxCounter(text: string) {
-    await expect(this.dialog.getByText(text)).toBeVisible();
+    await expect(this.dialog.locator('[data-testid="lightbox-counter"]')).toHaveText(text);
   }
 
   async clickLightboxNext() {
-    await this.dialog.getByRole('button', { name: 'Next' }).click();
+    await this.dialog.locator('[data-testid="lightbox-next"]').click();
   }
 
   async closeLightboxWithEscape() {

@@ -8,10 +8,10 @@ export class NotFoundPage {
   }
 
   async expect404Visible() {
-    await expect(this.page.getByRole('heading', { name: '404', exact: true })).toBeVisible();
+    await expect(this.page.locator('[data-testid="not-found-heading"]')).toBeVisible();
   }
 
   async clickBackToHome() {
-    await this.page.getByRole('link').filter({ hasText: /etusivu|home/i }).click();
+    await this.page.locator('[data-testid="not-found-back-home"]').click();
   }
 }

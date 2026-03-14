@@ -13,7 +13,7 @@ export default function Footer() {
   const t = useTranslations('Footer');
 
   return (
-    <footer className="text-card-foreground py-12 border-t border-primary/20 gradient-dark footer-shadow">
+    <footer data-testid="footer" className="text-card-foreground py-12 border-t border-primary/20 gradient-dark footer-shadow">
       <div className="container mx-auto px-4">
         <div className="flex flex-col items-center space-y-8">
           {/* Logo and Title */}
@@ -53,7 +53,7 @@ export default function Footer() {
                     asChild
                     className="h-auto p-0 text-sm text-muted-foreground hover:text-primary"
                   >
-                    <Link href="tel:+358504499322">+358 50 4499 322</Link>
+                    <Link href="tel:+358504499322" data-testid="footer-phone">+358 50 4499 322</Link>
                   </Button>
                 </div>
                 <div className="flex items-center">
@@ -63,7 +63,7 @@ export default function Footer() {
                     asChild
                     className="h-auto p-0 text-sm text-muted-foreground hover:text-primary"
                   >
-                    <Link href="mailto:bistrosaimaa@gmail.com">bistrosaimaa@gmail.com</Link>
+                    <Link href="mailto:bistrosaimaa@gmail.com" data-testid="footer-email">bistrosaimaa@gmail.com</Link>
                   </Button>
                 </div>
               </div>
@@ -98,6 +98,7 @@ export default function Footer() {
               href="https://www.facebook.com/bistrosaimaaoy"
               target="_blank"
               rel="noopener noreferrer"
+              data-testid="footer-facebook"
               className="bg-muted hover:bg-primary/10 text-muted-foreground hover:text-primary h-12 w-12 rounded-full flex items-center justify-center transition-colors"
             >
               <Facebook className="h-5 w-5" />
@@ -115,10 +116,10 @@ export default function Footer() {
                 asChild
                 className="h-auto p-0 text-sm text-muted-foreground hover:text-primary"
               >
-                <Link href="/privacy">{t('privacyPolicy')}</Link>
+                <Link href="/privacy" data-testid="footer-privacy-link">{t('privacyPolicy')}</Link>
               </Button>
             </div>
-            <p className="text-muted-foreground text-sm">&copy; {t('copyright')}</p>
+            <p data-testid="footer-copyright" className="text-muted-foreground text-sm">&copy; {t('copyright')}</p>
             <p className="text-muted-foreground text-sm mt-2">
               {t('madeWith')}{' '}
               <a

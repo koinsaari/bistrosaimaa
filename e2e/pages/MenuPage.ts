@@ -13,16 +13,16 @@ export class MenuPage {
   }
 
   async expectCarouselImages(count: number) {
-    const images = this.page.locator('[data-slot="carousel-item"] img');
-    await expect(images.first()).toBeVisible();
-    expect(await images.count()).toBe(count);
+    const items = this.page.locator('[data-testid="menu-carousel-item"]');
+    await expect(items.first()).toBeVisible();
+    expect(await items.count()).toBe(count);
   }
 
   async clickFirstImage() {
-    await this.page.locator('[data-slot="carousel-item"] img').first().click();
+    await this.page.locator('[data-testid="menu-carousel-item"] img').first().click();
   }
 
   async expectFullscreenOverlayVisible() {
-    await expect(this.page.locator('.fixed.inset-0.z-50')).toBeVisible();
+    await expect(this.page.locator('[data-testid="menu-fullscreen"]')).toBeVisible();
   }
 }
