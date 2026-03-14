@@ -80,7 +80,7 @@ const ContactInfoCard = () => {
             </div>
             <div className="text-left">
               <h3 className="font-medium text-foreground">{t('address')}</h3>
-              <p className="text-muted-foreground">
+              <p data-testid="contact-address" className="text-muted-foreground">
                 {t('addressLine1')}
                 <br />
                 {t('addressLine2')}

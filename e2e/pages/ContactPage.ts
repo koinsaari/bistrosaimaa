@@ -12,7 +12,7 @@ export class ContactPage {
   }
 
   async expectContactInfoVisible() {
-    await expect(this.page.getByText('Brahentie 42')).toBeVisible();
+    await expect(this.page.locator('[data-testid="contact-address"]')).toBeVisible();
     await expect(this.page.locator('[data-testid="contact-phone"]')).toBeVisible();
     await expect(this.page.locator('[data-testid="contact-email"]')).toBeVisible();
   }
