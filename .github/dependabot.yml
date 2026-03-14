@@ -17,7 +17,8 @@ updates:
       next:
         patterns:
           - "next"
-          - "@next/*"
+          - "next-intl"
+          - "eslint-config-next"
       radix-ui:
         patterns:
           - "@radix-ui/*"
@@ -26,18 +27,10 @@ updates:
           - "tailwindcss"
           - "@tailwindcss/*"
           - "tailwind-*"
-      typescript:
+          - "tw-animate-css"
+      playwright:
         patterns:
-          - "typescript"
-          - "@typescript-eslint/*"
-      dev-dependencies:
-        dependency-type: "development"
-        patterns:
-          - "eslint"
-          - "eslint-*"
-          - "@eslint/*"
-          - "postcss"
-          - "autoprefixer"
+          - "@playwright/*"
       everything-else:
         patterns:
           - "*"
