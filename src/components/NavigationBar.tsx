@@ -137,7 +137,7 @@ export default function NavigationBar() {
 
           {/* Mobile Menu Button */}
           <div className="md:hidden">
-            <Button
+            <Button data-testid="nav-mobile-toggle"
               variant="ghost"
               size="sm"
               onClick={toggleMenu}
@@ -155,7 +155,7 @@ export default function NavigationBar() {
       </div>
 
       {/* Mobile Menu */}
-      <div
+      <div data-testid="nav-mobile-menu"
         className={`md:hidden transition-all duration-300 ${
           isMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0 overflow-hidden'
         }`}
@@ -170,7 +170,7 @@ export default function NavigationBar() {
                 className="justify-start text-foreground hover:bg-muted hover:text-primary rounded-lg py-3 transition-all duration-200"
                 onClick={() => setIsMenuOpen(false)}
               >
-                <Link href="/menu">{t('menu')}</Link>
+                <Link href="/menu" data-testid="nav-mobile-link-menu">{t('menu')}</Link>
               </Button>
               <Button
                 asChild
@@ -178,14 +178,14 @@ export default function NavigationBar() {
                 className="justify-start text-foreground hover:bg-muted hover:text-primary rounded-lg py-3 transition-all duration-200"
                 onClick={() => setIsMenuOpen(false)}
               >
-                <Link href="/gallery">{t('gallery')}</Link>
+                <Link href="/gallery" data-testid="nav-mobile-link-gallery">{t('gallery')}</Link>
               </Button>
               <Button
                 asChild
                 className="justify-start bg-primary text-primary-foreground hover:bg-primary/90 rounded-lg py-3 mt-2 transition-all duration-200"
                 onClick={() => setIsMenuOpen(false)}
               >
-                <Link href="/contact" className="flex items-center space-x-2">
+                <Link href="/contact" data-testid="nav-mobile-link-contact" className="flex items-center space-x-2">
                   <Calendar className="h-4 w-4" />
                   <span>{t('contact')}</span>
                 </Link>

@@ -10,10 +10,22 @@ export default defineConfig({
 
   use: {
     baseURL: 'http://localhost:3000',
-    ...devices['Desktop Chrome'],
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
   },
+
+  projects: [
+    {
+      name: 'desktop',
+      use: { ...devices['Desktop Chrome'] },
+      testIgnore: ['**/navigation-mobile.spec.ts'],
+    },
+    {
+      name: 'mobile',
+      use: { ...devices['Pixel 5'] },
+      testIgnore: ['**/navigation.spec.ts'],
+    },
+  ],
 
   webServer: {
     command: process.env.CI ? 'npm run start' : 'npm run dev',
