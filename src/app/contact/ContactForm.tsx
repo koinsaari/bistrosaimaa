@@ -354,6 +354,7 @@ export default function ContactForm({
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
+                  data-testid="form-success"
                   className="flex items-center space-x-2 text-green-600 bg-green-50 border border-green-200 rounded-md p-3"
                 >
                   <CheckCircle className="h-5 w-5" />
@@ -365,6 +366,7 @@ export default function ContactForm({
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
+                  data-testid="form-error"
                   className="flex items-center space-x-2 text-red-600 bg-red-50 border border-red-200 rounded-md p-3"
                 >
                   <AlertCircle className="h-5 w-5" />
@@ -372,7 +374,7 @@ export default function ContactForm({
                 </motion.div>
               )}
 
-              <Button type="submit" disabled={isSubmitting} className="w-full" size="lg">
+              <Button data-testid="form-submit" type="submit" disabled={isSubmitting} className="w-full" size="lg">
                 {isSubmitting ? (
                   <>
                     <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2" />
