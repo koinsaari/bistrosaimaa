@@ -229,6 +229,7 @@ export default function MenuPageClient() {
                           src={photo.src}
                           alt={photo.alt}
                           fill
+                          sizes="(max-width: 672px) 100vw, 672px"
                           className="object-contain rounded-lg"
                           priority={photo.id === 1}
                         />
@@ -277,7 +278,7 @@ export default function MenuPageClient() {
             className="relative w-full h-full max-w-6xl max-h-[90vh]"
             onClick={(e) => e.stopPropagation()}
           >
-            <Image src={selectedImage} alt="Menu fullscreen" fill className="object-contain" />
+            <Image src={selectedImage} alt="Menu fullscreen" fill sizes="(max-width: 1152px) 100vw, 1152px" className="object-contain" />
           </div>
         </div>
       )}

@@ -208,8 +208,10 @@ export default function GalleryPageClient() {
                       src={image.src}
                       alt={image.alt}
                       fill
+                      sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
                       className="object-cover transition-transform duration-300 group-hover:scale-105"
-                      loading="lazy"
+                      priority={index === 0}
+                      loading={index === 0 ? undefined : 'lazy'}
                     />
                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
                   </motion.div>
@@ -232,7 +234,7 @@ export default function GalleryPageClient() {
 
       {/* Lightbox Dialog */}
       <Dialog open={selectedIndex !== null} onOpenChange={() => setSelectedIndex(null)}>
-        <DialogContent className="max-w-[95vw] max-h-[95vh] w-full h-full p-0 border-none bg-black/95">
+        <DialogContent aria-describedby={undefined} className="max-w-[95vw] max-h-[95vh] w-full h-full p-0 border-none bg-black/95">
           <DialogTitle className="sr-only">
             {selectedIndex !== null ? filteredImages[selectedIndex].alt : 'Gallery image'}
           </DialogTitle>
@@ -283,6 +285,7 @@ export default function GalleryPageClient() {
                   src={filteredImages[selectedIndex].src}
                   alt={filteredImages[selectedIndex].alt}
                   fill
+                  sizes="95vw"
                   className="object-contain"
                   priority
                 />

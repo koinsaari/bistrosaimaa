@@ -106,6 +106,8 @@ const FeaturedSection = () => {
                   src="/gallery/food-3.jpeg"
                   alt="À la carte menu"
                   fill
+                  sizes="(max-width: 768px) 100vw, 384px"
+                  priority
                   className="object-cover hover:scale-105 transition-transform duration-300"
                 />
               </div>
@@ -147,6 +149,7 @@ const FeaturedSection = () => {
                   src="/gallery/food-1.jpeg"
                   alt="Lounas"
                   fill
+                  sizes="(max-width: 768px) 100vw, 384px"
                   className="object-cover hover:scale-105 transition-transform duration-300"
                 />
               </div>
@@ -195,6 +198,7 @@ const FeaturedSection = () => {
                   src="/gallery/food-4.jpeg"
                   alt="Pitopalvelut"
                   fill
+                  sizes="(max-width: 768px) 100vw, 384px"
                   className="object-cover hover:scale-105 transition-transform duration-300"
                 />
               </div>

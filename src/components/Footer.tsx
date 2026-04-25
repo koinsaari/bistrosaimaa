@@ -1,6 +1,6 @@
 'use client';
 
-import { Facebook, MapPin, Phone, Mail, Clock } from 'lucide-react';
+import { MapPin, Phone, Mail, Clock } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { useTranslations } from 'next-intl';
@@ -97,7 +97,9 @@ export default function Footer() {
               data-testid="footer-facebook"
               className="bg-muted hover:bg-primary/10 text-muted-foreground hover:text-primary h-12 w-12 rounded-full flex items-center justify-center transition-colors"
             >
-              <Facebook className="h-5 w-5" />
+              <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M24 12.073C24 5.446 18.627 0 12 0S0 5.446 0 12.073c0 6.03 4.388 11.029 10.125 11.927v-8.434H7.078v-3.493h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953h-1.514c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.493h-2.796v8.434C19.612 23.102 24 18.103 24 12.073z" />
+              </svg>
             </Link>
             {/* <a href="#" className="hover:text-primary transition-colors">
               <Instagram className="h-5 w-5" />
