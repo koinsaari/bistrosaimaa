@@ -1,7 +1,3 @@
-/*
- * Copyright (c) 2025 Aaro Koinsaari
- */
-
 import { useTranslations } from 'next-intl';
 
 export default function Loading() {

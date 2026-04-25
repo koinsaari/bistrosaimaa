@@ -1,7 +1,3 @@
-/*
- * Copyright (c) 2025 Aaro Koinsaari
- */
-
 'use client';
 
 import { motion } from 'framer-motion';

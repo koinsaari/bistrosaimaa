@@ -1,7 +1,3 @@
-/*
- * Copyright (c) 2025 Aaro Koinsaari
- */
-
 import type { Metadata } from 'next';
 import PrivacyPolicyPageClient from './PrivacyPolicyPageClient';
 

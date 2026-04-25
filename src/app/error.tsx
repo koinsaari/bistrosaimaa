@@ -1,7 +1,3 @@
-/*
- * Copyright (c) 2025 Aaro Koinsaari
- */
-
 'use client';
 
 import { useEffect } from 'react';

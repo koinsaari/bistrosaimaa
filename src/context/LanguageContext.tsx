@@ -1,7 +1,3 @@
-/*
- * Copyright (c) 2025 Aaro Koinsaari
- */
-
 'use client';
 
 import { createContext, useContext, useState, ReactNode, useEffect, useTransition } from 'react';

@@ -1,7 +1,3 @@
-/*
- * Copyright (c) 2025 Aaro Koinsaari
- */
-
 'use client';
 
 import { Facebook, MapPin, Phone, Mail, Clock } from 'lucide-react';
