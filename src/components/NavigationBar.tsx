@@ -86,6 +86,8 @@ export default function NavigationBar() {
                 src="/logo-saimaa.png"
                 alt="Bistro Saimaa"
                 fill
+                sizes="48px"
+                priority
                 className="object-contain transition-all duration-300 scale-150"
               />
             </div>

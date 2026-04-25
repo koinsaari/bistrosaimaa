@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Facebook, MapPin, Phone, Mail, Clock, ExternalLink } from 'lucide-react';
+import { MapPin, Phone, Mail, Clock, ExternalLink } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import ContactForm from './ContactForm';
@@ -165,7 +165,9 @@ const ContactInfoCard = () => {
                   rel="noopener noreferrer"
                   aria-label="Facebook"
                 >
-                  <Facebook className="h-5 w-5" />
+                  <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M24 12.073C24 5.446 18.627 0 12 0S0 5.446 0 12.073c0 6.03 4.388 11.029 10.125 11.927v-8.434H7.078v-3.493h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953h-1.514c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.493h-2.796v8.434C19.612 23.102 24 18.103 24 12.073z" />
+                  </svg>
                 </a>
               </Button>
               {/* <a
