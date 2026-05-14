@@ -19,9 +19,9 @@ import { useTranslations } from 'next-intl';
 const previewImages = [
   { src: '/gallery/interior-1.jpeg', alt: 'Restaurant interior' },
   { src: '/gallery/interior-2.jpeg', alt: 'Restaurant atmosphere' },
-  { src: '/gallery/food-1.jpeg', alt: 'Lunch dish' },
-  { src: '/gallery/food-2.jpeg', alt: 'Lunch selection' },
-  { src: '/gallery/food-3.jpeg', alt: 'Daily special' },
+  { src: '/gallery/food-13.jpeg', alt: 'Smoked salmon and salad spread' },
+  { src: '/gallery/food-5.jpeg', alt: 'Lunch buffet' },
+  { src: '/gallery/food-25.jpeg', alt: 'Salad selection' },
   { src: '/gallery/food-4.jpeg', alt: 'Dessert' },
 ];
 

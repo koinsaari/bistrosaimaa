@@ -103,7 +103,7 @@ const FeaturedSection = () => {
             >
               <div className="h-64 overflow-hidden relative">
                 <Image
-                  src="/gallery/food-3.jpeg"
+                  src="/gallery/food-13.jpeg"
                   alt="À la carte menu"
                   fill
                   sizes="(max-width: 768px) 100vw, 384px"
@@ -146,7 +146,7 @@ const FeaturedSection = () => {
             >
               <div className="h-64 overflow-hidden relative">
                 <Image
-                  src="/gallery/food-1.jpeg"
+                  src="/gallery/food-5.jpeg"
                   alt="Lounas"
                   fill
                   sizes="(max-width: 768px) 100vw, 384px"
@@ -195,7 +195,7 @@ const FeaturedSection = () => {
             >
               <div className="h-64 overflow-hidden relative">
                 <Image
-                  src="/gallery/food-4.jpeg"
+                  src="/gallery/food-37.jpeg"
                   alt="Pitopalvelut"
                   fill
                   sizes="(max-width: 768px) 100vw, 384px"
