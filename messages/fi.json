@@ -1,4 +1,38 @@
 {
+  "Metadata": {
+    "site": {
+      "name": "Bistro Saimaa",
+      "ogLocale": "fi_FI"
+    },
+    "home": {
+      "title": "Bistro Saimaa - Ravintola, kabinetit ja pitopalvelut",
+      "description": "Täyden palvelun ravintola Ristiinassa: pitopalvelut koko Etelä-Savossa, kabinetit tilaisuuksiin ja upea sijainti Saimaan rannalla.",
+      "keywords": "bistro, ravintola, saimaa, ristiina, ruoka, kabinetti, pitopalvelu, mikkeli, lounas, etelä-savo"
+    },
+    "menu": {
+      "title": "Menu - Bistro Saimaa",
+      "description": "Tutustu Bistro Saimaan monipuoliseen menuun. Salaatit, pihvit, burgerit, pizzat ja paljon muuta.",
+      "keywords": "menu, ruokalista, bistro saimaa, pizza, burger, salaatti, pihvi, ristiina"
+    },
+    "contact": {
+      "title": "Ota yhteyttä - Bistro Saimaa",
+      "description": "Varaa kabinetti, tilaa pitopalvelu tai kysy lisää. Löydät yhteystietomme ja yhteydenottolomakkeen.",
+      "keywords": "ota yhteyttä, bistro saimaa, kabinettivaraus, pitopalvelutilaus, ristiina, ravintola"
+    },
+    "gallery": {
+      "title": "Galleria - Bistro Saimaa",
+      "description": "Tutustu Bistro Saimaan tunnelmaan kuvagalleriamme kautta. Ravintolan sisustus, ruoka-annokset ja miljöö Saimaan rannalla.",
+      "keywords": "galleria, kuvat, bistro saimaa, ravintola, ristiina, saimaa"
+    },
+    "privacy": {
+      "title": "Tietosuojaseloste - Bistro Saimaa",
+      "description": "Bistro Saimaan tietosuojaseloste. Lue miten käsittelemme henkilötietojasi yhteydenottolomakkeen kautta.",
+      "keywords": "tietosuoja, tietosuojaseloste, henkilötiedot, bistro saimaa, gdpr"
+    },
+    "notFound": {
+      "title": "404 - Sivua ei löytynyt | Bistro Saimaa"
+    }
+  },
   "Navigation": {
     "home": "Etusivu",
     "menu": "Menu",

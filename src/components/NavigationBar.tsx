@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Menu, X, Calendar, Mail, Globe } from 'lucide-react';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import { useTranslations } from 'next-intl';
 import LanguageSelector from './LanguageSelector';
 

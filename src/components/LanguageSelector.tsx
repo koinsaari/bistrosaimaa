@@ -1,7 +1,10 @@
 'use client';
 
+import { useTransition } from 'react';
+import { useLocale } from 'next-intl';
 import { Button } from '@/components/ui/button';
-import { useLanguage, Language } from '@/context/LanguageContext';
+import { usePathname, useRouter } from '@/i18n/navigation';
+import type { Locale } from '@/i18n/routing';
 
 interface LanguageSelectorProps {
   variant?: 'default' | 'mobile';
@@ -12,10 +15,16 @@ export default function LanguageSelector({
   variant = 'default',
   onLanguageChange,
 }: LanguageSelectorProps) {
-  const { language, setLanguage, isPending } = useLanguage();
+  const locale = useLocale() as Locale;
+  const router = useRouter();
+  const pathname = usePathname();
+  const [isPending, startTransition] = useTransition();
 
-  const handleLanguageChange = (lang: Language) => {
-    setLanguage(lang);
+  const handleLanguageChange = (lang: Locale) => {
+    if (lang === locale) return;
+    startTransition(() => {
+      router.replace(pathname, { locale: lang });
+    });
     onLanguageChange?.();
   };
 
@@ -31,7 +40,7 @@ export default function LanguageSelector({
         onClick={() => handleLanguageChange('fi')}
         disabled={isPending}
         className={`rounded-full ${isMobile ? 'px-4' : 'px-3'} py-1 text-xs transition-all duration-200 ${
-          language === 'fi'
+          locale === 'fi'
             ? 'bg-primary text-primary-foreground'
             : 'text-foreground hover:bg-background hover:text-primary'
         }`}
@@ -44,7 +53,7 @@ export default function LanguageSelector({
         onClick={() => handleLanguageChange('en')}
         disabled={isPending}
         className={`rounded-full ${isMobile ? 'px-4' : 'px-3'} py-1 text-xs transition-all duration-200 ${
-          language === 'en'
+          locale === 'en'
             ? 'bg-primary text-primary-foreground'
             : 'text-foreground hover:bg-background hover:text-primary'
         }`}

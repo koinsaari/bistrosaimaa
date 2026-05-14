@@ -1,4 +1,38 @@
 {
+  "Metadata": {
+    "site": {
+      "name": "Bistro Saimaa",
+      "ogLocale": "en_US"
+    },
+    "home": {
+      "title": "Bistro Saimaa - Restaurant, event rooms and catering",
+      "description": "Full-service restaurant in Ristiina: catering across Etelä-Savo, event rooms for occasions, and a beautiful Lake Saimaa location.",
+      "keywords": "bistro, restaurant, saimaa, ristiina, food, event room, catering, mikkeli, lunch, etelä-savo"
+    },
+    "menu": {
+      "title": "Menu - Bistro Saimaa",
+      "description": "Explore Bistro Saimaa's diverse menu. Salads, steaks, burgers, pizzas and more.",
+      "keywords": "menu, food, bistro saimaa, pizza, burger, salad, steak, ristiina"
+    },
+    "contact": {
+      "title": "Contact - Bistro Saimaa",
+      "description": "Book an event room, order catering or get in touch. Find our contact details and contact form.",
+      "keywords": "contact, bistro saimaa, event booking, catering, ristiina, restaurant"
+    },
+    "gallery": {
+      "title": "Gallery - Bistro Saimaa",
+      "description": "Explore the atmosphere of Bistro Saimaa through our photo gallery. Restaurant interior, food, and our lakeside setting.",
+      "keywords": "gallery, photos, bistro saimaa, restaurant, ristiina, saimaa"
+    },
+    "privacy": {
+      "title": "Privacy Policy - Bistro Saimaa",
+      "description": "Bistro Saimaa privacy policy. Learn how we process personal data submitted through the contact form.",
+      "keywords": "privacy, privacy policy, personal data, bistro saimaa, gdpr"
+    },
+    "notFound": {
+      "title": "404 - Page Not Found | Bistro Saimaa"
+    }
+  },
   "Navigation": {
     "home": "Home",
     "menu": "Menu",

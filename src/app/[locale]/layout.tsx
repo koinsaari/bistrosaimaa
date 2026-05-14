@@ -1,57 +1,63 @@
 import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import { Analytics } from '@vercel/analytics/next';
-import { Geist, Geist_Mono } from 'next/font/google';
-import { NextIntlClientProvider } from 'next-intl';
-import { getLocale, getMessages } from 'next-intl/server';
+import { GeistSans } from 'geist/font/sans';
+import { GeistMono } from 'geist/font/mono';
+import { hasLocale, NextIntlClientProvider } from 'next-intl';
+import { getMessages, getTranslations, setRequestLocale } from 'next-intl/server';
 import NavigationBar from '@/components/NavigationBar';
 import Footer from '@/components/Footer';
-import { LanguageProvider } from '@/context/LanguageContext';
-import './globals.css';
+import { routing, type Locale } from '@/i18n/routing';
+import { localeAlternates } from '@/i18n/metadata';
+import '../globals.css';
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
-});
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
 
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
-});
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  if (!hasLocale(routing.locales, locale)) return {};
+  const t = await getTranslations({ locale, namespace: 'Metadata' });
 
-export const metadata: Metadata = {
-  metadataBase: new URL('https://bistrosaimaa.fi'),
-  title: 'Bistro Saimaa - Ravintola, kabinetit ja pitopalvelut',
-  description:
-    'Täyden palvelun ravintola Ristiinassa: pitopalvelut koko Etelä-Savossa, kabinetit tilaisuuksiin ja upea sijainti Saimaan rannalla.',
-  keywords:
-    'bistro, ravintola, saimaa, ristiina, ruoka, kabinetti, pitopalvelu, mikkeli, lounas, etelä-savo',
-  authors: [{ name: 'Aaro Koinsaari' }],
-  creator: 'Aaro Koinsaari',
-  publisher: 'Bistro Saimaa',
-  openGraph: {
-    title: 'Bistro Saimaa - Ravintola, kabinetit ja pitopalvelut',
-    description:
-      'Täyden palvelun ravintola Ristiinassa: pitopalvelut koko Etelä-Savossa, kabinetit tilaisuuksiin ja upea sijainti Saimaan rannalla.',
-    url: 'https://bistrosaimaa.fi',
-    siteName: 'Bistro Saimaa',
-    locale: 'fi_FI',
-    type: 'website',
-  },
-  robots: {
-    index: true,
-    follow: true,
-  },
-  alternates: {
-    canonical: 'https://bistrosaimaa.fi',
-  },
-};
+  return {
+    metadataBase: new URL('https://bistrosaimaa.fi'),
+    title: t('home.title'),
+    description: t('home.description'),
+    keywords: t('home.keywords'),
+    authors: [{ name: 'Aaro Koinsaari' }],
+    creator: 'Aaro Koinsaari',
+    publisher: t('site.name'),
+    openGraph: {
+      title: t('home.title'),
+      description: t('home.description'),
+      url: locale === 'fi' ? '/' : '/en',
+      siteName: t('site.name'),
+      locale: t('site.ogLocale'),
+      type: 'website',
+    },
+    robots: { index: true, follow: true },
+    alternates: localeAlternates('/', locale as Locale),
+  };
+}
 
 export default async function RootLayout({
   children,
+  params,
 }: Readonly<{
   children: React.ReactNode;
+  params: Promise<{ locale: string }>;
 }>) {
-  const locale = await getLocale();
+  const { locale } = await params;
+  if (!hasLocale(routing.locales, locale)) {
+    notFound();
+  }
+  setRequestLocale(locale);
+
   const messages = await getMessages();
 
   const jsonLd = {
@@ -109,14 +115,12 @@ export default async function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body className={`${GeistSans.variable} ${GeistMono.variable} antialiased`}>
         <NextIntlClientProvider messages={messages}>
-          <LanguageProvider>
-            <NavigationBar />
-            <main className="min-h-screen">{children}</main>
-            <Footer />
-            <Analytics />
-          </LanguageProvider>
+          <NavigationBar />
+          <main className="min-h-screen">{children}</main>
+          <Footer />
+          <Analytics />
         </NextIntlClientProvider>
       </body>
     </html>
