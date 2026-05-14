@@ -11,7 +11,7 @@ Marketing website for Bistro Saimaa, a restaurant in Ristiina, Mikkeli. Built wi
 - `npm run dev` — Next dev server with Turbopack on `http://localhost:3000`
 - `npm run build` / `npm start` — production build / serve
 - `npm run lint` — ESLint (`next/core-web-vitals` + `next/typescript`)
-- `npm run test:e2e` — Playwright tests (expects dev server already running at `localhost:3000`; config does not auto-start it)
+- `npm run test:e2e` — Playwright tests. `playwright.config.ts` auto-starts a dev server (`npm start` in CI, `npm run dev` locally; reuses an already-running server in local mode).
 - `npm run test:e2e:ui` / `:headed` — Playwright UI / headed modes
 - Run a single spec: `npx playwright test e2e/menu.spec.ts`
 - Run a single project: `npx playwright test --project=desktop` (or `mobile`)
@@ -58,3 +58,13 @@ The root `layout.tsx` injects a `Restaurant` JSON-LD blob with address, hours, a
 ### Security headers
 
 `next.config.ts` sets `X-Frame-Options: DENY` and `X-Content-Type-Options: nosniff` for all routes. Add new headers there rather than per-route.
+
+## Deployment
+
+Production deploys are not driven by Vercel's git integration (`vercel.json` has `git.deploymentEnabled: false`). All deploys go through GitHub Actions in `.github/workflows/`:
+
+- **`preview.yml`** runs on PR open/sync. Builds, deploys a preview, comments the URL on the PR (updates in place via the `<!-- preview-deploy-comment -->` marker).
+- **`ci.yml`** runs E2E tests on PR and push to `main`. After a main push, deploys with production env vars but `--skip-domain`, then aliases the deployment to `staging.bistrosaimaa.fi`. **Auto-promotes to production only** when the triggering actor is `dependabot[bot]`, the commit subject matches `^chore(deps)`, or the commit landed on `main` without an associated PR (i.e. a direct admin push). Otherwise the build sits on staging awaiting a manual release.
+- **`release.yml`** runs when a GitHub Release is published. Finds the staging deployment matching the release tag's commit (via `vercel list --meta githubCommitSha=...`) and runs `vercel promote` — no rebuild, atomic switch.
+
+`main` is branch-protected: PR + passing `E2E Tests` check required, but admin can bypass for direct pushes. Vercel CLI is pinned to `vercel@54` across all workflows; bump it deliberately when needed.
