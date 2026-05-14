@@ -41,8 +41,8 @@ jobs:
           path: playwright-report/
           retention-days: 7
 
-  deploy-staging:
-    name: Deploy to Staging
+  deploy:
+    name: Deploy (staging + conditional production)
     needs: test
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
@@ -52,9 +52,6 @@ jobs:
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-    outputs:
-      deployment_url: ${{ steps.deploy.outputs.deployment_url }}
-      should_promote: ${{ steps.gate.outputs.should_promote }}
     steps:
       - uses: actions/checkout@v6
 
@@ -67,7 +64,7 @@ jobs:
       - name: Build for production
         run: vercel build --prod
 
-      - name: Deploy build to Vercel (skip-domain so prod isn't reassigned)
+      - name: Deploy build to Vercel (skip-domain so prod isn't reassigned yet)
         id: deploy
         run: |
           DEPLOYMENT_URL=$(vercel deploy --prebuilt --prod --skip-domain)
@@ -108,23 +105,6 @@ jobs:
 
           echo "should_promote=$SHOULD_PROMOTE" >> "$GITHUB_OUTPUT"
 
-  auto-promote:
-    name: Auto-promote to Production
-    needs: deploy-staging
-    runs-on: ubuntu-latest
-    if: needs.deploy-staging.outputs.should_promote == 'true'
-    permissions:
-      contents: read
-    env:
-      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-    steps:
-      - name: Install Vercel CLI
-        run: npm i -g ${{ env.VERCEL_CLI_VERSION }}
-
-      - name: Pull Vercel project context
-        run: vercel pull --yes --environment=production
-
-      - name: Promote staging deployment to production
-        run: vercel promote "${{ needs.deploy-staging.outputs.deployment_url }}"
+      - name: Promote deployment to production
+        if: steps.gate.outputs.should_promote == 'true'
+        run: vercel promote "${{ steps.deploy.outputs.deployment_url }}"

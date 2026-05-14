@@ -18,6 +18,8 @@ jobs:
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
     steps:
+      - uses: actions/checkout@v6
+
       - name: Install Vercel CLI
         run: npm i -g ${{ env.VERCEL_CLI_VERSION }}
 
@@ -63,7 +65,7 @@ jobs:
           echo "Found deployment: $DEPLOYMENT_URL"
           echo "deployment_url=$DEPLOYMENT_URL" >> "$GITHUB_OUTPUT"
 
-      - name: Promote to production
+      - name: Promote deployment to production
         run: vercel promote "${{ steps.find.outputs.deployment_url }}"
 
       - name: Append production URL to release notes
