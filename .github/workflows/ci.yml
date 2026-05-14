@@ -123,5 +123,8 @@ jobs:
       - name: Install Vercel CLI
         run: npm i -g ${{ env.VERCEL_CLI_VERSION }}
 
+      - name: Pull Vercel project context
+        run: vercel pull --yes --environment=production
+
       - name: Promote staging deployment to production
         run: vercel promote "${{ needs.deploy-staging.outputs.deployment_url }}"
