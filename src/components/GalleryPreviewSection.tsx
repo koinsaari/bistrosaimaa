@@ -17,12 +17,12 @@ import Autoplay from 'embla-carousel-autoplay';
 import { useTranslations } from 'next-intl';
 
 const previewImages = [
-  { src: '/gallery/interior-1.jpeg', alt: 'Restaurant interior' },
-  { src: '/gallery/interior-2.jpeg', alt: 'Restaurant atmosphere' },
-  { src: '/gallery/food-13.jpeg', alt: 'Smoked salmon and salad spread' },
-  { src: '/gallery/food-5.jpeg', alt: 'Lunch buffet' },
-  { src: '/gallery/food-25.jpeg', alt: 'Salad selection' },
-  { src: '/gallery/food-4.jpeg', alt: 'Dessert' },
+  { src: '/gallery/interior-1.jpeg', altKey: 'interior' },
+  { src: '/gallery/interior-2.jpeg', altKey: 'atmosphere' },
+  { src: '/gallery/food-13.jpeg', altKey: 'salmonSpread' },
+  { src: '/gallery/food-5.jpeg', altKey: 'lunchBuffet' },
+  { src: '/gallery/food-25.jpeg', altKey: 'saladSelection' },
+  { src: '/gallery/food-4.jpeg', altKey: 'chocolateDesserts' },
 ];
 
 export default function GalleryPreviewSection() {
@@ -81,7 +81,7 @@ export default function GalleryPreviewSection() {
                   >
                     <Image
                       src={image.src}
-                      alt={image.alt}
+                      alt={t(`alt.${image.altKey}`)}
                       fill
                       sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                       className="object-cover transition-transform duration-300 group-hover:scale-105"

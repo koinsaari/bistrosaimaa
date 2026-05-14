@@ -23,7 +23,10 @@
     "askMore": "Ask for More",
     "reviews": "Reviews",
     "leaveReviewGoogle": "Leave a Review on Google",
-    "reviewSource": "Source: Google"
+    "reviewSource": "Source: Google",
+    "menuImageAlt": "À la carte menu",
+    "lunchImageAlt": "Lunch",
+    "cateringImageAlt": "Catering"
   },
   "MenuPage": {
     "title": "Menu",
@@ -132,7 +135,33 @@
     "categoryOutside": "Outside",
     "categoryFood": "Food",
     "categorySauna": "Sauna Facilities",
-    "categoryKabinetti": "Event Room"
+    "categoryKabinetti": "Event Room",
+    "alt": {
+      "interior": "Restaurant interior",
+      "atmosphere": "Restaurant atmosphere",
+      "outside": "Outside view of the restaurant",
+      "terrace": "Terrace",
+      "lake": "View over Lake Saimaa",
+      "garden": "Garden area",
+      "entrance": "Entrance",
+      "kabinetti": "Event room",
+      "sauna": "Sauna facilities",
+      "salmonSpread": "Smoked salmon and salad spread",
+      "salmonPlatter": "Smoked salmon platter",
+      "cateringBuffet": "Catering buffet",
+      "cateringSpread": "Catering spread",
+      "cateringCenterpiece": "Catering centerpiece",
+      "lunchBuffet": "Lunch buffet",
+      "saladSelection": "Salad selection",
+      "buffetLine": "Buffet line",
+      "buffetHall": "Buffet hall",
+      "chocolateDesserts": "Chocolate raspberry desserts",
+      "desserts": "Desserts",
+      "cake": "Berry layer cake",
+      "cookies": "Cookies and pastries",
+      "eventTable": "Event table setting",
+      "eventMenu": "Event menu and buffet"
+    }
   },
   "PrivacyPage": {
     "title": "Privacy Policy",

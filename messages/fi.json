@@ -23,7 +23,10 @@
     "askMore": "Kysy lisää",
     "reviews": "Arvostelut",
     "leaveReviewGoogle": "Jätä arvostelu Googleen",
-    "reviewSource": "Lähde: Google"
+    "reviewSource": "Lähde: Google",
+    "menuImageAlt": "À la carte -menu",
+    "lunchImageAlt": "Lounas",
+    "cateringImageAlt": "Pitopalvelu"
   },
   "MenuPage": {
     "title": "Menu",
@@ -132,7 +135,33 @@
     "categoryOutside": "Ulkotilat",
     "categoryFood": "Ruoka",
     "categorySauna": "Saunatilat",
-    "categoryKabinetti": "Kabinetti"
+    "categoryKabinetti": "Kabinetti",
+    "alt": {
+      "interior": "Ravintolan sisätilat",
+      "atmosphere": "Ravintolan tunnelma",
+      "outside": "Ulkokuva ravintolasta",
+      "terrace": "Terassi",
+      "lake": "Näkymä Saimaalle",
+      "garden": "Piha",
+      "entrance": "Sisäänkäynti",
+      "kabinetti": "Juhlakabinetti",
+      "sauna": "Saunatilat",
+      "salmonSpread": "Savustettu lohi ja salaattipöytä",
+      "salmonPlatter": "Savustettu lohivati",
+      "cateringBuffet": "Pitopalvelun noutopöytä",
+      "cateringSpread": "Pitopalvelun tarjoilu",
+      "cateringCenterpiece": "Pitopalvelun keskuspöytä",
+      "lunchBuffet": "Lounasbuffet",
+      "saladSelection": "Salaattivalikoima",
+      "buffetLine": "Lounaslinjasto",
+      "buffetHall": "Sali ja noutopöytä",
+      "chocolateDesserts": "Suklaa-vadelmajälkiruoat",
+      "desserts": "Jälkiruokia",
+      "cake": "Marjakakku",
+      "cookies": "Pikkuleivät ja leivonnaiset",
+      "eventTable": "Juhlapöytä katettuna",
+      "eventMenu": "Juhlamenu ja noutopöytä"
+    }
   },
   "PrivacyPage": {
     "title": "Tietosuojaseloste",

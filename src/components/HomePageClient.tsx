@@ -104,7 +104,7 @@ const FeaturedSection = () => {
               <div className="h-64 overflow-hidden relative">
                 <Image
                   src="/gallery/food-13.jpeg"
-                  alt="À la carte menu"
+                  alt={t('menuImageAlt')}
                   fill
                   sizes="(max-width: 768px) 100vw, 384px"
                   priority
@@ -147,7 +147,7 @@ const FeaturedSection = () => {
               <div className="h-64 overflow-hidden relative">
                 <Image
                   src="/gallery/food-5.jpeg"
-                  alt="Lounas"
+                  alt={t('lunchImageAlt')}
                   fill
                   sizes="(max-width: 768px) 100vw, 384px"
                   className="object-cover hover:scale-105 transition-transform duration-300"
@@ -196,7 +196,7 @@ const FeaturedSection = () => {
               <div className="h-64 overflow-hidden relative">
                 <Image
                   src="/gallery/food-37.jpeg"
-                  alt="Pitopalvelut"
+                  alt={t('cateringImageAlt')}
                   fill
                   sizes="(max-width: 768px) 100vw, 384px"
                   className="object-cover hover:scale-105 transition-transform duration-300"

@@ -12,87 +12,87 @@ type Category = 'all' | 'interior' | 'outside' | 'food' | 'sauna' | 'kabinetti';
 
 interface GalleryImage {
   src: string;
-  alt: string;
+  altKey: string;
   category: Exclude<Category, 'all'>;
 }
 
 const galleryImages: GalleryImage[] = [
-  { src: '/gallery/interior-1.jpeg', alt: 'Restaurant interior', category: 'interior' },
-  { src: '/gallery/interior-2.jpeg', alt: 'Restaurant atmosphere', category: 'interior' },
-  { src: '/gallery/interior-3.jpg', alt: 'Restaurant interior', category: 'interior' },
-  { src: '/gallery/interior-4.jpg', alt: 'Restaurant interior', category: 'interior' },
-  { src: '/gallery/interior-5.jpg', alt: 'Restaurant interior', category: 'interior' },
-  { src: '/gallery/interior-6.jpg', alt: 'Restaurant interior', category: 'interior' },
-  { src: '/gallery/interior-7.jpg', alt: 'Restaurant interior', category: 'interior' },
-  { src: '/gallery/interior-8.jpg', alt: 'Restaurant interior', category: 'interior' },
-  { src: '/gallery/interior-9.jpg', alt: 'Restaurant interior', category: 'interior' },
-  { src: '/gallery/interior-10.jpg', alt: 'Restaurant interior', category: 'interior' },
-  { src: '/gallery/interior-11.jpg', alt: 'Restaurant interior', category: 'interior' },
-  { src: '/gallery/interior-12.jpg', alt: 'Restaurant interior', category: 'interior' },
-  { src: '/gallery/interior-13.jpg', alt: 'Restaurant interior', category: 'interior' },
-  { src: '/gallery/food-13.jpeg', alt: 'Smoked salmon and salad spread', category: 'food' },
-  { src: '/gallery/food-30.jpeg', alt: 'Catering buffet', category: 'food' },
-  { src: '/gallery/food-37.jpeg', alt: 'Catering spread', category: 'food' },
-  { src: '/gallery/food-1.jpeg', alt: 'Smoked salmon platter', category: 'food' },
-  { src: '/gallery/food-18.jpeg', alt: 'Catering buffet', category: 'food' },
-  { src: '/gallery/food-27.jpeg', alt: 'Salmon and salads', category: 'food' },
-  { src: '/gallery/food-35.jpeg', alt: 'Catering centerpiece', category: 'food' },
-  { src: '/gallery/food-40.jpeg', alt: 'Catering spread', category: 'food' },
-  { src: '/gallery/food-5.jpeg', alt: 'Lunch buffet', category: 'food' },
-  { src: '/gallery/food-34.jpeg', alt: 'Lunch buffet', category: 'food' },
-  { src: '/gallery/food-38.jpeg', alt: 'Lunch buffet', category: 'food' },
-  { src: '/gallery/food-22.jpeg', alt: 'Lunch buffet', category: 'food' },
-  { src: '/gallery/food-26.jpeg', alt: 'Lunch buffet', category: 'food' },
-  { src: '/gallery/food-29.jpeg', alt: 'Lunch buffet', category: 'food' },
-  { src: '/gallery/food-31.jpeg', alt: 'Lunch buffet', category: 'food' },
-  { src: '/gallery/food-33.jpeg', alt: 'Lunch buffet', category: 'food' },
-  { src: '/gallery/food-39.jpeg', alt: 'Lunch buffet', category: 'food' },
-  { src: '/gallery/food-41.jpeg', alt: 'Lunch buffet', category: 'food' },
-  { src: '/gallery/food-7.jpeg', alt: 'Salad selection', category: 'food' },
-  { src: '/gallery/food-8.jpeg', alt: 'Salad selection', category: 'food' },
-  { src: '/gallery/food-17.jpeg', alt: 'Salad selection', category: 'food' },
-  { src: '/gallery/food-21.jpeg', alt: 'Salad selection', category: 'food' },
-  { src: '/gallery/food-25.jpeg', alt: 'Salad selection', category: 'food' },
-  { src: '/gallery/food-36.jpeg', alt: 'Salad selection', category: 'food' },
-  { src: '/gallery/food-3.jpeg', alt: 'Salad selection', category: 'food' },
-  { src: '/gallery/food-2.jpeg', alt: 'Lunch buffet line', category: 'food' },
-  { src: '/gallery/food-10.jpeg', alt: 'Buffet hall', category: 'food' },
-  { src: '/gallery/food-4.jpeg', alt: 'Chocolate raspberry desserts', category: 'food' },
-  { src: '/gallery/food-12.jpeg', alt: 'Desserts', category: 'food' },
-  { src: '/gallery/food-19.jpeg', alt: 'Chocolate desserts', category: 'food' },
-  { src: '/gallery/food-20.jpeg', alt: 'Chocolate desserts', category: 'food' },
-  { src: '/gallery/food-14.jpeg', alt: 'Berry layer cake', category: 'food' },
-  { src: '/gallery/food-28.jpeg', alt: 'Berry cake', category: 'food' },
-  { src: '/gallery/food-32.jpeg', alt: 'Berry cake', category: 'food' },
-  { src: '/gallery/food-6.jpeg', alt: 'Cookies and pastries', category: 'food' },
-  { src: '/gallery/food-9.jpeg', alt: 'Event table setup', category: 'food' },
-  { src: '/gallery/food-11.jpeg', alt: 'Event menu and buffet', category: 'food' },
-  { src: '/gallery/food-15.jpeg', alt: 'Event table setting', category: 'food' },
-  { src: '/gallery/food-16.jpeg', alt: 'Event table setting', category: 'food' },
-  { src: '/gallery/food-23.jpeg', alt: 'Event table setting', category: 'food' },
-  { src: '/gallery/food-24.jpeg', alt: 'Buffet line', category: 'food' },
-  { src: '/gallery/food-42.jpeg', alt: 'Event table setting', category: 'food' },
-  { src: '/gallery/outside-1.jpg', alt: 'Outside view', category: 'outside' },
-  { src: '/gallery/outside-2.jpg', alt: 'Terrace', category: 'outside' },
-  { src: '/gallery/outside-3.jpg', alt: 'Lake view', category: 'outside' },
-  { src: '/gallery/outside-4.jpg', alt: 'Garden area', category: 'outside' },
-  { src: '/gallery/outside-5.jpg', alt: 'Entrance', category: 'outside' },
-  { src: '/gallery/kabinetti-1.jpg', alt: 'Event room', category: 'kabinetti' },
-  { src: '/gallery/kabinetti-2.jpg', alt: 'Event room', category: 'kabinetti' },
-  { src: '/gallery/kabinetti-3.jpg', alt: 'Event room', category: 'kabinetti' },
-  { src: '/gallery/kabinetti-4.jpg', alt: 'Event room', category: 'kabinetti' },
-  { src: '/gallery/kabinetti-5.jpg', alt: 'Event room', category: 'kabinetti' },
-  { src: '/gallery/kabinetti-6.jpg', alt: 'Event room', category: 'kabinetti' },
-  { src: '/gallery/kabinetti-7.jpg', alt: 'Event room', category: 'kabinetti' },
-  { src: '/gallery/kabinetti-8.jpg', alt: 'Event room', category: 'kabinetti' },
-  { src: '/gallery/kabinetti-9.jpg', alt: 'Event room', category: 'kabinetti' },
-  { src: '/gallery/kabinetti-10.jpg', alt: 'Event room', category: 'kabinetti' },
-  { src: '/gallery/kabinetti-11.jpg', alt: 'Event room', category: 'kabinetti' },
-  { src: '/gallery/kabinetti-12.jpg', alt: 'Event room', category: 'kabinetti' },
-  { src: '/gallery/sauna-1.jpg', alt: 'Sauna facilities', category: 'sauna' },
-  { src: '/gallery/sauna-2.jpg', alt: 'Sauna facilities', category: 'sauna' },
-  { src: '/gallery/sauna-3.jpg', alt: 'Sauna facilities', category: 'sauna' },
-  { src: '/gallery/sauna-4.jpg', alt: 'Sauna facilities', category: 'sauna' },
+  { src: '/gallery/interior-1.jpeg', altKey: 'interior', category: 'interior' },
+  { src: '/gallery/interior-2.jpeg', altKey: 'atmosphere', category: 'interior' },
+  { src: '/gallery/interior-3.jpg', altKey: 'interior', category: 'interior' },
+  { src: '/gallery/interior-4.jpg', altKey: 'interior', category: 'interior' },
+  { src: '/gallery/interior-5.jpg', altKey: 'interior', category: 'interior' },
+  { src: '/gallery/interior-6.jpg', altKey: 'interior', category: 'interior' },
+  { src: '/gallery/interior-7.jpg', altKey: 'interior', category: 'interior' },
+  { src: '/gallery/interior-8.jpg', altKey: 'interior', category: 'interior' },
+  { src: '/gallery/interior-9.jpg', altKey: 'interior', category: 'interior' },
+  { src: '/gallery/interior-10.jpg', altKey: 'interior', category: 'interior' },
+  { src: '/gallery/interior-11.jpg', altKey: 'interior', category: 'interior' },
+  { src: '/gallery/interior-12.jpg', altKey: 'interior', category: 'interior' },
+  { src: '/gallery/interior-13.jpg', altKey: 'interior', category: 'interior' },
+  { src: '/gallery/food-13.jpeg', altKey: 'salmonSpread', category: 'food' },
+  { src: '/gallery/food-30.jpeg', altKey: 'cateringBuffet', category: 'food' },
+  { src: '/gallery/food-37.jpeg', altKey: 'cateringSpread', category: 'food' },
+  { src: '/gallery/food-1.jpeg', altKey: 'salmonPlatter', category: 'food' },
+  { src: '/gallery/food-18.jpeg', altKey: 'cateringBuffet', category: 'food' },
+  { src: '/gallery/food-27.jpeg', altKey: 'salmonSpread', category: 'food' },
+  { src: '/gallery/food-35.jpeg', altKey: 'cateringCenterpiece', category: 'food' },
+  { src: '/gallery/food-40.jpeg', altKey: 'cateringSpread', category: 'food' },
+  { src: '/gallery/food-5.jpeg', altKey: 'lunchBuffet', category: 'food' },
+  { src: '/gallery/food-34.jpeg', altKey: 'lunchBuffet', category: 'food' },
+  { src: '/gallery/food-38.jpeg', altKey: 'lunchBuffet', category: 'food' },
+  { src: '/gallery/food-22.jpeg', altKey: 'lunchBuffet', category: 'food' },
+  { src: '/gallery/food-26.jpeg', altKey: 'lunchBuffet', category: 'food' },
+  { src: '/gallery/food-29.jpeg', altKey: 'lunchBuffet', category: 'food' },
+  { src: '/gallery/food-31.jpeg', altKey: 'lunchBuffet', category: 'food' },
+  { src: '/gallery/food-33.jpeg', altKey: 'lunchBuffet', category: 'food' },
+  { src: '/gallery/food-39.jpeg', altKey: 'lunchBuffet', category: 'food' },
+  { src: '/gallery/food-41.jpeg', altKey: 'lunchBuffet', category: 'food' },
+  { src: '/gallery/food-7.jpeg', altKey: 'saladSelection', category: 'food' },
+  { src: '/gallery/food-8.jpeg', altKey: 'saladSelection', category: 'food' },
+  { src: '/gallery/food-17.jpeg', altKey: 'saladSelection', category: 'food' },
+  { src: '/gallery/food-21.jpeg', altKey: 'saladSelection', category: 'food' },
+  { src: '/gallery/food-25.jpeg', altKey: 'saladSelection', category: 'food' },
+  { src: '/gallery/food-36.jpeg', altKey: 'saladSelection', category: 'food' },
+  { src: '/gallery/food-3.jpeg', altKey: 'saladSelection', category: 'food' },
+  { src: '/gallery/food-2.jpeg', altKey: 'buffetLine', category: 'food' },
+  { src: '/gallery/food-10.jpeg', altKey: 'buffetHall', category: 'food' },
+  { src: '/gallery/food-4.jpeg', altKey: 'chocolateDesserts', category: 'food' },
+  { src: '/gallery/food-12.jpeg', altKey: 'desserts', category: 'food' },
+  { src: '/gallery/food-19.jpeg', altKey: 'chocolateDesserts', category: 'food' },
+  { src: '/gallery/food-20.jpeg', altKey: 'chocolateDesserts', category: 'food' },
+  { src: '/gallery/food-14.jpeg', altKey: 'cake', category: 'food' },
+  { src: '/gallery/food-28.jpeg', altKey: 'cake', category: 'food' },
+  { src: '/gallery/food-32.jpeg', altKey: 'cake', category: 'food' },
+  { src: '/gallery/food-6.jpeg', altKey: 'cookies', category: 'food' },
+  { src: '/gallery/food-9.jpeg', altKey: 'eventTable', category: 'food' },
+  { src: '/gallery/food-11.jpeg', altKey: 'eventMenu', category: 'food' },
+  { src: '/gallery/food-15.jpeg', altKey: 'eventTable', category: 'food' },
+  { src: '/gallery/food-16.jpeg', altKey: 'eventTable', category: 'food' },
+  { src: '/gallery/food-23.jpeg', altKey: 'eventTable', category: 'food' },
+  { src: '/gallery/food-24.jpeg', altKey: 'buffetLine', category: 'food' },
+  { src: '/gallery/food-42.jpeg', altKey: 'eventTable', category: 'food' },
+  { src: '/gallery/outside-1.jpg', altKey: 'outside', category: 'outside' },
+  { src: '/gallery/outside-2.jpg', altKey: 'terrace', category: 'outside' },
+  { src: '/gallery/outside-3.jpg', altKey: 'lake', category: 'outside' },
+  { src: '/gallery/outside-4.jpg', altKey: 'garden', category: 'outside' },
+  { src: '/gallery/outside-5.jpg', altKey: 'entrance', category: 'outside' },
+  { src: '/gallery/kabinetti-1.jpg', altKey: 'kabinetti', category: 'kabinetti' },
+  { src: '/gallery/kabinetti-2.jpg', altKey: 'kabinetti', category: 'kabinetti' },
+  { src: '/gallery/kabinetti-3.jpg', altKey: 'kabinetti', category: 'kabinetti' },
+  { src: '/gallery/kabinetti-4.jpg', altKey: 'kabinetti', category: 'kabinetti' },
+  { src: '/gallery/kabinetti-5.jpg', altKey: 'kabinetti', category: 'kabinetti' },
+  { src: '/gallery/kabinetti-6.jpg', altKey: 'kabinetti', category: 'kabinetti' },
+  { src: '/gallery/kabinetti-7.jpg', altKey: 'kabinetti', category: 'kabinetti' },
+  { src: '/gallery/kabinetti-8.jpg', altKey: 'kabinetti', category: 'kabinetti' },
+  { src: '/gallery/kabinetti-9.jpg', altKey: 'kabinetti', category: 'kabinetti' },
+  { src: '/gallery/kabinetti-10.jpg', altKey: 'kabinetti', category: 'kabinetti' },
+  { src: '/gallery/kabinetti-11.jpg', altKey: 'kabinetti', category: 'kabinetti' },
+  { src: '/gallery/kabinetti-12.jpg', altKey: 'kabinetti', category: 'kabinetti' },
+  { src: '/gallery/sauna-1.jpg', altKey: 'sauna', category: 'sauna' },
+  { src: '/gallery/sauna-2.jpg', altKey: 'sauna', category: 'sauna' },
+  { src: '/gallery/sauna-3.jpg', altKey: 'sauna', category: 'sauna' },
+  { src: '/gallery/sauna-4.jpg', altKey: 'sauna', category: 'sauna' },
 ];
 
 const categories: Category[] = ['all', 'interior', 'kabinetti', 'sauna', 'food', 'outside'];
@@ -242,7 +242,7 @@ export default function GalleryPageClient() {
                   >
                     <Image
                       src={image.src}
-                      alt={image.alt}
+                      alt={t(`alt.${image.altKey}`)}
                       fill
                       sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
                       className="object-cover transition-transform duration-300 group-hover:scale-105"
@@ -272,7 +272,7 @@ export default function GalleryPageClient() {
       <Dialog open={selectedIndex !== null} onOpenChange={() => setSelectedIndex(null)}>
         <DialogContent aria-describedby={undefined} className="max-w-[95vw] max-h-[95vh] w-full h-full p-0 border-none bg-black/95">
           <DialogTitle className="sr-only">
-            {selectedIndex !== null ? filteredImages[selectedIndex].alt : 'Gallery image'}
+            {selectedIndex !== null ? t(`alt.${filteredImages[selectedIndex].altKey}`) : t('title')}
           </DialogTitle>
           <div className="relative w-full h-full flex items-center justify-center">
             {/* Close button */}
@@ -319,7 +319,7 @@ export default function GalleryPageClient() {
               <div className="relative w-full h-full max-w-6xl max-h-[85vh] mx-4">
                 <Image
                   src={filteredImages[selectedIndex].src}
-                  alt={filteredImages[selectedIndex].alt}
+                  alt={t(`alt.${filteredImages[selectedIndex].altKey}`)}
                   fill
                   sizes="95vw"
                   className="object-contain"
