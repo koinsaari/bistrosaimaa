@@ -47,9 +47,10 @@ jobs:
           DEPLOYMENT_URL: ${{ steps.deploy.outputs.deployment_url }}
         with:
           script: |
+            const MARKER = '<!-- preview-deploy-comment -->';
             const url = process.env.DEPLOYMENT_URL;
             const sha = context.sha.slice(0, 7);
-            const body = `🔍 Preview deployment ready for \`${sha}\`\n\n→ ${url}\n\n*Updates on every push to this PR. The "E2E Tests" check gates merge.*`;
+            const body = `${MARKER}\n🔍 Preview deployment ready for \`${sha}\`\n\n→ ${url}\n\n*Updates on every push to this PR. The "E2E Tests" check gates merge.*`;
 
             // Update an existing preview comment if it exists; otherwise post one.
             const { data: comments } = await github.rest.issues.listComments({
@@ -57,9 +58,7 @@ jobs:
               repo: context.repo.repo,
               issue_number: context.issue.number,
             });
-            const existing = comments.find(
-              (c) => c.user.type === 'Bot' && c.body && c.body.includes('Preview deployment ready'),
-            );
+            const existing = comments.find((c) => c.body && c.body.includes(MARKER));
             if (existing) {
               await github.rest.issues.updateComment({
                 owner: context.repo.owner,

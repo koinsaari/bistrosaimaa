@@ -12,7 +12,7 @@ jobs:
     name: Promote main deployment to production
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
     env:
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
@@ -45,6 +45,8 @@ jobs:
           # `vercel list -m` filters by deployment metadata. We grep the first
           # *.vercel.app URL out of the output; it's the most recent matching
           # deployment because vercel list is ordered newest first.
+          # The output format is stable as of Vercel CLI v54 (pinned above);
+          # revisit this grep when bumping VERCEL_CLI_VERSION.
           DEPLOYMENT_URL=$(vercel list \
             --meta "githubCommitSha=$SHA" \
             | grep -oE 'https://[a-z0-9-]+\.vercel\.app' \
