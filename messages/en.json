@@ -5,7 +5,7 @@
       "ogLocale": "en_US"
     },
     "home": {
-      "title": "Bistro Saimaa - Restaurant, event rooms and catering",
+      "title": "Bistro Saimaa - Restaurant, event rooms, and catering",
       "description": "Full-service restaurant in Ristiina: catering across Etelä-Savo, event rooms for occasions, and a beautiful Lake Saimaa location.",
       "keywords": "bistro, restaurant, saimaa, ristiina, food, event room, catering, mikkeli, lunch, etelä-savo"
     },
@@ -37,11 +37,14 @@
     "home": "Home",
     "menu": "Menu",
     "gallery": "Gallery",
-    "contact": "Contact Us"
+    "contact": "Contact Us",
+    "tagline": "Restaurant, event rooms, and catering",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
   },
   "HomePage": {
     "title": "Bistro Saimaa",
-    "subtitle": "Restaurant, event rooms and catering",
+    "subtitle": "Restaurant, event rooms, and catering",
     "description": "Full-service restaurant in Ristiina: catering throughout Southern Savonia, event rooms for events and a beautiful location by Lake Saimaa.",
     "exploreMenu": "Explore Menu",
     "makeReservation": "Make Reservation",
@@ -128,7 +131,7 @@
   },
   "Footer": {
     "bistroSaimaa": "Bistro Saimaa",
-    "subtitle": "Restaurant, event rooms and catering",
+    "subtitle": "Restaurant, event rooms, and catering",
     "contactInfo": "Contact Information",
     "addressLine1": "Brahentie 42, 52300 Ristiina",
     "openingHours": "Opening Hours",
@@ -200,7 +203,7 @@
   "PrivacyPage": {
     "title": "Privacy Policy",
     "cardTitle": "Bistro Saimaa Privacy Policy",
-    "lastUpdated": "Last updated: May 14, 2025",
+    "lastUpdated": "Last updated: May 14, 2026",
     "intro": "This privacy policy describes how Bistro Saimaa processes personal data collected through our contact form.",
     "section1Title": "1. Data Collected",
     "section1Intro": "We collect the following information through the contact form:",
@@ -219,11 +222,7 @@
     "section3Item4": "Is not transferred outside the EU/EEA area",
     "section3Item5": "Message transmission is handled through Web3Forms service (web3forms.com)",
     "section4Title": "4. Cookies and Local Storage",
-    "section4Text": "We use only one cookie for storing language preference:",
-    "section4Item1": "Cookie: NEXT_LOCALE",
-    "section4Item2": "Purpose: Stores the user's selected language (Finnish/English)",
-    "section4Item3": "Expiration: 1 year",
-    "section4Item4": "Does not contain personal data and does not track users",
+    "section4Text": "This website does not use cookies. The language (Finnish or English) is determined by the URL — no cookie or local storage entry is written.",
     "section5Title": "5. Web Analytics",
     "section5Intro": "We use Vercel Analytics to collect anonymous usage data about our website:",
     "section5Item1": "We collect anonymous data about visitor numbers and popular pages",

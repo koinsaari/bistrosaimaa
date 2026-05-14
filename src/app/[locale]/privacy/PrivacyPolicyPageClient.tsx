@@ -94,12 +94,6 @@ const PrivacyPolicyContent = () => {
           <p className="text-foreground mb-4">
             {t('section4Text')}
           </p>
-          <ul className="list-disc pl-6 text-foreground space-y-1">
-            <li>{t('section4Item1')}</li>
-            <li>{t('section4Item2')}</li>
-            <li>{t('section4Item3')}</li>
-            <li>{t('section4Item4')}</li>
-          </ul>
         </section>
 
         <section>

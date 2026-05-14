@@ -94,7 +94,7 @@ export default function NavigationBar() {
             <div>
               <div className="font-bold text-base sm:text-lg text-foreground">Bistro Saimaa</div>
               <div className="text-xs text-muted-foreground">
-                Ravintola, kabinetit ja pitopalvelut
+                {t('tagline')}
               </div>
             </div>
           </Link>
@@ -140,7 +140,7 @@ export default function NavigationBar() {
               size="sm"
               onClick={toggleMenu}
               className="p-2 rounded-full text-foreground hover:bg-muted hover:text-primary transition-all duration-200"
-              aria-label={isMenuOpen ? 'Sulje valikko' : 'Avaa valikko'}
+              aria-label={isMenuOpen ? t('closeMenu') : t('openMenu')}
             >
               {isMenuOpen ? (
                 <X className="h-6 w-6 transition-transform duration-200" />
