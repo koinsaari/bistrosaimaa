@@ -65,8 +65,8 @@ jobs:
           echo "Found deployment: $DEPLOYMENT_URL"
           echo "deployment_url=$DEPLOYMENT_URL" >> "$GITHUB_OUTPUT"
 
-      - name: Promote deployment to production
-        run: vercel promote "${{ steps.find.outputs.deployment_url }}"
+      - name: Alias deployment to bistrosaimaa.fi (production)
+        run: vercel alias set "${{ steps.find.outputs.deployment_url }}" bistrosaimaa.fi
 
       - name: Append production URL to release notes
         uses: actions/github-script@v8
