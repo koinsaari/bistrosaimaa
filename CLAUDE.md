@@ -22,18 +22,29 @@ Playwright has two projects: `desktop` (Chrome) ignores `navigation-mobile.spec.
 
 ### Internationalization (Finnish / English)
 
-i18n is the central architectural concern. The site uses **`next-intl` without a locale URL segment** — locale is stored in the `NEXT_LOCALE` cookie, defaulting to `fi`.
+i18n is the central architectural concern. The site uses **`next-intl` with URL-segment routing**, `localePrefix: 'as-needed'` — FI (default) stays at `/`, `/menu`, etc., and EN gets `/en/`, `/en/menu`, etc. No cookie. Locale comes from the URL.
 
-- `src/i18n/request.ts` reads the cookie server-side and loads `messages/{locale}.json`.
-- `next.config.ts` wires next-intl via `createNextIntlPlugin()`.
-- `src/app/layout.tsx` resolves locale on the server, sets `<html lang>`, and wraps the tree in `NextIntlClientProvider` + `LanguageProvider`.
-- `src/context/LanguageContext.tsx` (client) is the switcher: writes the cookie and calls `router.refresh()` inside a `startTransition` so server components re-render with the new messages. Use `useLanguage()` from this context — not next-intl's locale directly — when toggling languages in the UI.
+- `src/i18n/routing.ts` defines `locales`, `defaultLocale`, and `localePrefix`. Import the `Locale` type from here.
+- `src/i18n/navigation.ts` exports the locale-aware `Link`, `useRouter`, `usePathname`, `redirect`. **Always import these from `@/i18n/navigation`, never `next/link` / `next/navigation`**, otherwise locale prefixing breaks.
+- `src/proxy.ts` (Next 16 file convention — replaces `middleware.ts`) runs `createMiddleware(routing)` and handles locale detection/rewriting.
+- `src/i18n/request.ts` reads `requestLocale` (set by the proxy) and loads `messages/{locale}.json`.
+- `src/i18n/metadata.ts` exports `localeAlternates(path, currentLocale)` to build `canonical` + `languages` (fi/en/x-default) hreflang for `generateMetadata`.
 
-When adding user-facing strings, add keys to both `messages/en.json` and `messages/fi.json`.
+When adding user-facing strings, add keys to both `messages/en.json` and `messages/fi.json`. The `Metadata` namespace holds per-page SEO copy (title, description, keywords).
 
 ### Page structure pattern
 
-Each route under `src/app/<route>/` follows: `page.tsx` (server component, exports route `metadata`) → renders a `*PageClient.tsx` (client component) that uses translations and interactive hooks. Follow this split when adding pages so per-page SEO metadata stays server-rendered.
+Each route lives under `src/app/[locale]/<route>/`:
+- `page.tsx` is a server component. Use `generateMetadata` (not the static `metadata` export) so per-page SEO copy can be localized via `getTranslations({ locale, namespace: 'Metadata.X' })`. Call `setRequestLocale(locale)` in the page function so server-rendered client components have the right locale.
+- `*PageClient.tsx` is a client component that uses translations and interactive hooks.
+
+The root layout (`src/app/[locale]/layout.tsx`) validates the locale via `hasLocale(routing.locales, locale)` and `notFound()`s on invalid values, calls `setRequestLocale`, and exposes a single locale-aware `generateMetadata` block. `globals.css`, `robots.ts`, and `sitemap.ts` stay at `src/app/` root.
+
+The sitemap emits both `/...` and `/en/...` URLs with `alternates.languages`.
+
+### Fonts
+
+Use the `geist` npm package (`GeistSans`, `GeistMono` from `geist/font/sans` and `geist/font/mono`), not `next/font/google`. The npm package ships the woff2 files locally so builds don't depend on fetching `fonts.googleapis.com` — important for CI reliability.
 
 The root `layout.tsx` injects a `Restaurant` JSON-LD blob with address, hours, and contact info — keep it in sync with real business data. `sitemap.ts` and `robots.ts` live alongside the app routes.
 

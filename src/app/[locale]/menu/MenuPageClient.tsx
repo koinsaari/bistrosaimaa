@@ -11,8 +11,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel';
-import { useLanguage } from '@/context/LanguageContext';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 
 const menuPhotosFi = [
   {
@@ -83,10 +82,10 @@ const menuPhotosEn = [
 export default function MenuPageClient() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [mousePosition, setMousePosition] = useState({ x: 50, y: 50 });
-  const { language } = useLanguage();
+  const locale = useLocale();
   const t = useTranslations('MenuPage');
 
-  const menuPhotos = language === 'en' ? menuPhotosEn : menuPhotosFi;
+  const menuPhotos = locale === 'en' ? menuPhotosEn : menuPhotosFi;
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const menuSection = e.currentTarget;
