@@ -1,0 +1,77 @@
+name: Production Release
+
+on:
+  release:
+    types: [published]
+
+env:
+  VERCEL_CLI_VERSION: vercel@54
+
+jobs:
+  promote:
+    name: Promote main deployment to production
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    env:
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+    steps:
+      - name: Install Vercel CLI
+        run: npm i -g ${{ env.VERCEL_CLI_VERSION }}
+
+      - name: Resolve release commit SHA
+        id: sha
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ github.event.release.tag_name }}
+          REPO: ${{ github.repository }}
+        run: |
+          SHA=$(gh api "repos/$REPO/git/refs/tags/$TAG" --jq '.object.sha')
+          # Annotated tags point at a tag object; resolve to the commit it points to.
+          OBJ_TYPE=$(gh api "repos/$REPO/git/tags/$SHA" --jq '.object.type' 2>/dev/null || true)
+          if [ "$OBJ_TYPE" = "commit" ]; then
+            SHA=$(gh api "repos/$REPO/git/tags/$SHA" --jq '.object.sha')
+          fi
+          echo "Release $TAG points to commit $SHA"
+          echo "sha=$SHA" >> "$GITHUB_OUTPUT"
+
+      - name: Find Vercel deployment for that commit
+        id: find
+        env:
+          SHA: ${{ steps.sha.outputs.sha }}
+        run: |
+          # `vercel list -m` filters by deployment metadata. We grep the first
+          # *.vercel.app URL out of the output; it's the most recent matching
+          # deployment because vercel list is ordered newest first.
+          DEPLOYMENT_URL=$(vercel list \
+            --meta "githubCommitSha=$SHA" \
+            | grep -oE 'https://[a-z0-9-]+\.vercel\.app' \
+            | head -n1)
+
+          if [ -z "$DEPLOYMENT_URL" ]; then
+            echo "::error::No Vercel deployment found for commit $SHA. Make sure CI deployed this commit to staging before publishing the release."
+            exit 1
+          fi
+
+          echo "Found deployment: $DEPLOYMENT_URL"
+          echo "deployment_url=$DEPLOYMENT_URL" >> "$GITHUB_OUTPUT"
+
+      - name: Promote to production
+        run: vercel promote "${{ steps.find.outputs.deployment_url }}"
+
+      - name: Append production URL to release notes
+        uses: actions/github-script@v8
+        env:
+          DEPLOYMENT_URL: ${{ steps.find.outputs.deployment_url }}
+        with:
+          script: |
+            const url = process.env.DEPLOYMENT_URL;
+            const body = (context.payload.release.body || '') + `\n\n---\n🚀 Promoted to production: ${url}`;
+            await github.rest.repos.updateRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              release_id: context.payload.release.id,
+              body,
+            });

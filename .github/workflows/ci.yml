@@ -6,6 +6,9 @@ on:
   pull_request:
     branches: [main]
 
+env:
+  VERCEL_CLI_VERSION: vercel@54
+
 jobs:
   test:
     name: E2E Tests
@@ -38,22 +41,83 @@ jobs:
           path: playwright-report/
           retention-days: 7
 
-  deploy:
-    name: Deploy to Vercel
+  deploy-staging:
+    name: Deploy to Staging
     needs: test
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    env:
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+    outputs:
+      deployment_url: ${{ steps.deploy.outputs.deployment_url }}
+      should_promote: ${{ steps.gate.outputs.should_promote }}
     steps:
       - uses: actions/checkout@v6
 
-      - name: Pull Vercel Environment Information
-        run: npx vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Install Vercel CLI
+        run: npm i -g ${{ env.VERCEL_CLI_VERSION }}
+
+      - name: Pull Vercel environment info
+        run: vercel pull --yes --environment=production
+
+      - name: Build for production
+        run: vercel build --prod
+
+      - name: Deploy build to Vercel (skip-domain so prod isn't reassigned)
+        id: deploy
+        run: |
+          DEPLOYMENT_URL=$(vercel deploy --prebuilt --prod --skip-domain)
+          echo "deployment_url=$DEPLOYMENT_URL" >> "$GITHUB_OUTPUT"
+          echo "Deployed to: $DEPLOYMENT_URL"
+
+      - name: Alias deployment to staging.bistrosaimaa.fi
+        run: vercel alias set "${{ steps.deploy.outputs.deployment_url }}" staging.bistrosaimaa.fi
+
+      - name: Decide whether to auto-promote
+        id: gate
         env:
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          AUTHOR: ${{ github.event.head_commit.author.username }}
+          MESSAGE: ${{ github.event.head_commit.message }}
+          SHA: ${{ github.sha }}
+          REPO: ${{ github.repository }}
+        run: |
+          # Auto-promote to production if any of:
+          #   - commit author is dependabot
+          #   - commit message starts with chore(deps)
+          #   - commit landed on main without a PR (direct admin push)
+          PR_COUNT=$(gh api "repos/$REPO/commits/$SHA/pulls" --jq 'length')
 
-      - name: Build Project Artifacts
-        run: npx vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+          SHOULD_PROMOTE=false
+          if [ "$AUTHOR" = "dependabot[bot]" ]; then
+            SHOULD_PROMOTE=true
+            echo "::notice::Auto-promoting: dependabot commit"
+          elif printf '%s' "$MESSAGE" | head -n1 | grep -qE '^chore\(deps'; then
+            SHOULD_PROMOTE=true
+            echo "::notice::Auto-promoting: chore(deps) commit"
+          elif [ "$PR_COUNT" = "0" ]; then
+            SHOULD_PROMOTE=true
+            echo "::notice::Auto-promoting: direct push to main (no associated PR)"
+          else
+            echo "::notice::Staging only. Publish a GitHub Release to promote to production."
+          fi
 
-      - name: Deploy Project Artifacts to Vercel
-        run: npx vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
+          echo "should_promote=$SHOULD_PROMOTE" >> "$GITHUB_OUTPUT"
+
+  auto-promote:
+    name: Auto-promote to Production
+    needs: deploy-staging
+    runs-on: ubuntu-latest
+    if: needs.deploy-staging.outputs.should_promote == 'true'
+    env:
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+    steps:
+      - name: Install Vercel CLI
+        run: npm i -g ${{ env.VERCEL_CLI_VERSION }}
+
+      - name: Promote staging deployment to production
+        run: vercel promote "${{ needs.deploy-staging.outputs.deployment_url }}"
