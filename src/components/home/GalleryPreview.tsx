@@ -1,22 +1,28 @@
-import Image from 'next/image';
-import { getLocale, getTranslations } from 'next-intl/server';
+import { getTranslations } from 'next-intl/server';
 import { ArrowRight } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 import { Button } from '@/components/ui/button';
 import WaterLine from '@/components/WaterLine';
 import Reveal from '@/components/Reveal';
+import GalleryPreviewCarousel from '@/components/home/GalleryPreviewCarousel';
 
-const PREVIEW_TILES: Array<{ src: string; altKey: string; ratio: string }> = [
-  { src: '/gallery/interior-7.jpg', altKey: 'interior', ratio: 'aspect-[4/5]' },
-  { src: '/gallery/food-9.jpeg', altKey: 'atmosphere', ratio: 'aspect-square' },
-  { src: '/gallery/outside-3.jpg', altKey: 'outside', ratio: 'aspect-[4/5]' },
-  { src: '/gallery/kabinetti-2.jpg', altKey: 'kabinetti', ratio: 'aspect-square' },
-  { src: '/gallery/food-22.jpeg', altKey: 'atmosphere', ratio: 'aspect-[4/5]' },
+const PREVIEW_TILES: Array<{ src: string; altKey: string }> = [
+  { src: '/gallery/interior-7.jpg', altKey: 'interior' },
+  { src: '/gallery/food-9.jpeg', altKey: 'atmosphere' },
+  { src: '/gallery/outside-3.jpg', altKey: 'outside' },
+  { src: '/gallery/kabinetti-2.jpg', altKey: 'kabinetti' },
+  { src: '/gallery/food-22.jpeg', altKey: 'atmosphere' },
+  { src: '/gallery/interior-4.jpg', altKey: 'interior' },
+  { src: '/gallery/food-1.jpeg', altKey: 'atmosphere' },
 ];
 
 export default async function GalleryPreview() {
-  const locale = await getLocale();
-  const tGallery = await getTranslations({ locale, namespace: 'Gallery' });
+  const tGallery = await getTranslations('Gallery');
+
+  const tiles = PREVIEW_TILES.map((tile) => ({
+    src: tile.src,
+    alt: tGallery(`alt.${tile.altKey}`),
+  }));
 
   return (
     <section className="bg-background py-20 md:py-28">
@@ -42,27 +48,10 @@ export default async function GalleryPreview() {
             </Link>
           </Button>
         </header>
-
-        <div className="grid grid-cols-2 gap-3 md:grid-cols-5 md:gap-4">
-          {PREVIEW_TILES.map((tile, i) => (
-            <Link
-              key={tile.src}
-              href="/gallery"
-              className={`group relative overflow-hidden rounded-lg ${tile.ratio} ${
-                i >= 4 ? 'hidden md:block' : ''
-              }`}
-            >
-              <Image
-                src={tile.src}
-                alt={tGallery(`alt.${tile.altKey}`)}
-                fill
-                sizes="(max-width: 767px) 50vw, 20vw"
-                className="object-cover transition-transform duration-300 group-hover:scale-[1.04]"
-              />
-            </Link>
-          ))}
-        </div>
       </Reveal>
+
+      <GalleryPreviewCarousel tiles={tiles} />
+
       <div className="container mx-auto mt-20 px-6">
         <WaterLine variant="divider" />
       </div>

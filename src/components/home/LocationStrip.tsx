@@ -26,7 +26,7 @@ export default async function LocationStrip() {
             <h2 className="mb-5 font-serif font-normal leading-[1.05] tracking-[-0.02em] text-[clamp(1.875rem,3vw,2.75rem)] text-ink">
               {t.rich('locationHeading_PLACEHOLDER', {
                 i: (chunks) => (
-                  <em className="font-light italic text-primary">{chunks}</em>
+                  <em className="font-semibold italic text-primary">{chunks}</em>
                 ),
               })}
             </h2>

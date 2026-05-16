@@ -18,7 +18,7 @@ export default function Footer() {
         <div className="flex flex-col items-center space-y-8">
           <div className="text-center">
             <div className="mb-2 font-serif text-2xl">
-              Bistro <em className="font-light italic text-primary">Saimaa</em>
+              Bistro <em className="font-semibold italic text-primary">Saimaa</em>
             </div>
             <p className="max-w-md text-sm text-muted-foreground">{t('subtitle')}</p>
           </div>

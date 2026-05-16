@@ -179,7 +179,7 @@ export default function MenuPageClient() {
             transition={{ duration: 0.7 }}
           >
             <h2 className="font-serif font-normal leading-[1.05] tracking-[-0.02em] text-[clamp(1.875rem,3vw,2.75rem)] text-ink mb-3">
-              {t.rich('newMenu', { i: (chunks) => <em className="font-light italic text-primary">{chunks}</em> })}
+              {t.rich('newMenu', { i: (chunks) => <em className="font-semibold italic text-primary">{chunks}</em> })}
             </h2>
             <p className="text-muted-foreground text-[15px]">{t('newMenuSubtitle')}</p>
           </motion.div>

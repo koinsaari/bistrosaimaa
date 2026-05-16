@@ -63,7 +63,7 @@ export default function NavigationBar() {
             />
           </div>
           <span className="font-serif text-lg leading-none text-foreground sm:text-xl">
-            Bistro <em className="font-light italic text-primary">Saimaa</em>
+            Bistro <em className="font-semibold italic text-primary">Saimaa</em>
           </span>
         </Link>
 
@@ -120,7 +120,7 @@ export default function NavigationBar() {
             <SheetContent side="right" data-testid="nav-mobile-menu">
               <SheetHeader>
                 <SheetTitle className="font-serif text-2xl">
-                  Bistro <em className="font-light italic text-primary">Saimaa</em>
+                  Bistro <em className="font-semibold italic text-primary">Saimaa</em>
                 </SheetTitle>
                 <SheetDescription className="sr-only">
                   {t('openMenu')}
