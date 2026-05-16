@@ -25,6 +25,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { Checkbox } from '@/components/ui/checkbox';
 import { useTranslations } from 'next-intl';
 
 interface ContactFormProps {
@@ -325,11 +326,10 @@ export default function ContactForm({
                   <FormItem>
                     <div className="flex flex-row items-start space-x-2">
                       <FormControl>
-                        <input
-                          type="checkbox"
-                          className="h-4 w-4 text-primary border-input rounded focus:ring-ring focus:ring-2 accent-primary mt-0.5"
+                        <Checkbox
                           checked={field.value}
-                          onChange={field.onChange}
+                          onCheckedChange={field.onChange}
+                          className="mt-0.5"
                         />
                       </FormControl>
                       <FormLabel className="text-sm font-normal cursor-pointer !text-foreground">

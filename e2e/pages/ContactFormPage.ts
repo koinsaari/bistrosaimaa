@@ -6,7 +6,7 @@ export class ContactFormPage {
   private emailInput = this.page.locator('input[type="email"]');
   private phoneInput = this.page.locator('input[type="tel"]');
   private messageInput = this.page.locator('textarea');
-  private privacyCheckbox = this.page.locator('input[type="checkbox"]');
+  private privacyCheckbox = this.page.getByRole('checkbox');
   private submitButton = this.page.locator('[data-testid="form-submit"]');
   private messageCounter = this.page.locator('span').filter({ hasText: /\/1000/ });
 

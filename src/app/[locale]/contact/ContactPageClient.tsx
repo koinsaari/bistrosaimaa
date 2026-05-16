@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { MapPin, Phone, Mail, Clock, ExternalLink } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import WaterLine from '@/components/WaterLine';
 import ContactForm from './ContactForm';
 import { useTranslations } from 'next-intl';
 
@@ -13,35 +14,17 @@ const ContactHero = () => {
   return (
     <div
       id="contact-hero"
-      className="relative min-h-[40vh] flex items-center justify-center text-white"
+      className="container mx-auto px-6 pt-32 pb-12 md:pt-40 md:pb-16"
     >
-      <div
-        className="absolute inset-0 w-full h-full"
-        style={{
-          backgroundImage: "url('/gallery/outside-3.jpg')",
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }}
-      />
-      <div className="absolute inset-0 bg-black/50" />
-      <div className="container mx-auto px-4 relative z-10 py-20">
-        <motion.h1
-          className="text-4xl md:text-6xl font-bold mb-6 text-center drop-shadow-lg"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
-        >
-          {t('title')}
-        </motion.h1>
-
-        <motion.p
-          className="text-center text-lg md:text-xl max-w-2xl mx-auto text-white/90"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.3, duration: 0.7 }}
-        >
-          {t('subtitle')}
-        </motion.p>
+      <p className="mb-4 flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-primary">
+        <WaterLine variant="inline" />
+        <span>{t('subtitle')}</span>
+      </p>
+      <h1 className="font-serif font-normal leading-[1.05] tracking-[-0.02em] text-[clamp(2.25rem,4.5vw,3.5rem)] text-ink">
+        {t('title')}
+      </h1>
+      <div className="mt-10">
+        <WaterLine variant="divider" />
       </div>
     </div>
   );
@@ -58,15 +41,10 @@ const ContactInfoCard = () => {
       transition={{ delay: 0.3 }}
     >
       <Card
-        className="border-primary/20"
-        style={{
-          background: 'linear-gradient(135deg, #ffffff 0%, #f8f6f1 100%)',
-          boxShadow:
-            '0 10px 30px -5px rgba(0, 0, 0, 0.08), 0 0 20px rgba(93, 138, 122, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.8)',
-        }}
+        className="border-primary/20 bg-gradient-to-br from-white to-background card-shadow"
       >
         <CardHeader>
-          <CardTitle className="text-2xl">{t('bistroSaimaa')}</CardTitle>
+          <CardTitle className="font-serif text-2xl font-medium text-ink">{t('bistroSaimaa')}</CardTitle>
         </CardHeader>
         <CardContent className="space-y-6 flex flex-col items-center lg:items-start">
           {/* Address */}
