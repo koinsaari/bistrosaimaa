@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { Menu, Calendar, Mail, Globe } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Link } from '@/i18n/navigation';
 import { useTranslations } from 'next-intl';
 import LanguageSelector from './LanguageSelector';
@@ -122,6 +122,9 @@ export default function NavigationBar() {
                 <SheetTitle className="font-serif text-2xl">
                   Bistro <em className="font-light italic text-primary">Saimaa</em>
                 </SheetTitle>
+                <SheetDescription className="sr-only">
+                  {t('openMenu')}
+                </SheetDescription>
               </SheetHeader>
               <div className="mt-8 flex flex-col gap-2">
                 <Button
