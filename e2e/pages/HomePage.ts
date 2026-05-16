@@ -28,9 +28,7 @@ export class HomePage {
   async expectOfferingCardsVisible() {
     await this.offerings.scrollIntoViewIfNeeded();
     await expect(this.offerings.getByRole('heading', { level: 2 })).toBeVisible();
-    // Cards use whileInView animation — verify they exist in the DOM
     await expect(this.page.locator('[data-testid="offering-card-menu"]')).toBeAttached();
-    await expect(this.page.locator('[data-testid="offering-card-lunch"]')).toBeAttached();
     await expect(this.page.locator('[data-testid="offering-card-catering"]')).toBeAttached();
   }
 

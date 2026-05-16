@@ -22,7 +22,7 @@ test.describe('Home Page', () => {
     await expect(page).toHaveURL('/contact');
   });
 
-  test('offerings section shows 3 cards', async ({ page }) => {
+  test('offerings section shows 2 cards', async ({ page }) => {
     const home = new HomePage(page);
     await home.goto();
     await home.expectOfferingCardsVisible();
