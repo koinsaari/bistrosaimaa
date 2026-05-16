@@ -1,200 +1,176 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
-import { Menu, X, Calendar, Mail, Globe } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
+import { Menu, Calendar, Mail, Globe } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Link } from '@/i18n/navigation';
 import { useTranslations } from 'next-intl';
 import LanguageSelector from './LanguageSelector';
 
 export default function NavigationBar() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
-  const navbarRef = useRef<HTMLElement>(null);
   const lastScrollY = useRef(0);
-  const firstMenuItemRef = useRef<HTMLButtonElement>(null);
   const t = useTranslations('Navigation');
 
   useEffect(() => {
     const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-
-      setIsScrolled(currentScrollY > 20);
-
-      const heroSection = document.querySelector('[id$="-hero"]') as HTMLElement;
-      const isOnHero = heroSection && currentScrollY < heroSection.offsetHeight - 100;
-
-      if (currentScrollY < 10) {
+      const y = window.scrollY;
+      setIsScrolled(y > 20);
+      const hero = document.querySelector('[id$="-hero"]') as HTMLElement | null;
+      const onHero = hero && y < hero.offsetHeight - 100;
+      if (y < 10) {
         setIsVisible(true);
-      } else if (isOnHero) {
-        if (currentScrollY > lastScrollY.current && currentScrollY > 200) {
-          setIsVisible(false);
-          setIsMenuOpen(false);
-        } else if (currentScrollY < lastScrollY.current) {
-          setIsVisible(true);
-        }
+      } else if (onHero) {
+        if (y > lastScrollY.current && y > 200) setIsVisible(false);
+        else if (y < lastScrollY.current) setIsVisible(true);
       } else {
-        if (currentScrollY > lastScrollY.current && currentScrollY > 100) {
-          setIsVisible(false);
-          setIsMenuOpen(false);
-        } else if (currentScrollY < lastScrollY.current) {
-          setIsVisible(true);
-        }
+        if (y > lastScrollY.current && y > 100) setIsVisible(false);
+        else if (y < lastScrollY.current) setIsVisible(true);
       }
-
-      lastScrollY.current = currentScrollY;
+      lastScrollY.current = y;
     };
-
     window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll();
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  const toggleMenu = () => {
-    setIsMenuOpen((prev) => {
-      const newState = !prev;
-      if (newState) {
-        setTimeout(() => firstMenuItemRef.current?.focus(), 100);
-      }
-      return newState;
-    });
-  };
 
   return (
     <nav
       data-testid="navbar"
-      ref={navbarRef}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
         isVisible ? 'translate-y-0' : '-translate-y-full'
       } ${
         isScrolled
-          ? 'bg-background/95 backdrop-blur-lg shadow-lg border-b border-border/50'
+          ? 'border-b border-border/50 bg-background/95 shadow-sm backdrop-blur-lg'
           : 'bg-background/80 backdrop-blur-md'
       }`}
+      style={{ height: 'var(--nav-h)' }}
     >
-      <div className="container mx-auto px-6 py-4">
-        <div className="flex items-center justify-between">
-          {/* Logo */}
-          <Link href="/" data-testid="nav-logo" className="flex items-center space-x-3 gap-4 ml-2 sm:ml-0">
-            <div className="relative h-12 w-12">
-              <Image
-                src="/logo-saimaa.png"
-                alt="Bistro Saimaa"
-                fill
-                sizes="48px"
-                priority
-                className="object-contain transition-all duration-300 scale-150"
-              />
-            </div>
-            <div>
-              <div className="font-bold text-base sm:text-lg text-foreground">Bistro Saimaa</div>
-              <div className="text-xs text-muted-foreground">
-                {t('tagline')}
-              </div>
-            </div>
-          </Link>
+      <div className="container mx-auto flex h-full items-center justify-between px-6">
+        <Link href="/" data-testid="nav-logo" className="flex items-center gap-3 sm:gap-4">
+          <div className="relative h-10 w-10 sm:h-12 sm:w-12">
+            <Image
+              src="/logo-saimaa.png"
+              alt="Bistro Saimaa"
+              fill
+              sizes="48px"
+              priority
+              className="scale-150 object-contain"
+            />
+          </div>
+          <span className="font-serif text-lg leading-none text-foreground sm:text-xl">
+            Bistro <em className="font-semibold italic text-primary">Saimaa</em>
+          </span>
+        </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-2" data-testid="nav-desktop">
-            <div className="flex items-center space-x-1 bg-muted/50 backdrop-blur-sm rounded-full p-1">
-              <Button
-                asChild
-                variant="ghost"
-                size="sm"
-                className="rounded-full px-5 py-2 text-foreground hover:bg-background hover:text-primary hover:shadow-sm transition-all duration-200"
-              >
-                <Link href="/menu" data-testid="nav-link-menu">{t('menu')}</Link>
-              </Button>
-              <Button
-                asChild
-                variant="ghost"
-                size="sm"
-                className="rounded-full px-5 py-2 text-foreground hover:bg-background hover:text-primary hover:shadow-sm transition-all duration-200"
-              >
-                <Link href="/gallery" data-testid="nav-link-gallery">{t('gallery')}</Link>
-              </Button>
-            </div>
-
+        <div className="hidden items-center gap-2 md:flex" data-testid="nav-desktop">
+          <div className="flex items-center gap-1 rounded-full bg-muted/50 p-1 backdrop-blur-sm">
             <Button
               asChild
-              className="ml-3 rounded-full px-5 py-2 bg-primary text-primary-foreground hover:bg-primary/90 shadow-md hover:shadow-lg transition-all duration-200 hover:scale-105"
-            >
-              <Link href="/contact" data-testid="nav-link-contact" className="flex items-center space-x-2">
-                <Mail className="h-4 w-4" />
-                <span>{t('contact')}</span>
-              </Link>
-            </Button>
-
-            <LanguageSelector />
-          </div>
-
-          {/* Mobile Menu Button */}
-          <div className="md:hidden">
-            <Button data-testid="nav-mobile-toggle"
               variant="ghost"
               size="sm"
-              onClick={toggleMenu}
-              className="p-2 rounded-full text-foreground hover:bg-muted hover:text-primary transition-all duration-200"
-              aria-label={isMenuOpen ? t('closeMenu') : t('openMenu')}
+              className="rounded-full px-5 py-2 text-foreground transition-all duration-200 hover:bg-background hover:text-primary"
             >
-              {isMenuOpen ? (
-                <X className="h-6 w-6 transition-transform duration-200" />
-              ) : (
-                <Menu className="h-6 w-6 transition-transform duration-200" />
-              )}
+              <Link href="/menu" data-testid="nav-link-menu">
+                {t('menu')}
+              </Link>
+            </Button>
+            <Button
+              asChild
+              variant="ghost"
+              size="sm"
+              className="rounded-full px-5 py-2 text-foreground transition-all duration-200 hover:bg-background hover:text-primary"
+            >
+              <Link href="/gallery" data-testid="nav-link-gallery">
+                {t('gallery')}
+              </Link>
             </Button>
           </div>
+
+          <Button
+            asChild
+            className="ml-3 rounded-full bg-primary px-5 py-2 text-primary-foreground transition-all duration-200 hover:scale-[1.02] hover:bg-primary/90"
+          >
+            <Link href="/contact" data-testid="nav-link-contact" className="flex items-center gap-2">
+              <Mail className="h-4 w-4" />
+              <span>{t('contact')}</span>
+            </Link>
+          </Button>
+
+          <LanguageSelector />
         </div>
-      </div>
 
-      {/* Mobile Menu */}
-      <div data-testid="nav-mobile-menu"
-        className={`md:hidden transition-all duration-300 ${
-          isMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0 overflow-hidden'
-        }`}
-      >
-        <div className="bg-background/95 backdrop-blur-lg border-t border-border/50">
-          <div className="container mx-auto px-6 py-4">
-            <div className="flex flex-col space-y-2">
+        <div className="md:hidden">
+          <Sheet open={isOpen} onOpenChange={setIsOpen}>
+            <SheetTrigger asChild>
               <Button
-                ref={firstMenuItemRef}
-                asChild
+                data-testid="nav-mobile-toggle"
                 variant="ghost"
-                className="justify-start text-foreground hover:bg-muted hover:text-primary rounded-lg py-3 transition-all duration-200"
-                onClick={() => setIsMenuOpen(false)}
+                size="sm"
+                className="rounded-full p-2 text-foreground hover:bg-muted hover:text-primary"
+                aria-label={t('openMenu')}
               >
-                <Link href="/menu" data-testid="nav-mobile-link-menu">{t('menu')}</Link>
+                <Menu className="h-6 w-6" />
               </Button>
-              <Button
-                asChild
-                variant="ghost"
-                className="justify-start text-foreground hover:bg-muted hover:text-primary rounded-lg py-3 transition-all duration-200"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                <Link href="/gallery" data-testid="nav-mobile-link-gallery">{t('gallery')}</Link>
-              </Button>
-              <Button
-                asChild
-                className="justify-start bg-primary text-primary-foreground hover:bg-primary/90 rounded-lg py-3 mt-2 transition-all duration-200"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                <Link href="/contact" data-testid="nav-mobile-link-contact" className="flex items-center space-x-2">
-                  <Calendar className="h-4 w-4" />
-                  <span>{t('contact')}</span>
-                </Link>
-              </Button>
-
-              <div className="flex items-center justify-center gap-2 pt-4 border-t border-border/50 mt-2">
-                <Globe className="h-4 w-4 text-muted-foreground" />
-                <LanguageSelector variant="mobile" onLanguageChange={() => setIsMenuOpen(false)} />
+            </SheetTrigger>
+            <SheetContent side="right" data-testid="nav-mobile-menu">
+              <SheetHeader>
+                <SheetTitle className="font-serif text-2xl">
+                  Bistro <em className="font-semibold italic text-primary">Saimaa</em>
+                </SheetTitle>
+                <SheetDescription className="sr-only">
+                  {t('openMenu')}
+                </SheetDescription>
+              </SheetHeader>
+              <div className="mt-8 flex flex-col gap-2">
+                <Button
+                  asChild
+                  variant="ghost"
+                  className="justify-start rounded-lg py-6 text-base text-foreground hover:bg-muted hover:text-primary"
+                  onClick={() => setIsOpen(false)}
+                >
+                  <Link href="/menu" data-testid="nav-mobile-link-menu">
+                    {t('menu')}
+                  </Link>
+                </Button>
+                <Button
+                  asChild
+                  variant="ghost"
+                  className="justify-start rounded-lg py-6 text-base text-foreground hover:bg-muted hover:text-primary"
+                  onClick={() => setIsOpen(false)}
+                >
+                  <Link href="/gallery" data-testid="nav-mobile-link-gallery">
+                    {t('gallery')}
+                  </Link>
+                </Button>
+                <Button
+                  asChild
+                  className="mt-2 justify-start rounded-lg bg-primary py-6 text-base text-primary-foreground hover:bg-primary/90"
+                  onClick={() => setIsOpen(false)}
+                >
+                  <Link
+                    href="/contact"
+                    data-testid="nav-mobile-link-contact"
+                    className="flex items-center gap-2"
+                  >
+                    <Calendar className="h-4 w-4" />
+                    <span>{t('contact')}</span>
+                  </Link>
+                </Button>
+                <div className="mt-6 flex items-center justify-center gap-2 border-t border-border/50 pt-6">
+                  <Globe className="h-4 w-4 text-muted-foreground" />
+                  <LanguageSelector
+                    variant="mobile"
+                    onLanguageChange={() => setIsOpen(false)}
+                  />
+                </div>
               </div>
-            </div>
-          </div>
+            </SheetContent>
+          </Sheet>
         </div>
       </div>
     </nav>

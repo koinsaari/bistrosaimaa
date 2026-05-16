@@ -3,30 +3,24 @@
 import { motion } from 'framer-motion';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useTranslations } from 'next-intl';
+import WaterLine from '@/components/WaterLine';
 
 const PrivacyPolicyHero = () => {
   const t = useTranslations('PrivacyPage');
 
   return (
-  <div
-    className="text-primary-foreground pt-32 pb-16 relative overflow-hidden"
-    style={{
-      background:
-        'radial-gradient(ellipse at top, rgba(93, 138, 122, 0.15) 0%, rgba(248, 246, 241, 0.9) 40%, #f8f6f1 100%)',
-      boxShadow: '0 10px 40px -10px rgba(93, 138, 122, 0.2), inset 0 1px 0 rgba(122, 163, 150, 0.1)',
-    }}
-  >
-    <div className="container mx-auto px-4 relative z-10">
-      <motion.h1
-        className="text-3xl md:text-4xl font-bold mb-4 text-center text-foreground drop-shadow-lg"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
+    <div className="container mx-auto px-6 pt-32 pb-10 md:pt-40">
+      <p className="mb-4 flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-primary">
+        <WaterLine variant="inline" />
+        <span>{t('lastUpdated')}</span>
+      </p>
+      <h1 className="font-serif font-normal leading-[1.05] tracking-[-0.02em] text-[clamp(2.25rem,4.5vw,3.5rem)] text-ink">
         {t('title')}
-      </motion.h1>
+      </h1>
+      <div className="mt-10">
+        <WaterLine variant="divider" />
+      </div>
     </div>
-  </div>
   );
 };
 
@@ -42,8 +36,7 @@ const PrivacyPolicyContent = () => {
   >
     <Card>
       <CardHeader>
-        <CardTitle className="text-2xl">{t('cardTitle')}</CardTitle>
-        <p className="text-muted-foreground">{t('lastUpdated')}</p>
+        <CardTitle className="font-serif text-2xl font-medium text-ink">{t('cardTitle')}</CardTitle>
       </CardHeader>
       <CardContent className="space-y-8">
         <section>
@@ -53,7 +46,7 @@ const PrivacyPolicyContent = () => {
         </section>
 
         <section>
-          <h3 data-testid="privacy-section-1" className="text-xl font-semibold text-foreground mb-3">{t('section1Title')}</h3>
+          <h3 data-testid="privacy-section-1" className="font-serif text-xl font-medium text-ink mb-3">{t('section1Title')}</h3>
           <p className="text-foreground mb-3">
             {t('section1Intro')}
           </p>
@@ -67,7 +60,7 @@ const PrivacyPolicyContent = () => {
         </section>
 
         <section>
-          <h3 data-testid="privacy-section-2" className="text-xl font-semibold text-foreground mb-3">
+          <h3 data-testid="privacy-section-2" className="font-serif text-xl font-medium text-ink mb-3">
             {t('section2Title')}
           </h3>
           <p className="text-foreground">
@@ -76,7 +69,7 @@ const PrivacyPolicyContent = () => {
         </section>
 
         <section>
-          <h3 data-testid="privacy-section-3" className="text-xl font-semibold text-foreground mb-3">
+          <h3 data-testid="privacy-section-3" className="font-serif text-xl font-medium text-ink mb-3">
             {t('section3Title')}
           </h3>
           <p className="text-foreground mb-4">{t('section3Intro')}</p>
@@ -90,14 +83,14 @@ const PrivacyPolicyContent = () => {
         </section>
 
         <section>
-          <h3 data-testid="privacy-section-4" className="text-xl font-semibold text-foreground mb-3">{t('section4Title')}</h3>
+          <h3 data-testid="privacy-section-4" className="font-serif text-xl font-medium text-ink mb-3">{t('section4Title')}</h3>
           <p className="text-foreground mb-4">
             {t('section4Text')}
           </p>
         </section>
 
         <section>
-          <h3 data-testid="privacy-section-5" className="text-xl font-semibold text-foreground mb-3">{t('section5Title')}</h3>
+          <h3 data-testid="privacy-section-5" className="font-serif text-xl font-medium text-ink mb-3">{t('section5Title')}</h3>
           <p className="text-foreground mb-4">
             {t('section5Intro')}
           </p>
@@ -121,7 +114,7 @@ const PrivacyPolicyContent = () => {
         </section>
 
         <section>
-          <h3 data-testid="privacy-section-6" className="text-xl font-semibold text-foreground mb-3">{t('section6Title')}</h3>
+          <h3 data-testid="privacy-section-6" className="font-serif text-xl font-medium text-ink mb-3">{t('section6Title')}</h3>
           <p className="text-foreground mb-3">{t('section6Intro')}</p>
           <ul className="list-disc pl-6 text-foreground space-y-1">
             <li>{t('section6Item1')}</li>
@@ -134,7 +127,7 @@ const PrivacyPolicyContent = () => {
         </section>
 
         <section>
-          <h3 data-testid="privacy-section-7" className="text-xl font-semibold text-foreground mb-3">{t('section7Title')}</h3>
+          <h3 data-testid="privacy-section-7" className="font-serif text-xl font-medium text-ink mb-3">{t('section7Title')}</h3>
           <p className="text-foreground mb-3">{t('section7Line1')}</p>
           <p className="text-foreground mb-1">{t('section7Line2')}</p>
           <p className="text-foreground mb-1">{t('section7Line3')}</p>

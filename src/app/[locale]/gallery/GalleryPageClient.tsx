@@ -7,6 +7,7 @@ import { ChevronLeft, ChevronRight, X } from 'lucide-react';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { useTranslations } from 'next-intl';
+import WaterLine from '@/components/WaterLine';
 
 type Category = 'all' | 'interior' | 'outside' | 'food' | 'sauna' | 'kabinetti';
 
@@ -150,67 +151,48 @@ export default function GalleryPageClient() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Hero Section */}
+      {/* Page header */}
       <div
         id="gallery-hero"
-        className="relative min-h-[40vh] flex items-center justify-center text-white"
+        className="container mx-auto px-6 pt-32 pb-12 md:pt-40 md:pb-16"
       >
-        <div
-          className="absolute inset-0 w-full h-full"
-          style={{
-            backgroundImage: "url('/gallery/interior-6.jpg')",
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-          }}
-        />
-        <div className="absolute inset-0 bg-black/50" />
-        <div className="container mx-auto px-4 text-center relative z-10 py-20">
-          <motion.h1
-            className="text-4xl md:text-6xl font-bold mb-6 drop-shadow-lg"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
-          >
-            {t('title')}
-          </motion.h1>
-          <motion.p
-            className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3, duration: 0.7 }}
-          >
-            {t('subtitle')}
-          </motion.p>
+        <p className="mb-4 flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-primary">
+          <WaterLine variant="inline" />
+          <span>{t('subtitle')}</span>
+        </p>
+        <h1 className="font-serif font-normal leading-[1.05] tracking-[-0.02em] text-[clamp(2.25rem,4.5vw,3.5rem)] text-ink">
+          {t('title')}
+        </h1>
+        <div className="mt-10">
+          <WaterLine variant="divider" />
         </div>
       </div>
 
       {/* Category Filter */}
       <div className="py-8">
-        <div className="container mx-auto px-4">
-          <div className="max-w-6xl mx-auto">
-            <motion.div
-              className="flex flex-wrap justify-center gap-2"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4, duration: 0.5 }}
-            >
-              {categories.map((category) => (
-                <Button
-                  key={category}
-                  variant={selectedCategory === category ? 'default' : 'outline'}
-                  size="sm"
-                  onClick={() => setSelectedCategory(category)}
-                  className={`rounded-full px-5 transition-all duration-200 ${
-                    selectedCategory === category
-                      ? 'bg-primary text-primary-foreground shadow-md'
-                      : 'hover:bg-primary/10 hover:border-primary hover:text-primary'
-                  }`}
-                >
-                  {getCategoryLabel(category)}
-                </Button>
-              ))}
-            </motion.div>
-          </div>
+        <div className="container mx-auto px-6">
+          <motion.div
+            className="mx-auto flex w-full max-w-2xl flex-wrap items-center justify-center gap-1 rounded-full bg-muted/50 p-1 backdrop-blur-sm"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2, duration: 0.5 }}
+          >
+            {categories.map((category) => (
+              <Button
+                key={category}
+                variant="ghost"
+                size="sm"
+                onClick={() => setSelectedCategory(category)}
+                className={`rounded-full px-5 py-2 text-[13px] transition-all duration-200 ${
+                  selectedCategory === category
+                    ? 'bg-primary text-primary-foreground shadow-sm hover:bg-primary/90 hover:text-primary-foreground'
+                    : 'text-foreground hover:bg-background hover:text-primary'
+                }`}
+              >
+                {getCategoryLabel(category)}
+              </Button>
+            ))}
+          </motion.div>
         </div>
       </div>
 

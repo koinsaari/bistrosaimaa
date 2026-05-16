@@ -63,7 +63,29 @@
     "reviewSource": "Lähde: Google",
     "menuImageAlt": "À la carte -menu",
     "lunchImageAlt": "Lounas",
-    "cateringImageAlt": "Pitopalvelu"
+    "cateringImageAlt": "Pitopalvelu",
+    "heroEyebrow_PLACEHOLDER": "Ristiina · Saimaan rannalla",
+    "heroTitle_PLACEHOLDER": "Lorem ipsum dolor <i>sit amet</i> consectetur.",
+    "heroLead_PLACEHOLDER": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    "todayOpenLabel": "Avoinna tänään",
+    "placeStripEyebrow_PLACEHOLDER": "Saimaan rannalla",
+    "placeStripHeading_PLACEHOLDER": "Lorem ipsum <i>dolor sit</i> amet.",
+    "placeStripBody_PLACEHOLDER": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.",
+    "lunchEyebrow": "Tällä viikolla",
+    "lunchHeading": "Lounas viikolla {week}",
+    "lunchHoursAndPriceNote_PLACEHOLDER": "Lounas tarjoillaan klo 10.30–14.00. Hinta XX €.",
+    "lunchFacebookCta": "Katso lounas Facebookissa",
+    "lunchDay": {
+      "monday": "Maanantai",
+      "tuesday": "Tiistai",
+      "wednesday": "Keskiviikko",
+      "thursday": "Torstai",
+      "friday": "Perjantai"
+    },
+    "locationEyebrow": "Saimaan rannalla",
+    "locationHeading_PLACEHOLDER": "Lorem ipsum <i>dolor sit</i>.",
+    "locationBody_PLACEHOLDER": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    "locationMapCta": "Näytä kartalla"
   },
   "MenuPage": {
     "title": "Menu",
@@ -71,7 +93,8 @@
     "newMenu": "Uusi Menu 2025",
     "newMenuSubtitle": "Tuore ja päivitetty valikoimamme",
     "instructionsDesktop": "Käytä nuolia selataksesi menua",
-    "priceInfo": "Hinnat sisältävät ALV:n"
+    "priceInfo": "Hinnat sisältävät ALV:n",
+    "closeFullscreen": "Sulje koko näyttö"
   },
   "ContactPage": {
     "title": "Ota yhteyttä",
@@ -175,7 +198,11 @@
     "categoryKabinetti": "Kabinetti",
     "alt": {
       "interior": "Ravintolan sisätilat",
+      "interior2": "Ravintolan ruokasali",
       "atmosphere": "Ravintolan tunnelma",
+      "food": "Ravintolan ruokatarjoilu",
+      "food2": "Lounasannos",
+      "food3": "À la carte -annos",
       "outside": "Ulkokuva ravintolasta",
       "terrace": "Terassi",
       "lake": "Näkymä Saimaalle",

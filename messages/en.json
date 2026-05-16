@@ -63,7 +63,29 @@
     "reviewSource": "Source: Google",
     "menuImageAlt": "À la carte menu",
     "lunchImageAlt": "Lunch",
-    "cateringImageAlt": "Catering"
+    "cateringImageAlt": "Catering",
+    "heroEyebrow_PLACEHOLDER": "Ristiina · By Lake Saimaa",
+    "heroTitle_PLACEHOLDER": "Lorem ipsum dolor <i>sit amet</i> consectetur.",
+    "heroLead_PLACEHOLDER": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    "todayOpenLabel": "Open today",
+    "placeStripEyebrow_PLACEHOLDER": "By Lake Saimaa",
+    "placeStripHeading_PLACEHOLDER": "Lorem ipsum <i>dolor sit</i> amet.",
+    "placeStripBody_PLACEHOLDER": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.",
+    "lunchEyebrow": "This week",
+    "lunchHeading": "Lunch — week {week}",
+    "lunchHoursAndPriceNote_PLACEHOLDER": "Lunch is served 10:30–14:00. Price XX €.",
+    "lunchFacebookCta": "See the lunch on Facebook",
+    "lunchDay": {
+      "monday": "Monday",
+      "tuesday": "Tuesday",
+      "wednesday": "Wednesday",
+      "thursday": "Thursday",
+      "friday": "Friday"
+    },
+    "locationEyebrow": "By Lake Saimaa",
+    "locationHeading_PLACEHOLDER": "Lorem ipsum <i>dolor sit</i>.",
+    "locationBody_PLACEHOLDER": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    "locationMapCta": "Show on map"
   },
   "MenuPage": {
     "title": "Menu",
@@ -71,7 +93,8 @@
     "newMenu": "New Menu 2025",
     "newMenuSubtitle": "Our fresh and updated selection",
     "instructionsDesktop": "Use arrows to browse the menu",
-    "priceInfo": "Prices include VAT"
+    "priceInfo": "Prices include VAT",
+    "closeFullscreen": "Close fullscreen"
   },
   "ContactPage": {
     "title": "Contact Us",
@@ -175,7 +198,11 @@
     "categoryKabinetti": "Event Room",
     "alt": {
       "interior": "Restaurant interior",
+      "interior2": "Restaurant dining room",
       "atmosphere": "Restaurant atmosphere",
+      "food": "Restaurant food",
+      "food2": "Lunch dish",
+      "food3": "À la carte dish",
       "outside": "Outside view of the restaurant",
       "terrace": "Terrace",
       "lake": "View over Lake Saimaa",
