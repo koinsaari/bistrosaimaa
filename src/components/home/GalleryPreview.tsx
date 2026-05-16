@@ -8,12 +8,12 @@ import GalleryPreviewCarousel from '@/components/home/GalleryPreviewCarousel';
 
 const PREVIEW_TILES: Array<{ src: string; altKey: string }> = [
   { src: '/gallery/interior-7.jpg', altKey: 'interior' },
-  { src: '/gallery/food-9.jpeg', altKey: 'atmosphere' },
+  { src: '/gallery/food-9.jpeg', altKey: 'food' },
   { src: '/gallery/outside-3.jpg', altKey: 'outside' },
   { src: '/gallery/kabinetti-2.jpg', altKey: 'kabinetti' },
-  { src: '/gallery/food-22.jpeg', altKey: 'atmosphere' },
-  { src: '/gallery/interior-4.jpg', altKey: 'interior' },
-  { src: '/gallery/food-1.jpeg', altKey: 'atmosphere' },
+  { src: '/gallery/food-22.jpeg', altKey: 'food2' },
+  { src: '/gallery/interior-4.jpg', altKey: 'interior2' },
+  { src: '/gallery/food-1.jpeg', altKey: 'food3' },
 ];
 
 export default async function GalleryPreview() {

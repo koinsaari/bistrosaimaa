@@ -5,8 +5,13 @@ export type TodayHoursKey = 'monFriHours' | 'saturdayHours' | 'sundayHours';
  * Reads weekday from the supplied date (defaults to now).
  */
 export function getTodayHoursKey(date: Date = new Date()): TodayHoursKey {
-  const day = date.getDay(); // 0 = Sun, 6 = Sat
-  if (day === 0) return 'sundayHours';
-  if (day === 6) return 'saturdayHours';
+  const day = new Intl.DateTimeFormat('en-US', {
+    timeZone: 'Europe/Helsinki',
+    weekday: 'short',
+  })
+    .formatToParts(date)
+    .find((p) => p.type === 'weekday')?.value;
+  if (day === 'Sun') return 'sundayHours';
+  if (day === 'Sat') return 'saturdayHours';
   return 'monFriHours';
 }

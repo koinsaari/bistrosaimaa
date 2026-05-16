@@ -93,7 +93,8 @@
     "newMenu": "New Menu 2025",
     "newMenuSubtitle": "Our fresh and updated selection",
     "instructionsDesktop": "Use arrows to browse the menu",
-    "priceInfo": "Prices include VAT"
+    "priceInfo": "Prices include VAT",
+    "closeFullscreen": "Close fullscreen"
   },
   "ContactPage": {
     "title": "Contact Us",
@@ -197,7 +198,11 @@
     "categoryKabinetti": "Event Room",
     "alt": {
       "interior": "Restaurant interior",
+      "interior2": "Restaurant dining room",
       "atmosphere": "Restaurant atmosphere",
+      "food": "Restaurant food",
+      "food2": "Lunch dish",
+      "food3": "À la carte dish",
       "outside": "Outside view of the restaurant",
       "terrace": "Terrace",
       "lake": "View over Lake Saimaa",

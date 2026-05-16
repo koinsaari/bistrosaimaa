@@ -93,7 +93,8 @@
     "newMenu": "Uusi Menu 2025",
     "newMenuSubtitle": "Tuore ja päivitetty valikoimamme",
     "instructionsDesktop": "Käytä nuolia selataksesi menua",
-    "priceInfo": "Hinnat sisältävät ALV:n"
+    "priceInfo": "Hinnat sisältävät ALV:n",
+    "closeFullscreen": "Sulje koko näyttö"
   },
   "ContactPage": {
     "title": "Ota yhteyttä",
@@ -197,7 +198,11 @@
     "categoryKabinetti": "Kabinetti",
     "alt": {
       "interior": "Ravintolan sisätilat",
+      "interior2": "Ravintolan ruokasali",
       "atmosphere": "Ravintolan tunnelma",
+      "food": "Ravintolan ruokatarjoilu",
+      "food2": "Lounasannos",
+      "food3": "À la carte -annos",
       "outside": "Ulkokuva ravintolasta",
       "terrace": "Terassi",
       "lake": "Näkymä Saimaalle",

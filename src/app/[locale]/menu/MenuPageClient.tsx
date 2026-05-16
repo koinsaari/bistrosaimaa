@@ -247,7 +247,7 @@ export default function MenuPageClient() {
               e.stopPropagation();
               setSelectedImage(null);
             }}
-            aria-label="Close fullscreen"
+            aria-label={t('closeFullscreen')}
           >
             <X className="h-8 w-8" />
           </button>

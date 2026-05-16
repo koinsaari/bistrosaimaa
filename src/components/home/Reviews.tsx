@@ -127,7 +127,7 @@ export default function Reviews() {
 
         <div className="mx-auto max-w-4xl">
           <Carousel
-            plugins={[Autoplay({ delay: 5000 })]}
+            plugins={[Autoplay({ delay: 5000, stopOnMouseEnter: true })]}
             opts={{ align: 'start', loop: true }}
             className="w-full"
           >
@@ -145,7 +145,7 @@ export default function Reviews() {
                         </p>
                         <div className="mb-4 text-xl" aria-label={`${review.rating} stars`}>
                           {[...Array(review.rating)].map((_, i) => (
-                            <span key={i} className="mx-0.5">
+                            <span key={i} className="mx-0.5" aria-hidden="true">
                               ⭐️
                             </span>
                           ))}
