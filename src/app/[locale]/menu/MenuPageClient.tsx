@@ -12,6 +12,7 @@ import {
   CarouselPrevious,
 } from '@/components/ui/carousel';
 import { useLocale, useTranslations } from 'next-intl';
+import WaterLine from '@/components/WaterLine';
 
 const menuPhotosFi = [
   {
@@ -104,37 +105,20 @@ export default function MenuPageClient() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Hero Section */}
+      {/* Page header */}
       <div
         id="menu-hero"
-        className="relative min-h-[40vh] flex items-center justify-center text-white"
+        className="container mx-auto px-6 pt-32 pb-12 md:pt-40 md:pb-16"
       >
-        <div
-          className="absolute inset-0 w-full h-full"
-          style={{
-            backgroundImage: "url('/gallery/food-1.jpeg')",
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-          }}
-        />
-        <div className="absolute inset-0 bg-black/50" />
-        <div className="container mx-auto px-4 text-center relative z-10 py-20">
-          <motion.h1
-            className="text-4xl md:text-6xl font-bold mb-6 drop-shadow-lg"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
-          >
-            {t('title')}
-          </motion.h1>
-          <motion.p
-            className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3, duration: 0.7 }}
-          >
-            {t('subtitle')}
-          </motion.p>
+        <p className="mb-4 flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-primary">
+          <WaterLine variant="inline" />
+          <span>{t('subtitle')}</span>
+        </p>
+        <h1 className="font-serif font-normal leading-[1.05] tracking-[-0.02em] text-[clamp(2.25rem,4.5vw,3.5rem)] text-ink">
+          {t('title')}
+        </h1>
+        <div className="mt-10">
+          <WaterLine variant="divider" />
         </div>
       </div>
 
@@ -143,7 +127,7 @@ export default function MenuPageClient() {
         className="py-8 md:py-16 relative overflow-hidden"
         style={{
           background:
-            'radial-gradient(ellipse at center, rgba(223, 81, 35, 0.15) 0%, rgba(223, 81, 35, 0.05) 30%, transparent 60%)',
+            'radial-gradient(ellipse at center, rgba(93, 138, 122, 0.15) 0%, rgba(93, 138, 122, 0.05) 30%, transparent 60%)',
         }}
         onMouseMove={handleMouseMove}
       >
@@ -152,7 +136,7 @@ export default function MenuPageClient() {
           className="absolute inset-0 pointer-events-none md:hidden"
           style={{
             background:
-              'radial-gradient(ellipse at center, rgba(223, 81, 35, 0.25) 0%, rgba(223, 81, 35, 0.1) 40%, transparent 70%)',
+              'radial-gradient(ellipse at center, rgba(93, 138, 122, 0.25) 0%, rgba(93, 138, 122, 0.1) 40%, transparent 70%)',
           }}
           animate={{
             opacity: [0.5, 0.8, 0.5],
@@ -171,13 +155,13 @@ export default function MenuPageClient() {
             className="absolute inset-0"
             style={{
               background:
-                'radial-gradient(ellipse at center, rgba(223, 81, 35, 0.2) 0%, rgba(223, 81, 35, 0.1) 30%, transparent 60%)',
+                'radial-gradient(ellipse at center, rgba(93, 138, 122, 0.2) 0%, rgba(93, 138, 122, 0.1) 30%, transparent 60%)',
             }}
           />
           <motion.div
             className="absolute inset-0"
             style={{
-              background: `radial-gradient(ellipse 600px 800px at ${mousePosition.x}px ${mousePosition.y}px, rgba(223, 81, 35, 0.3) 0%, rgba(223, 81, 35, 0.15) 30%, transparent 60%)`,
+              background: `radial-gradient(ellipse 600px 800px at ${mousePosition.x}px ${mousePosition.y}px, rgba(93, 138, 122, 0.3) 0%, rgba(93, 138, 122, 0.15) 30%, transparent 60%)`,
             }}
             transition={{
               type: 'spring',
@@ -189,21 +173,15 @@ export default function MenuPageClient() {
 
         <div className="container mx-auto px-2 md:px-4 relative z-10">
           <motion.div
-            className="text-center mb-8"
+            className="text-center mb-12"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
           >
-            <h2
-              className="text-3xl md:text-4xl font-bold mb-2 drop-shadow-lg bg-gradient-to-r from-[#df5123] via-[#ff6b3d] to-[#df5123] bg-clip-text text-transparent animate-gradient"
-              style={{
-                backgroundSize: '200% auto',
-                animation: 'gradient 8s linear infinite',
-              }}
-            >
-              {t('newMenu')}
+            <h2 className="font-serif font-normal leading-[1.05] tracking-[-0.02em] text-[clamp(1.875rem,3vw,2.75rem)] text-ink mb-3">
+              {t.rich('newMenu', { i: (chunks) => <em className="font-light italic text-primary">{chunks}</em> })}
             </h2>
-            <p className="text-muted-foreground">{t('newMenuSubtitle')}</p>
+            <p className="text-muted-foreground text-[15px]">{t('newMenuSubtitle')}</p>
           </motion.div>
 
           <div className="max-w-2xl mx-auto md:px-0">
