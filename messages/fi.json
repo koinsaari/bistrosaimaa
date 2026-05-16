@@ -63,7 +63,29 @@
     "reviewSource": "Lähde: Google",
     "menuImageAlt": "À la carte -menu",
     "lunchImageAlt": "Lounas",
-    "cateringImageAlt": "Pitopalvelu"
+    "cateringImageAlt": "Pitopalvelu",
+    "heroEyebrow_PLACEHOLDER": "Ristiina · Saimaan rannalla",
+    "heroTitle_PLACEHOLDER": "Lorem ipsum dolor <i>sit amet</i> consectetur.",
+    "heroLead_PLACEHOLDER": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    "todayOpenLabel": "Avoinna tänään",
+    "placeStripEyebrow_PLACEHOLDER": "Saimaan rannalla",
+    "placeStripHeading_PLACEHOLDER": "Lorem ipsum <i>dolor sit</i> amet.",
+    "placeStripBody_PLACEHOLDER": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.",
+    "lunchEyebrow": "Tällä viikolla",
+    "lunchHeading": "Lounas viikolla {week}",
+    "lunchHoursAndPriceNote_PLACEHOLDER": "Lounas tarjoillaan klo 10.30–14.00. Hinta XX €.",
+    "lunchFacebookCta": "Katso lounas Facebookissa",
+    "lunchDay": {
+      "monday": "Maanantai",
+      "tuesday": "Tiistai",
+      "wednesday": "Keskiviikko",
+      "thursday": "Torstai",
+      "friday": "Perjantai"
+    },
+    "locationEyebrow": "Saimaan rannalla",
+    "locationHeading_PLACEHOLDER": "Lorem ipsum <i>dolor sit</i>.",
+    "locationBody_PLACEHOLDER": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    "locationMapCta": "Näytä kartalla"
   },
   "MenuPage": {
     "title": "Menu",
