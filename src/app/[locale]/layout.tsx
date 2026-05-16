@@ -9,6 +9,7 @@ import NavigationBar from '@/components/NavigationBar';
 import Footer from '@/components/Footer';
 import { routing, type Locale } from '@/i18n/routing';
 import { localeAlternates } from '@/i18n/metadata';
+import '@fontsource-variable/fraunces/index.css';
 import '../globals.css';
 
 export function generateStaticParams() {
@@ -108,7 +109,7 @@ export default async function RootLayout({
   };
 
   return (
-    <html lang={locale}>
+    <html lang={locale} className="font-fraunces-host">
       <head>
         <script
           type="application/ld+json"
