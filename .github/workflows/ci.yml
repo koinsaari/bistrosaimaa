@@ -72,39 +72,6 @@ jobs:
           echo "Deployed to: $DEPLOYMENT_URL"
 
       - name: Alias deployment to staging.bistrosaimaa.fi
-        run: vercel alias set "${{ steps.deploy.outputs.deployment_url }}" staging.bistrosaimaa.fi
-
-      - name: Decide whether to auto-promote
-        id: gate
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ACTOR: ${{ github.actor }}
-          MESSAGE: ${{ github.event.head_commit.message }}
-          SHA: ${{ github.sha }}
-          REPO: ${{ github.repository }}
         run: |
-          # Auto-promote to production if any of:
-          #   - the actor triggering the run is dependabot
-          #   - commit message starts with chore(deps)
-          #   - commit landed on main without a PR (direct admin push)
-          PR_COUNT=$(gh api "repos/$REPO/commits/$SHA/pulls" --jq 'length')
-
-          SHOULD_PROMOTE=false
-          if [ "$ACTOR" = "dependabot[bot]" ]; then
-            SHOULD_PROMOTE=true
-            echo "::notice::Auto-promoting: dependabot actor"
-          elif printf '%s' "$MESSAGE" | head -n1 | grep -qE '^chore\(deps'; then
-            SHOULD_PROMOTE=true
-            echo "::notice::Auto-promoting: chore(deps) commit"
-          elif [ "$PR_COUNT" = "0" ]; then
-            SHOULD_PROMOTE=true
-            echo "::notice::Auto-promoting: direct push to main (no associated PR)"
-          else
-            echo "::notice::Staging only. Publish a GitHub Release to promote to production."
-          fi
-
-          echo "should_promote=$SHOULD_PROMOTE" >> "$GITHUB_OUTPUT"
-
-      - name: Alias deployment to bistrosaimaa.fi (production)
-        if: steps.gate.outputs.should_promote == 'true'
-        run: vercel alias set "${{ steps.deploy.outputs.deployment_url }}" bistrosaimaa.fi
+          vercel alias set "${{ steps.deploy.outputs.deployment_url }}" staging.bistrosaimaa.fi
+          echo "::notice::Deployed to staging. Publish a GitHub Release to promote to production."
