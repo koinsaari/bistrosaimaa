@@ -28,6 +28,7 @@ export default async function Hero() {
           alt=""
           fill
           priority
+          loading="eager"
           sizes="100vw"
           className="object-cover"
         />
@@ -44,12 +45,12 @@ export default async function Hero() {
         <div className="mx-auto max-w-3xl text-center text-white">
           <p className="mb-6 flex items-center justify-center gap-4 text-[11px] font-semibold uppercase tracking-[0.28em] text-white/90">
             <WaterLine variant="inline" className="text-white/70" />
-            <span>{t('heroEyebrow_PLACEHOLDER')}</span>
+            <span>{t('heroEyebrow')}</span>
             <WaterLine variant="inline" className="text-white/70" />
           </p>
 
           <h1 className="mb-6 font-serif font-normal leading-[0.98] tracking-[-0.02em] text-[clamp(2.75rem,7vw,5.5rem)] [text-shadow:0_2px_24px_rgba(0,0,0,0.35)]">
-            {t.rich('heroTitle_PLACEHOLDER', {
+            {t.rich('heroTitle', {
               i: (chunks) => (
                 <em className="font-semibold italic text-white">{chunks}</em>
               ),
@@ -57,7 +58,7 @@ export default async function Hero() {
           </h1>
 
           <p className="mx-auto mb-10 max-w-[52ch] text-base leading-relaxed text-white/90 md:text-lg">
-            {t('heroLead_PLACEHOLDER')}
+            {t('heroLead')}
           </p>
 
           <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">

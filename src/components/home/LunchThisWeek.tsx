@@ -59,7 +59,7 @@ export default async function LunchThisWeek() {
           <Separator className="mt-10" />
 
           <p className="mt-6 text-sm text-muted-foreground">
-            {t('lunchHoursAndPriceNote_PLACEHOLDER')}
+            {t('lunchHoursAndPriceNote')}
           </p>
 
           <div className="mt-6">

@@ -25,17 +25,17 @@ export default async function PlaceStrip() {
           <div className="md:col-span-5">
             <p className="mb-5 flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-primary">
               <WaterLine variant="inline" />
-              <span>{t('placeStripEyebrow_PLACEHOLDER')}</span>
+              <span>{t('placeStripEyebrow')}</span>
             </p>
             <h2 className="mb-5 font-serif font-normal leading-[1.05] tracking-[-0.02em] text-[clamp(1.875rem,3vw,2.75rem)] text-ink">
-              {t.rich('placeStripHeading_PLACEHOLDER', {
+              {t.rich('placeStripHeading', {
                 i: (chunks) => (
                   <em className="font-semibold italic text-primary">{chunks}</em>
                 ),
               })}
             </h2>
             <p className="max-w-[50ch] text-[15px] leading-relaxed text-foreground/80">
-              {t('placeStripBody_PLACEHOLDER')}
+              {t('placeStripBody')}
             </p>
           </div>
         </div>
