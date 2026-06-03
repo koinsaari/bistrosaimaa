@@ -35,6 +35,10 @@ updates:
         patterns:
           - "*"
 
+    ignore:
+      - dependency-name: "eslint"
+        versions: ["10.x"]
+
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
