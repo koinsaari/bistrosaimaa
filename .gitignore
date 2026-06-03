@@ -45,4 +45,9 @@ yarn-error.log*
 next-env.d.ts
 
 .vscode/
+
+#ai
+docs/superpowers
 .superpowers/
+.claude/
+.agents/
