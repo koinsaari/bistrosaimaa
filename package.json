@@ -31,8 +31,8 @@
     "next": "^16.2.9",
     "next-intl": "^4.13.0",
     "radix-ui": "^1.6.0",
-    "react": "^19.2.7",
-    "react-dom": "^19.2.7",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
     "react-hook-form": "^7.80.0",
     "tailwind-merge": "^3.6.0",
     "zod": "^4.4.3"
