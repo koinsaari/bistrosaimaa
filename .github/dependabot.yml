@@ -34,10 +34,9 @@ updates:
       everything-else:
         patterns:
           - "*"
-
-    ignore:
-      - dependency-name: "eslint"
-        versions: ["10.x"]
+        exclude-patterns:
+          - "eslint"
+          - "typescript"
 
   - package-ecosystem: "github-actions"
     directory: "/"
