@@ -84,14 +84,9 @@ jobs:
       - name: Build for production
         run: vercel build --prod
 
-      - name: Deploy build to Vercel (skip-domain so prod isn't reassigned yet)
+      - name: Deploy build to Vercel
         id: deploy
         run: |
-          DEPLOYMENT_URL=$(vercel deploy --prebuilt --prod --skip-domain)
+          DEPLOYMENT_URL=$(vercel deploy --prebuilt --prod)
           echo "deployment_url=$DEPLOYMENT_URL" >> "$GITHUB_OUTPUT"
           echo "Deployed to: $DEPLOYMENT_URL"
-
-      - name: Alias deployment to staging.bistrosaimaa.fi
-        run: |
-          vercel alias set "${{ steps.deploy.outputs.deployment_url }}" staging.bistrosaimaa.fi
-          echo "::notice::Deployed to staging. Publish a GitHub Release to promote to production."
