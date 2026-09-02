@@ -41,8 +41,8 @@ export default function LanguageSelector({
         disabled={isPending}
         className={`rounded-full ${isMobile ? 'px-4' : 'px-3'} py-1 text-xs transition-all duration-200 ${
           locale === 'fi'
-            ? 'bg-primary text-primary-foreground'
-            : 'text-foreground hover:bg-background hover:text-primary'
+            ? 'bg-primary text-primary-foreground hover:bg-primary/90'
+            : 'text-foreground hover:bg-primary/90 hover:text-primary-foreground'
         }`}
       >
         FI
@@ -54,8 +54,8 @@ export default function LanguageSelector({
         disabled={isPending}
         className={`rounded-full ${isMobile ? 'px-4' : 'px-3'} py-1 text-xs transition-all duration-200 ${
           locale === 'en'
-            ? 'bg-primary text-primary-foreground'
-            : 'text-foreground hover:bg-background hover:text-primary'
+            ? 'bg-primary text-primary-foreground hover:bg-primary/90'
+            : 'text-foreground hover:bg-primary/90 hover:text-primary-foreground'
         }`}
       >
         EN

@@ -73,7 +73,7 @@ export default function NavigationBar() {
               asChild
               variant="ghost"
               size="sm"
-              className="rounded-full px-5 py-2 text-foreground transition-all duration-200 hover:bg-background hover:text-primary"
+              className="rounded-full px-5 py-2 text-foreground transition-all duration-200 hover:bg-primary/90 hover:text-primary-foreground"
             >
               <Link href="/menu" data-testid="nav-link-menu">
                 {t('menu')}
@@ -83,7 +83,7 @@ export default function NavigationBar() {
               asChild
               variant="ghost"
               size="sm"
-              className="rounded-full px-5 py-2 text-foreground transition-all duration-200 hover:bg-background hover:text-primary"
+              className="rounded-full px-5 py-2 text-foreground transition-all duration-200 hover:bg-primary/90 hover:text-primary-foreground"
             >
               <Link href="/gallery" data-testid="nav-link-gallery">
                 {t('gallery')}

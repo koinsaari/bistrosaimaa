@@ -40,7 +40,7 @@ export default async function GalleryPreview() {
           <Button
             asChild
             variant="ghost"
-            className="rounded-full text-primary hover:bg-primary/10 hover:text-primary"
+            className="rounded-full text-primary hover:bg-primary/90 hover:text-primary-foreground"
           >
             <Link href="/gallery" className="flex items-center">
               {tGallery('viewGallery')}

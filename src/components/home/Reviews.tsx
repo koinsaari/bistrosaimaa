@@ -163,8 +163,8 @@ export default function Reviews() {
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <CarouselPrevious className="border-border bg-card text-foreground shadow-lg hover:bg-card/80" />
-            <CarouselNext className="border-border bg-card text-foreground shadow-lg hover:bg-card/80" />
+            <CarouselPrevious className="border-border bg-card text-foreground shadow-lg hover:border-primary hover:bg-primary hover:text-primary-foreground" />
+            <CarouselNext className="border-border bg-card text-foreground shadow-lg hover:border-primary hover:bg-primary hover:text-primary-foreground" />
           </Carousel>
 
           <div className="mt-8 flex justify-center">
