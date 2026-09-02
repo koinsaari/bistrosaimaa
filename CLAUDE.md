@@ -64,7 +64,6 @@ The root `layout.tsx` injects a `Restaurant` JSON-LD blob with address, hours, a
 Production deploys are not driven by Vercel's git integration (`vercel.json` has `git.deploymentEnabled: false`). All deploys go through GitHub Actions in `.github/workflows/`:
 
 - **`preview.yml`** runs on PR open/sync. Builds, deploys a preview, comments the URL on the PR (updates in place via the `<!-- preview-deploy-comment -->` marker).
-- **`ci.yml`** runs E2E tests on PR and push to `main`. After a main push, deploys with production env vars but `--skip-domain`, then aliases the deployment to `staging.bistrosaimaa.fi`. All pushes to main land on staging only — publish a GitHub Release to promote to production.
-- **`release.yml`** runs when a GitHub Release is published. Finds the staging deployment matching the release tag's commit (via `vercel list --meta githubCommitSha=...`) and runs `vercel alias set` to point `bistrosaimaa.fi` at that deployment — no rebuild, atomic switch.
+- **`ci.yml`** runs E2E tests on PR and push to `main`. After a main push passes lint/type-check/E2E, it deploys straight to production (`bistrosaimaa.fi`) — no staging step, no release gate.
 
 `main` is branch-protected: PR + passing `E2E Tests` check required, but admin can bypass for direct pushes. Vercel CLI is pinned to `vercel@54` across all workflows; bump it deliberately when needed.
