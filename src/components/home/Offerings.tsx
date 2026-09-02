@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { getLocale, getTranslations } from 'next-intl/server';
+import { ExternalLink } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -14,6 +15,15 @@ type Offering = {
   descriptionKey: string;
   ctaKey: string;
   href: '/menu' | '/contact';
+} | {
+  testid: string;
+  image: string;
+  imageAltKey: string;
+  titleKey: string;
+  descriptionKey: string;
+  ctaKey: string;
+  href: string;
+  external: true;
 };
 
 const OFFERINGS: Offering[] = [
@@ -25,6 +35,16 @@ const OFFERINGS: Offering[] = [
     descriptionKey: 'menuDescription',
     ctaKey: 'viewMenu',
     href: '/menu',
+  },
+  {
+    testid: 'offering-card-lunch',
+    image: '/gallery/food-5.jpeg',
+    imageAltKey: 'lunchImageAlt',
+    titleKey: 'lunchTitle',
+    descriptionKey: 'lunchDescription',
+    ctaKey: 'viewLunchFacebook',
+    href: 'https://www.facebook.com/bistrosaimaa',
+    external: true,
   },
   {
     testid: 'offering-card-catering',
@@ -51,11 +71,11 @@ export default async function Offerings() {
             <WaterLine variant="inline" />
           </p>
           <h2 className="font-serif font-normal leading-[1.05] tracking-[-0.02em] text-[clamp(1.875rem,3vw,2.5rem)] text-ink">
-            {t('ourOfferings')}
+            {t('ourOfferingsHeading')}
           </h2>
         </header>
 
-        <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 md:grid-cols-2 md:gap-8">
+        <div className="mx-auto grid max-w-6xl grid-cols-1 gap-6 md:grid-cols-3 md:gap-8">
           {OFFERINGS.map((o) => (
             <Card
               key={o.testid}
@@ -77,7 +97,14 @@ export default async function Offerings() {
                   {t(o.descriptionKey)}
                 </p>
                 <Button asChild className="mt-auto rounded-full bg-primary hover:bg-primary/90">
-                  <Link href={o.href}>{t(o.ctaKey)}</Link>
+                  {'external' in o ? (
+                    <a href={o.href} target="_blank" rel="noopener noreferrer">
+                      <ExternalLink className="mr-2 h-4 w-4" />
+                      {t(o.ctaKey)}
+                    </a>
+                  ) : (
+                    <Link href={o.href}>{t(o.ctaKey)}</Link>
+                  )}
                 </Button>
               </CardContent>
             </Card>

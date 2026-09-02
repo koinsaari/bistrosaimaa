@@ -121,7 +121,7 @@ export default function Reviews() {
             <WaterLine variant="inline" />
           </p>
           <h2 className="font-serif font-normal leading-[1.05] tracking-[-0.02em] text-[clamp(1.875rem,3vw,2.75rem)] text-ink">
-            {t('reviews')}
+            {t('reviewsHeading')}
           </h2>
         </header>
 

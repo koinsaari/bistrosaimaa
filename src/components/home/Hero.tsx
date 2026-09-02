@@ -41,7 +41,7 @@ export default async function Hero() {
         />
       </div>
 
-      <div className="relative flex min-h-[inherit] items-center justify-center px-6 py-24 md:py-32">
+      <div className="relative flex min-h-[inherit] items-center justify-center px-6 pt-32 pb-24 md:py-32">
         <div className="mx-auto max-w-3xl text-center text-white">
           <p className="mb-6 flex items-center justify-center gap-4 text-[11px] font-semibold uppercase tracking-[0.28em] text-white/90">
             <WaterLine variant="inline" className="text-white/70" />
