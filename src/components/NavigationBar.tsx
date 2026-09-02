@@ -41,7 +41,7 @@ export default function NavigationBar() {
   return (
     <nav
       data-testid="navbar"
-      className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
+      className={`fixed inset-x-0 top-[var(--banner-h)] z-50 transition-all duration-300 ${
         isVisible ? 'translate-y-0' : '-translate-y-full'
       } ${
         isScrolled

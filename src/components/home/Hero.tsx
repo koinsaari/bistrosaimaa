@@ -20,7 +20,7 @@ export default async function Hero() {
       id="home-hero"
       data-testid="home-hero"
       className="relative isolate overflow-hidden"
-      style={{ minHeight: 'calc(100svh - var(--nav-h))' }}
+      style={{ minHeight: 'calc(100svh - var(--nav-h) - var(--banner-h))' }}
     >
       <div className="absolute inset-0">
         <Image

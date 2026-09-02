@@ -33,6 +33,10 @@
       "title": "404 - Sivua ei löytynyt | Bistro Saimaa"
     }
   },
+  "VoteBanner": {
+    "short": "🏆 Äänestä meidän lounaamme Suomen parhaaksi! 🏆",
+    "full": "🏆 Pidätkö lounaastamme? Käy äänestämässä Bistro Saimaan lounasta Suomen parhaaksi 🏆"
+  },
   "Navigation": {
     "home": "Etusivu",
     "menu": "Menu",

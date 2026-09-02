@@ -33,6 +33,10 @@
       "title": "404 - Page Not Found | Bistro Saimaa"
     }
   },
+  "VoteBanner": {
+    "short": "🏆 Vote our lunch as Finland's best! 🏆",
+    "full": "🏆 Enjoy our lunch? Vote for Bistro Saimaa as Finland's best lunch 🏆"
+  },
   "Navigation": {
     "home": "Home",
     "menu": "Menu",

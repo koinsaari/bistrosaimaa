@@ -5,6 +5,7 @@ import { GeistSans } from 'geist/font/sans';
 import { GeistMono } from 'geist/font/mono';
 import { hasLocale, NextIntlClientProvider } from 'next-intl';
 import { getMessages, getTranslations, setRequestLocale } from 'next-intl/server';
+import VoteBanner from '@/components/VoteBanner';
 import NavigationBar from '@/components/NavigationBar';
 import Footer from '@/components/Footer';
 import { routing, type Locale } from '@/i18n/routing';
@@ -118,6 +119,7 @@ export default async function RootLayout({
       </head>
       <body className={`${GeistSans.variable} ${GeistMono.variable} antialiased`}>
         <NextIntlClientProvider messages={messages}>
+          <VoteBanner />
           <NavigationBar />
           <main className="min-h-screen">{children}</main>
           <Footer />
