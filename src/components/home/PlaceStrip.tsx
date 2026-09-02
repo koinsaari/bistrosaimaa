@@ -1,5 +1,8 @@
 import Image from 'next/image';
 import { getLocale, getTranslations } from 'next-intl/server';
+import { Phone, Mail } from 'lucide-react';
+import { Link } from '@/i18n/navigation';
+import { Button } from '@/components/ui/button';
 import WaterLine from '@/components/WaterLine';
 import Reveal from '@/components/Reveal';
 
@@ -8,7 +11,7 @@ export default async function PlaceStrip() {
   const t = await getTranslations({ locale, namespace: 'HomePage' });
 
   return (
-    <section className="relative bg-background py-24 md:py-32">
+    <section data-testid="home-place-strip" className="relative bg-background py-24 md:py-32">
       <Reveal className="container mx-auto px-6">
         <div className="grid grid-cols-1 items-center gap-10 md:grid-cols-12 md:gap-16">
           <div className="md:col-span-7">
@@ -34,9 +37,27 @@ export default async function PlaceStrip() {
                 ),
               })}
             </h2>
-            <p className="max-w-[50ch] text-[15px] leading-relaxed text-foreground/80">
+            <p className="mb-6 max-w-[50ch] text-[15px] leading-relaxed text-foreground/80">
               {t('placeStripBody')}
             </p>
+            <div className="flex flex-wrap gap-3">
+              <Button asChild className="rounded-full bg-primary hover:bg-primary/90">
+                <a href="tel:+358504499322" data-testid="place-strip-call">
+                  <Phone className="mr-2 h-4 w-4" />
+                  {t('placeStripCall')}
+                </a>
+              </Button>
+              <Button
+                asChild
+                variant="outline"
+                className="rounded-full hover:border-primary hover:bg-background hover:text-primary"
+              >
+                <Link href="/contact" data-testid="place-strip-quote">
+                  <Mail className="mr-2 h-4 w-4" />
+                  {t('placeStripQuote')}
+                </Link>
+              </Button>
+            </div>
           </div>
         </div>
       </Reveal>

@@ -2,6 +2,7 @@ import { Page, expect } from '@playwright/test';
 
 export class HomePage {
   private hero = this.page.locator('[data-testid="home-hero"]');
+  private placeStrip = this.page.locator('[data-testid="home-place-strip"]');
   private offerings = this.page.locator('[data-testid="home-offerings"]');
   private reviews = this.page.locator('[data-testid="home-reviews"]');
 
@@ -29,7 +30,21 @@ export class HomePage {
     await this.offerings.scrollIntoViewIfNeeded();
     await expect(this.offerings.getByRole('heading', { level: 2 })).toBeVisible();
     await expect(this.page.locator('[data-testid="offering-card-menu"]')).toBeAttached();
+    await expect(this.page.locator('[data-testid="offering-card-lunch"]')).toBeAttached();
     await expect(this.page.locator('[data-testid="offering-card-catering"]')).toBeAttached();
+  }
+
+  async expectCallCtaVisible() {
+    await this.placeStrip.scrollIntoViewIfNeeded();
+    await expect(this.placeStrip.locator('[data-testid="place-strip-call"]')).toHaveAttribute(
+      'href',
+      'tel:+358504499322',
+    );
+  }
+
+  async clickQuoteCta() {
+    await this.placeStrip.scrollIntoViewIfNeeded();
+    await this.placeStrip.locator('[data-testid="place-strip-quote"]').click();
   }
 
   async expectReviewsSectionVisible() {

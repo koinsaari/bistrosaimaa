@@ -22,10 +22,23 @@ test.describe('Home Page', () => {
     await expect(page).toHaveURL('/contact');
   });
 
-  test('offerings section shows 2 cards', async ({ page }) => {
+  test('offerings section shows 3 cards', async ({ page }) => {
     const home = new HomePage(page);
     await home.goto();
     await home.expectOfferingCardsVisible();
+  });
+
+  test('place strip call button has correct tel link', async ({ page }) => {
+    const home = new HomePage(page);
+    await home.goto();
+    await home.expectCallCtaVisible();
+  });
+
+  test('place strip quote CTA navigates to /contact', async ({ page }) => {
+    const home = new HomePage(page);
+    await home.goto();
+    await home.clickQuoteCta();
+    await expect(page).toHaveURL('/contact');
   });
 
   test('reviews section is visible', async ({ page }) => {
