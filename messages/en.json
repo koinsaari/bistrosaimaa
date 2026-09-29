@@ -80,16 +80,10 @@
     "placeStripCall": "Call",
     "placeStripQuote": "Ask for a Quote",
     "lunchEyebrow": "This week",
-    "lunchHeading": "Lunch — week {week}",
+    "lunchHeading": "Lunch this week",
     "lunchHoursAndPriceNote": "Lunch is served 10:30-14:00. Price €13.50.",
     "lunchFacebookCta": "See the lunch on Facebook",
-    "lunchDay": {
-      "monday": "Monday",
-      "tuesday": "Tuesday",
-      "wednesday": "Wednesday",
-      "thursday": "Thursday",
-      "friday": "Friday"
-    },
+    "lunchFallback": "Our weekly lunch menu changes daily, ask our staff or check Facebook for today's dishes.",
     "locationEyebrow": "By Lake Saimaa",
     "locationHeading": "Find us in <i>Ristiina</i>",
     "locationBody": "We're located near Ristiina centre, close to Lake Saimaa. The restaurant includes event and sauna facilities for celebrations and gatherings. About 20 minutes' drive from Mikkeli.",

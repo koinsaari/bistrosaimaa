@@ -1,36 +1,54 @@
-import { LUNCH_ANCHOR, LUNCH_WEEKS, type LunchWeek } from '@/data/lunch-weeks';
+import { get } from '@vercel/edge-config';
 
-/**
- * ISO 8601 week number for the given date.
- * Week 1 is the week containing the first Thursday of the year.
- */
-export function getISOWeek(date: Date): { year: number; week: number } {
-  const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
-  const dayNum = d.getUTCDay() || 7;
-  d.setUTCDate(d.getUTCDate() + 4 - dayNum);
-  const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
-  const week = Math.ceil(((d.getTime() - yearStart.getTime()) / 86400000 + 1) / 7);
-  return { year: d.getUTCFullYear(), week };
+export type DayKey = 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday';
+
+export const DAY_KEYS: DayKey[] = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+
+export type LunchRecord = Record<DayKey, string> & { updatedAt: string };
+
+export type DayDisplay =
+  | { day: DayKey; status: 'content'; text: string }
+  | { day: DayKey; status: 'placeholder' };
+
+export type LunchDisplay =
+  | { status: 'fallback' }
+  | { status: 'available'; updatedAt: string; days: DayDisplay[] };
+
+export function resolveLunchDisplay(record: LunchRecord | null): LunchDisplay {
+  if (!record) return { status: 'fallback' };
+
+  return {
+    status: 'available',
+    updatedAt: record.updatedAt,
+    days: DAY_KEYS.map((day) => {
+      const text = String(record[day] ?? '').trim();
+      return text ? { day, status: 'content', text } : { day, status: 'placeholder' };
+    }),
+  };
 }
 
-export type CurrentLunch = {
-  isoWeek: number;
-  week: LunchWeek;
-  weekIndex: number;
-};
+export function formatUpdatedAt(isoDate: string): string {
+  const date = new Date(isoDate);
+  const parts = new Intl.DateTimeFormat('fi-FI', {
+    timeZone: 'Europe/Helsinki',
+    day: 'numeric',
+    month: 'numeric',
+  }).formatToParts(date);
+  const day = parts.find((p) => p.type === 'day')?.value;
+  const month = parts.find((p) => p.type === 'month')?.value;
+  return `${day}.${month}.`;
+}
 
-/**
- * Returns the lunch menu for the week containing `date`.
- * Pure: same input → same output. Server-only usage is preferred.
- */
-export function getCurrentLunchWeek(date: Date = new Date()): CurrentLunch {
-  const { week } = getISOWeek(date);
-  const deltaWeeks = week - LUNCH_ANCHOR.week;
-  const len = LUNCH_WEEKS.length;
-  const weekIndex = ((deltaWeeks % len) + len) % len;
-  return {
-    isoWeek: week,
-    week: LUNCH_WEEKS[weekIndex],
-    weekIndex,
-  };
+export async function getLunchRecord(): Promise<LunchRecord | null> {
+  const key = process.env.LUNCH_MENU_KEY ?? 'lunchMenu';
+  try {
+    const record = await get<LunchRecord>(key);
+    return record ?? null;
+  } catch {
+    return null;
+  }
+}
+
+export async function getLunchDisplay(): Promise<LunchDisplay> {
+  return resolveLunchDisplay(await getLunchRecord());
 }

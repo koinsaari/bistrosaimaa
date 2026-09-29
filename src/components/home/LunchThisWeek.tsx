@@ -4,24 +4,22 @@ import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import WaterLine from '@/components/WaterLine';
 import Reveal from '@/components/Reveal';
-import { getCurrentLunchWeek } from '@/lib/lunch';
-import type { LunchDay, LunchWeek } from '@/data/lunch-weeks';
+import { getLunchDisplay, formatUpdatedAt, DAY_KEYS, type DayKey } from '@/lib/lunch';
 
-const DAY_KEYS: Array<{ key: keyof LunchWeek; messageKey: string }> = [
-  { key: 'monday', messageKey: 'lunchDay.monday' },
-  { key: 'tuesday', messageKey: 'lunchDay.tuesday' },
-  { key: 'wednesday', messageKey: 'lunchDay.wednesday' },
-  { key: 'thursday', messageKey: 'lunchDay.thursday' },
-  { key: 'friday', messageKey: 'lunchDay.friday' },
-];
+const DAY_MESSAGE_KEYS: Record<DayKey, string> = {
+  monday: 'lunchDay.monday',
+  tuesday: 'lunchDay.tuesday',
+  wednesday: 'lunchDay.wednesday',
+  thursday: 'lunchDay.thursday',
+  friday: 'lunchDay.friday',
+  saturday: 'lunchDay.saturday',
+  sunday: 'lunchDay.sunday',
+};
 
 export default async function LunchThisWeek() {
   const locale = await getLocale();
   const t = await getTranslations({ locale, namespace: 'HomePage' });
-  const { week, isoWeek } = getCurrentLunchWeek();
-  const langKey: 'fi' | 'en' = locale === 'fi' ? 'fi' : 'en';
-
-  const renderItems = (day: LunchDay) => day.items.map((item) => item[langKey]).join(' · ');
+  const display = locale === 'fi' ? await getLunchDisplay() : null;
 
   return (
     <section className="relative bg-muted/40 py-20 md:py-28">
@@ -32,29 +30,41 @@ export default async function LunchThisWeek() {
             <span>{t('lunchEyebrow')}</span>
           </p>
           <h2 className="font-serif font-normal leading-[1.05] tracking-[-0.02em] text-[clamp(1.875rem,3vw,2.75rem)] text-ink">
-            {t('lunchHeading', { week: isoWeek })}
+            {t('lunchHeading')}
           </h2>
         </header>
 
         <div className="mx-auto max-w-3xl">
-          <ul className="divide-y divide-border/60">
-            {DAY_KEYS.map(({ key, messageKey }) => {
-              const day = week[key];
-              return (
-                <li
-                  key={key}
-                  className="flex flex-col gap-1 py-5 md:flex-row md:items-baseline md:gap-8 md:py-6"
-                >
-                  <span className="w-36 shrink-0 font-serif italic text-[15px] text-ink">
-                    {t(messageKey)}
-                  </span>
-                  <span className="text-[15px] leading-relaxed text-foreground/85">
-                    {renderItems(day)}
-                  </span>
-                </li>
-              );
-            })}
-          </ul>
+          {display === null || display.status === 'fallback' ? (
+            <p className="text-[15px] leading-relaxed text-foreground/85">
+              {t('lunchFallback')}
+            </p>
+          ) : (
+            <>
+              <ul className="divide-y divide-border/60">
+                {DAY_KEYS.map((day) => {
+                  const dayDisplay = display.days.find((d) => d.day === day)!;
+                  return (
+                    <li
+                      key={day}
+                      className="flex flex-col gap-1 py-5 md:flex-row md:items-baseline md:gap-8 md:py-6"
+                    >
+                      <span className="w-36 shrink-0 font-serif italic text-[15px] text-ink">
+                        {t(DAY_MESSAGE_KEYS[day])}
+                      </span>
+                      <span className="text-[15px] leading-relaxed text-foreground/85">
+                        {dayDisplay.status === 'content' ? dayDisplay.text : t('lunchPlaceholder')}
+                      </span>
+                    </li>
+                  );
+                })}
+              </ul>
+
+              <p className="mt-4 text-xs text-muted-foreground">
+                {t('lunchUpdatedAt', { date: formatUpdatedAt(display.updatedAt) })}
+              </p>
+            </>
+          )}
 
           <Separator className="mt-10" />
 

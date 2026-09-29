@@ -80,15 +80,20 @@
     "placeStripCall": "Soita",
     "placeStripQuote": "Kysy tarjous",
     "lunchEyebrow": "Tällä viikolla",
-    "lunchHeading": "Lounas viikolla {week}",
+    "lunchHeading": "Viikon lounas",
     "lunchHoursAndPriceNote": "Lounas tarjoillaan klo 10.30-14.00. Hinta 13,50 €.",
     "lunchFacebookCta": "Katso lounas Facebookissa",
+    "lunchPlaceholder": "Lista tulossa pian",
+    "lunchFallback": "Viikon lounaslista päivittyy pian tänne. Katso tämän hetken lounas Facebookista.",
+    "lunchUpdatedAt": "Päivitetty {date}",
     "lunchDay": {
       "monday": "Maanantai",
       "tuesday": "Tiistai",
       "wednesday": "Keskiviikko",
       "thursday": "Torstai",
-      "friday": "Perjantai"
+      "friday": "Perjantai",
+      "saturday": "Lauantai",
+      "sunday": "Sunnuntai"
     },
     "locationEyebrow": "Saimaan rannalla",
     "locationHeading": "Löydät meidät <i>Ristiinasta</i>",
