@@ -15,7 +15,7 @@ test.describe('Admin auth', () => {
     await login.expectOnLoginPage();
   });
 
-  for (const path of ['/admin', '/admin/lunch']) {
+  for (const path of ['/admin', '/admin/lunch', '/admin/dishes']) {
     test(`unauthenticated ${path} redirects to login`, async ({ page }) => {
       const login = new AdminLoginPage(page);
       await login.gotoPath(path);
