@@ -1,4 +1,10 @@
+import { existsSync } from 'node:fs';
 import { defineConfig, devices } from '@playwright/test';
+
+// Local runs hit the Neon ci branch (fixture data), not .env.local's dev branch. CI sets DATABASE_URL itself.
+if (!process.env.DATABASE_URL && existsSync('.env.e2e')) {
+  process.loadEnvFile('.env.e2e');
+}
 
 export default defineConfig({
   testDir: './e2e',
