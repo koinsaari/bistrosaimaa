@@ -36,7 +36,7 @@ async function insertWeek(week: IsoWeek, published: boolean, content: FixtureWee
 }
 
 async function main() {
-  await db.execute(sql`truncate table lunch_dishes, lunch_days, lunch_weeks, dishes, categories cascade`);
+  await db.execute(sql`truncate table lunch_dishes, lunch_days, lunch_weeks, dishes, categories, login_attempts, admin_state cascade`);
 
   const [{ id: categoryId }] = await db
     .insert(categories)

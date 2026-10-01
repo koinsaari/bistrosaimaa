@@ -17,7 +17,11 @@ export class AdminLoginPage {
 
   async login(password: string) {
     await this.passwordInput.fill(password);
+    const actionResponse = this.page.waitForResponse(
+      (r) => r.request().method() === 'POST' && new URL(r.url()).pathname === '/admin/login',
+    );
     await this.submitButton.click();
+    await actionResponse;
   }
 
   async expectOnLoginPage() {
@@ -26,8 +30,15 @@ export class AdminLoginPage {
     await expect(this.submitButton).toHaveText('Kirjaudu');
   }
 
+  async expectThrottledError() {
+    await expect(this.error).toContainText('Liian monta yritystä');
+    await expect(this.passwordInput).toHaveValue('');
+    await expect(this.page).toHaveURL(/\/admin\/login$/);
+  }
+
   async expectWrongPasswordError() {
     await expect(this.error).toHaveText('Väärä salasana.');
+    await expect(this.passwordInput).toHaveValue('');
     await expect(this.page).toHaveURL(/\/admin\/login$/);
   }
 }
