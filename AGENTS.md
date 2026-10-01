@@ -82,3 +82,13 @@ This is a **public repo** — anything that reaches a GitHub Actions log or an u
 - Never reuse a `production`-target secret value for `preview`/`development` — set each target separately (`vercel env add <NAME> <target>`), not one `vercel env add <NAME>` call selecting all three.
 - `EDGE_CONFIG_WRITE_TOKEN` is a full Vercel personal access token (Hobby plan can't scope a token to one project/store), not an app-level secret — treat a leak of it as an account compromise, not just a "lunch menu got vandalized" incident.
 - Edge Config is capped at 1 store per team on Hobby. Non-production writes are isolated by **key**, not by store: `LUNCH_MENU_KEY` (unset in production → defaults to `'lunchMenu'`; set to `'lunchMenu_dev'` for preview/development) picks which key `lib/lunch.ts`/`lib/lunch-write.ts` read/write. Follow this key-namespacing pattern for any future Edge Config data rather than requesting a second store.
+
+<!-- BEGIN:nextjs-agent-rules -->
+
+# This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
+<!-- END:nextjs-agent-rules -->
