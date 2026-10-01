@@ -2,15 +2,7 @@
 
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
-import {
-  verifyPassword,
-  createSessionToken,
-  isAuthenticated,
-  SESSION_COOKIE_NAME,
-  SESSION_TTL_MS,
-} from '@/lib/auth';
-import { DAY_KEYS, type LunchRecord } from '@/lib/lunch';
-import { writeLunchRecord } from '@/lib/lunch-write';
+import { verifyPassword, createSessionToken, SESSION_COOKIE_NAME, SESSION_TTL_MS } from '@/lib/auth';
 
 export async function login(_prevState: { error: boolean }, formData: FormData): Promise<{ error: boolean }> {
   const password = String(formData.get('password') ?? '');
@@ -29,30 +21,4 @@ export async function login(_prevState: { error: boolean }, formData: FormData):
   });
 
   redirect('/admin/lunch');
-}
-
-export type SaveLunchMenuState = { error: boolean; record: LunchRecord | null };
-
-export async function saveLunchMenu(
-  _prevState: SaveLunchMenuState,
-  formData: FormData,
-): Promise<SaveLunchMenuState> {
-  if (!(await isAuthenticated())) {
-    redirect('/admin/lunch/login');
-  }
-
-  const record = {
-    ...(Object.fromEntries(
-      DAY_KEYS.map((day) => [day, String(formData.get(day) ?? '')]),
-    ) as Record<(typeof DAY_KEYS)[number], string>),
-    updatedAt: new Date().toISOString(),
-  } satisfies LunchRecord;
-
-  try {
-    await writeLunchRecord(record);
-  } catch {
-    return { error: true, record: null };
-  }
-
-  return { error: false, record };
 }

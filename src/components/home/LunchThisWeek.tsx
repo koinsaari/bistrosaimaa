@@ -1,3 +1,4 @@
+import { connection } from 'next/server';
 import { getLocale, getTranslations } from 'next-intl/server';
 import { ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -17,6 +18,8 @@ const DAY_MESSAGE_KEYS: Record<DayKey, string> = {
 };
 
 export default async function LunchThisWeek() {
+  // Keeps the menu per-request even if the page is ever made static; a prerendered menu would go stale.
+  await connection();
   const locale = await getLocale();
   const t = await getTranslations({ locale, namespace: 'HomePage' });
   const display = locale === 'fi' ? await getLunchDisplay() : null;
@@ -36,7 +39,7 @@ export default async function LunchThisWeek() {
 
         <div className="mx-auto max-w-3xl">
           {display === null || display.status === 'fallback' ? (
-            <p className="text-[15px] leading-relaxed text-foreground/85">
+            <p data-testid="lunch-fallback" className="text-[15px] leading-relaxed text-foreground/85">
               {t('lunchFallback')}
             </p>
           ) : (
@@ -47,14 +50,34 @@ export default async function LunchThisWeek() {
                   return (
                     <li
                       key={day}
+                      data-testid={`lunch-day-${day}`}
                       className="flex flex-col gap-1 py-5 md:flex-row md:items-baseline md:gap-8 md:py-6"
                     >
                       <span className="w-36 shrink-0 font-serif italic text-[15px] text-ink">
                         {t(DAY_MESSAGE_KEYS[day])}
                       </span>
-                      <span className="text-[15px] leading-relaxed text-foreground/85">
-                        {dayDisplay.status === 'content' ? dayDisplay.text : t('lunchPlaceholder')}
-                      </span>
+                      {dayDisplay.status === 'content' ? (
+                        <div className="text-[15px] leading-relaxed text-foreground/85">
+                          {dayDisplay.dishes.length > 0 && (
+                            <ul>
+                              {dayDisplay.dishes.map((dish, i) => (
+                                <li key={i} data-testid="lunch-dish">
+                                  {dish}
+                                </li>
+                              ))}
+                            </ul>
+                          )}
+                          {dayDisplay.note && (
+                            <p data-testid="lunch-note" className="italic text-muted-foreground">
+                              {dayDisplay.note}
+                            </p>
+                          )}
+                        </div>
+                      ) : (
+                        <span data-testid="lunch-placeholder" className="text-[15px] leading-relaxed text-foreground/85">
+                          {t('lunchPlaceholder')}
+                        </span>
+                      )}
                     </li>
                   );
                 })}
