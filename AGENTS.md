@@ -8,7 +8,9 @@ Marketing website for Bistro Saimaa, a restaurant in Ristiina, Mikkeli. Built wi
 - `npm run build` / `npm start` — production build / serve
 - `npm run lint` — ESLint (`next/core-web-vitals` + `next/typescript`)
 - `npm run test` — Vitest unit tests (`src/**/*.test.ts`)
-- `npm run test:e2e` — Playwright tests. `playwright.config.ts` auto-starts a dev server (`npm start` in CI, `npm run dev` locally; reuses an already-running server in local mode).
+- `npm run test:e2e` — Playwright tests. `playwright.config.ts` auto-starts its own server on port 3100 (`npm start` in CI, `npm run dev` locally), so it never reuses your `npm run dev` on :3000. Locally it loads `DATABASE_URL` from the gitignored `.env.e2e` (the Neon `ci` branch); DB-backed specs skip without it.
+- `npm run db:generate` / `db:migrate` — create / apply Drizzle migrations (`drizzle/`, committed). Both read `.env.local` when `DATABASE_URL` is unset.
+- `npm run db:seed` — idempotent starter catalog. `npm run db:seed:e2e` — **truncates every table** and loads the E2E fixture; refuses to run unless `CI=true` or `ALLOW_DB_TRUNCATE=1`.
 - `npm run test:e2e:ui` / `:headed` — Playwright UI / headed modes
 - Run a single spec: `npx playwright test e2e/menu.spec.ts`
 - Run a single project: `npx playwright test --project=desktop` (or `mobile`)
@@ -31,7 +33,7 @@ i18n is the central architectural concern. The site uses **`next-intl` with URL-
 - `src/i18n/request.ts` reads `requestLocale` (set by the proxy) and loads `messages/{locale}.json`.
 - `src/i18n/metadata.ts` exports `localeAlternates(path, currentLocale)` to build `canonical` + `languages` (fi/en/x-default) hreflang for `generateMetadata`.
 
-When adding user-facing strings, add keys to both `messages/en.json` and `messages/fi.json` — unless a string is genuinely FI-only content with a separate static EN fallback message (e.g. the lunch menu: staff type Finnish only, EN always shows one fallback sentence instead of translated items). Don't add per-item EN keys that nothing will ever render. The `Metadata` namespace holds per-page SEO copy (title, description, keywords).
+When adding user-facing strings, add keys to both `messages/en.json` and `messages/fi.json`. Content typed by staff is the exception: lunch dish names and notes are Finnish only and render as-is on EN pages too, under translated headings. The `Metadata` namespace holds per-page SEO copy (title, description, keywords).
 
 ## Page structure pattern
 
@@ -44,6 +46,17 @@ The root layout (`src/app/[locale]/layout.tsx`) validates the locale via `hasLoc
 The sitemap emits both `/...` and `/en/...` URLs with `alternates.languages`.
 
 **Exception**: `src/app/admin/*` sits outside `[locale]` — unlocalized on purpose (single shared admin password, no bilingual authoring). It has its own root `layout.tsx` with `<html>`/`<body>`, disallowed in `robots.ts`, and excluded from `proxy.ts`'s middleware matcher. If you add another route that shouldn't be locale-prefixed, follow this pattern rather than nesting it under `[locale]`.
+
+## Database
+
+Lunch data lives in **Neon Postgres** (Vercel Marketplace) via **Drizzle ORM**. Tables in `src/db/schema.ts`: `categories`, `dishes`, `lunch_weeks`, `lunch_days`, `lunch_dishes`. A week references dishes by id, so fixing a dish name fixes every week. Dishes in use can't be deleted (`on delete restrict`); retire them with `is_active`.
+
+- `src/db/index.ts` exports a lazy `getDb()` — keep it lazy (so `next build` works without `DATABASE_URL`) and never wrap it in a `Proxy`.
+- The `neon-http` driver has no interactive transactions; use `db.batch([...])` for atomic multi-statement writes.
+- `src/lib/lunch.ts` reads the current ISO week in `Europe/Helsinki` (`src/lib/isoWeek.ts`), published weeks only. Any error logs and falls back to the static `lunchFallback` sentence. `LunchThisWeek` renders per request (`connection()`) behind a `Suspense` boundary.
+- Schema change: edit `schema.ts`, `npm run db:generate`, commit the SQL. Migrations must stay compatible with the code that's still live until the deploy finishes.
+
+Three Neon branches: **production** (real data), **dev** (local `npm run dev` + preview deployments), **ci** (E2E fixture, truncated every run). Never point E2E or `db:seed:e2e` at dev or production.
 
 ## Fonts
 
@@ -63,25 +76,26 @@ The root `layout.tsx` injects a `Restaurant` JSON-LD blob with address, hours, a
 
 ## Testing
 
-Vitest covers pure logic and testable seams (`src/lib/*.test.ts`) — password/session crypto in `lib/auth.ts`, lunch-menu display/fallback logic in `lib/lunch.ts`. Mock external SDKs (`@vercel/edge-config`) at the module boundary with `vi.mock`, not by mocking internal collaborators. Thin adapters that just forward to an external API (`lib/lunch-write.ts`) don't need unit tests of their own — cover the logic around them instead.
+Vitest covers pure logic and testable seams (`src/lib/*.test.ts`) — password/session crypto in `lib/auth.ts`, ISO weeks in `lib/isoWeek.ts`, lunch-menu display/fallback logic in `lib/lunch.ts`. Mock external boundaries (`@/db`) at the module boundary with `vi.mock`, not by mocking internal collaborators. Thin adapters that just forward to an external API don't need unit tests of their own — cover the logic around them instead.
 
-Playwright (`e2e/`) covers user-facing flows end to end.
+Playwright (`e2e/`) covers user-facing flows end to end, using page objects in `e2e/pages/` with `data-testid` locators. DB-backed specs read their expected data from `e2e/fixtures/lunch.ts`, the same fixture `db:seed:e2e` writes.
 
 ## Deployment
 
 Production deploys are not driven by Vercel's git integration (`vercel.json` has `git.deploymentEnabled: { "main": false }`), so they wait for CI. Every other branch gets a native Vercel preview deployment; Vercel's bot comments the URL on the PR.
 
-- **`ci.yml`** runs lint/type-check and E2E tests on PR and push to `main`. Its `test` job does **not** run `vercel pull` — it's a plain `npm run build` + `npx playwright test` on the GitHub Actions runner, so app env vars (`ADMIN_PASSWORD`, `SESSION_SECRET`, `EDGE_CONFIG*`) are not available there unless added separately as GitHub Actions repo secrets. After a main push passes lint/type-check/E2E, the `deploy` job runs `vercel pull --environment=production` + `vercel build --prod` + `vercel deploy --prebuilt --prod` — no staging step, no release gate.
+- **`ci.yml`** runs lint, type-check and Vitest, then E2E, on PR and push to `main`. Its `test` job does **not** run `vercel pull` — it's a plain `npm run build` + `npx playwright test` on the GitHub Actions runner, against the Neon `ci` branch (`DATABASE_URL_CI`), migrated and reseeded first. Other app env vars (`ADMIN_PASSWORD`, `SESSION_SECRET`) are not available there unless added as GitHub Actions repo secrets. The job is in a `ci-db` concurrency group so runs don't clobber each other's fixture. After a main push passes, the `deploy` job runs `vercel pull --environment=production` + `vercel build --prod`, migrates production (`DATABASE_URL_PRODUCTION`), then `vercel deploy --prebuilt --prod` — no staging step, no release gate.
+- **Previews** build with `npm run vercel-build` (`vercel.json` `buildCommand`), which runs `db:migrate` against the dev branch first when `VERCEL_ENV=preview`.
 
-`main` is branch-protected: PR + passing `E2E Tests` check required, but admin can bypass for direct pushes. Vercel CLI is pinned to `vercel@54` in workflows (note: `vercel` CLI installed locally may be a newer major version); bump the pinned version deliberately when needed.
+`main` is protected by a ruleset: PR + passing `Lint & Type Check` and `E2E Tests` required, but admin can bypass for direct pushes. Vercel CLI is pinned to `vercel@54` in workflows (note: `vercel` CLI installed locally may be a newer major version); bump the pinned version deliberately when needed.
 
 ### Env vars & secrets
 
 This is a **public repo** — anything that reaches a GitHub Actions log or an uploaded build artifact (e.g. a Playwright trace/report) on a `pull_request`-triggered run is effectively public, except secrets are withheld entirely from fork-originated PR runs.
 
 - Never reuse a `production`-target secret value for `preview`/`development` — set each target separately (`vercel env add <NAME> <target>`), not one `vercel env add <NAME>` call selecting all three.
-- `EDGE_CONFIG_WRITE_TOKEN` is a full Vercel personal access token (Hobby plan can't scope a token to one project/store), not an app-level secret — treat a leak of it as an account compromise, not just a "lunch menu got vandalized" incident.
-- Edge Config is capped at 1 store per team on Hobby. Non-production writes are isolated by **key**, not by store: `LUNCH_MENU_KEY` (unset in production → defaults to `'lunchMenu'`; set to `'lunchMenu_dev'` for preview/development) picks which key `lib/lunch.ts`/`lib/lunch-write.ts` read/write. Follow this key-namespacing pattern for any future Edge Config data rather than requesting a second store.
+- `DATABASE_URL` is a Vercel **Secret** in production and preview, so `vercel pull` doesn't fetch it — that's why the deploy job uses the `DATABASE_URL_PRODUCTION` GH secret, and why previews migrate inside the Vercel build. Development is a plain value so `vercel env pull` writes the dev branch URL to `.env.local`.
+- GH Actions secrets: `DATABASE_URL_CI` (Neon ci branch), `DATABASE_URL_PRODUCTION` (deploy-job migrations only). Never reuse production values in CI.
 
 <!-- BEGIN:nextjs-agent-rules -->
 
