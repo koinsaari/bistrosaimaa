@@ -19,6 +19,7 @@ export const CURRENT_WEEK: FixtureWeek = {
   monday: { dishes: ['E2E Lohikeitto', 'E2E Jauhelihakastike'] },
   tuesday: { dishes: [], note: 'E2E vain huomautus' },
   wednesday: { dishes: ['E2E Kasvispata'], note: 'E2E sisältää pähkinää' },
+  friday: { dishes: [RETIRED_DISH] },
 };
 
 export const NEXT_WEEK: FixtureWeek = {

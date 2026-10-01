@@ -17,6 +17,10 @@ export class LunchSectionPage {
     await expect(this.day(day).locator('[data-testid="lunch-dish"]')).toHaveText(names);
   }
 
+  async expectDishNowhere(name: string) {
+    await expect(this.page.locator('[data-testid="lunch-dish"]', { hasText: name })).toHaveCount(0);
+  }
+
   async expectNote(day: DayKey, text: string) {
     await expect(this.day(day).locator('[data-testid="lunch-note"]')).toHaveText(text);
   }

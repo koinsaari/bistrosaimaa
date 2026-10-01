@@ -1,6 +1,6 @@
 import { test } from '@playwright/test';
 import { LunchSectionPage } from './pages/LunchSectionPage';
-import { CURRENT_WEEK } from './fixtures/lunch';
+import { CURRENT_WEEK, NEXT_WEEK } from './fixtures/lunch';
 
 test.describe('Lunch section', () => {
   test.describe('without a published week', () => {
@@ -36,6 +36,19 @@ test.describe('Lunch section', () => {
       const lunch = new LunchSectionPage(page);
       await lunch.goto();
       await lunch.expectPlaceholder('thursday');
+    });
+
+    test('still shows a retired dish in a week that uses it', async ({ page }) => {
+      const lunch = new LunchSectionPage(page);
+      await lunch.goto();
+      await lunch.expectDayDishes('friday', CURRENT_WEEK.friday!.dishes);
+    });
+
+    test('never shows the unpublished next week', async ({ page }) => {
+      const lunch = new LunchSectionPage(page);
+      await lunch.goto();
+      await lunch.expectDayDishes('monday', CURRENT_WEEK.monday!.dishes);
+      for (const name of NEXT_WEEK.monday!.dishes) await lunch.expectDishNowhere(name);
     });
 
     test('English shows the same Finnish dishes', async ({ page }) => {

@@ -1,13 +1,17 @@
+import { existsSync } from 'node:fs';
 import { sql } from 'drizzle-orm';
 import { CURRENT_WEEK, FIXTURE_CATEGORY, FIXTURE_DISHES, NEXT_WEEK, RETIRED_DISH, type FixtureWeek } from '../../e2e/fixtures/lunch';
 import { DAY_KEYS } from '../lib/lunch';
 import { currentIsoWeek, type IsoWeek } from '../lib/isoWeek';
 import { categories, dishes, getDb, lunchDays, lunchDishes, lunchWeeks } from './index';
 
-// Wipes every table. Never loads .env.local, and needs an explicit opt-in outside CI.
+// Wipes every table. Only ever loads .env.e2e (ci branch), never .env.local, and needs an explicit opt-in outside CI.
 if (process.env.CI !== 'true' && process.env.ALLOW_DB_TRUNCATE !== '1') {
-  console.error('Refusing to truncate: set CI=true or ALLOW_DB_TRUNCATE=1 with DATABASE_URL pointing at the ci branch.');
+  console.error('Refusing to truncate: set CI=true or ALLOW_DB_TRUNCATE=1.');
   process.exit(1);
+}
+if (!process.env.DATABASE_URL && existsSync('.env.e2e')) {
+  process.loadEnvFile('.env.e2e');
 }
 
 const db = getDb();

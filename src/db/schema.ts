@@ -50,7 +50,10 @@ export const lunchWeeks = pgTable(
       .defaultNow()
       .$onUpdate(() => new Date()),
   },
-  (t) => [unique('lunch_weeks_year_week_unique').on(t.isoYear, t.isoWeek)],
+  (t) => [
+    unique('lunch_weeks_year_week_unique').on(t.isoYear, t.isoWeek),
+    check('lunch_weeks_week_range', sql`${t.isoWeek} between 1 and 53`),
+  ],
 );
 
 export const lunchDays = pgTable(
@@ -80,6 +83,7 @@ export const lunchDishes = pgTable(
   },
   (t) => [
     primaryKey({ columns: [t.weekId, t.day, t.position] }),
+    check('lunch_dishes_position_nonnegative', sql`${t.position} >= 0`),
     foreignKey({
       columns: [t.weekId, t.day],
       foreignColumns: [lunchDays.weekId, lunchDays.day],
