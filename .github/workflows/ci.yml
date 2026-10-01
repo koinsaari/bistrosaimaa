@@ -16,7 +16,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v6
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: 24
           cache: npm
@@ -30,13 +30,23 @@ jobs:
       - name: Type check
         run: npx tsc --noEmit
 
+      - name: Unit tests
+        run: npm test
+
   test:
     name: E2E Tests
     runs-on: ubuntu-latest
+    # The ci branch is truncated and reseeded per run; overlapping runs would clobber each other's fixture.
+    concurrency:
+      group: ci-db
+      cancel-in-progress: false
+    env:
+      # Empty on fork PRs (no secrets), so DB-backed specs skip.
+      DATABASE_URL: ${{ secrets.DATABASE_URL_CI }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v6
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: 24
           cache: npm
@@ -46,6 +56,14 @@ jobs:
 
       - name: Install Playwright browsers
         run: npx playwright install chromium --with-deps
+
+      - name: Migrate ci database
+        if: env.DATABASE_URL != ''
+        run: npm run db:migrate
+
+      - name: Seed e2e fixture
+        if: env.DATABASE_URL != ''
+        run: npm run db:seed:e2e
 
       - name: Build app
         run: npm run build
@@ -83,6 +101,20 @@ jobs:
 
       - name: Build for production
         run: vercel build --prod
+
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Production DATABASE_URL is a Vercel Secret, which vercel pull doesn't fetch.
+      - name: Migrate production database
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL_PRODUCTION }}
+        run: npm run db:migrate
 
       - name: Deploy build to Vercel
         id: deploy
