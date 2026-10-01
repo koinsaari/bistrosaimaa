@@ -3,6 +3,7 @@ import { getLocale, getTranslations } from 'next-intl/server';
 import { ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
+import { Skeleton } from '@/components/ui/skeleton';
 import WaterLine from '@/components/WaterLine';
 import Reveal from '@/components/Reveal';
 import { getLunchDisplay, formatUpdatedAt, DAY_KEYS, type DayKey } from '@/lib/lunch';
@@ -16,6 +17,27 @@ const DAY_MESSAGE_KEYS: Record<DayKey, string> = {
   saturday: 'lunchDay.saturday',
   sunday: 'lunchDay.sunday',
 };
+
+export function LunchSkeleton() {
+  return (
+    <section aria-busy="true" className="relative bg-muted/40 py-20 md:py-28">
+      <div className="container mx-auto px-6">
+        <div className="mb-12 max-w-2xl space-y-4">
+          <Skeleton className="h-3 w-28" />
+          <Skeleton className="h-10 w-64" />
+        </div>
+        <div className="mx-auto max-w-3xl divide-y divide-border/60">
+          {DAY_KEYS.map((day) => (
+            <div key={day} className="flex flex-col gap-2 py-5 md:flex-row md:gap-8 md:py-6">
+              <Skeleton className="h-5 w-28 shrink-0" />
+              <Skeleton className="h-5 w-full max-w-sm" />
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
 
 export default async function LunchThisWeek() {
   // Keeps the menu per-request even if the page is ever made static; a prerendered menu would go stale.
