@@ -30,7 +30,10 @@ export const dishes = pgTable(
     allergens: text('allergens').array().notNull().default(sql`'{}'::text[]`),
     isActive: boolean('is_active').notNull().default(true),
     createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
-    updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true })
+      .notNull()
+      .defaultNow()
+      .$onUpdate(() => new Date()),
   },
   (t) => [uniqueIndex('dishes_name_lower_idx').on(sql`lower(${t.name})`)],
 );
@@ -42,7 +45,10 @@ export const lunchWeeks = pgTable(
     isoYear: integer('iso_year').notNull(),
     isoWeek: integer('iso_week').notNull(),
     published: boolean('published').notNull().default(false),
-    updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true })
+      .notNull()
+      .defaultNow()
+      .$onUpdate(() => new Date()),
   },
   (t) => [unique('lunch_weeks_year_week_unique').on(t.isoYear, t.isoWeek)],
 );
