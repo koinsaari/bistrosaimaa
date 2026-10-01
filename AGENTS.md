@@ -69,9 +69,8 @@ Playwright (`e2e/`) covers user-facing flows end to end.
 
 ## Deployment
 
-Production deploys are not driven by Vercel's git integration (`vercel.json` has `git.deploymentEnabled: false`). All deploys go through GitHub Actions in `.github/workflows/`:
+Production deploys are not driven by Vercel's git integration (`vercel.json` has `git.deploymentEnabled: { "main": false }`), so they wait for CI. Every other branch gets a native Vercel preview deployment; Vercel's bot comments the URL on the PR.
 
-- **`preview.yml`** runs on PR open/sync. Builds, deploys a preview, comments the URL on the PR (updates in place via the `<!-- preview-deploy-comment -->` marker).
 - **`ci.yml`** runs lint/type-check and E2E tests on PR and push to `main`. Its `test` job does **not** run `vercel pull` — it's a plain `npm run build` + `npx playwright test` on the GitHub Actions runner, so app env vars (`ADMIN_PASSWORD`, `SESSION_SECRET`, `EDGE_CONFIG*`) are not available there unless added separately as GitHub Actions repo secrets. After a main push passes lint/type-check/E2E, the `deploy` job runs `vercel pull --environment=production` + `vercel build --prod` + `vercel deploy --prebuilt --prod` — no staging step, no release gate.
 
 `main` is branch-protected: PR + passing `E2E Tests` check required, but admin can bypass for direct pushes. Vercel CLI is pinned to `vercel@54` in workflows (note: `vercel` CLI installed locally may be a newer major version); bump the pinned version deliberately when needed.
