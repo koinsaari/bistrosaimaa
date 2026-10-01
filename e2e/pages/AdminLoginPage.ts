@@ -24,6 +24,10 @@ export class AdminLoginPage {
     await actionResponse;
   }
 
+  async loginAsAdmin() {
+    await this.login(process.env.ADMIN_PASSWORD!);
+  }
+
   async expectOnLoginPage() {
     await expect(this.page).toHaveURL(/\/admin\/login$/);
     await expect(this.passwordInput).toBeVisible();

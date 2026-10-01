@@ -1,6 +1,7 @@
 import { randomUUID } from 'node:crypto';
 import { test } from '@playwright/test';
 import { AdminLoginPage } from './pages/AdminLoginPage';
+import { AdminPanelPage } from './pages/AdminPanelPage';
 
 test.describe('Admin auth', () => {
   // Own client ID per test so failed logins never share a throttle bucket across tests, projects or reruns.
@@ -29,11 +30,27 @@ test.describe('Admin auth', () => {
     await login.expectWrongPasswordError();
   });
 
-  test.describe('login throttle', () => {
-    test.skip(
-      !process.env.DATABASE_URL || !process.env.ADMIN_PASSWORD || !process.env.SESSION_SECRET,
-      'needs DB, ADMIN_PASSWORD and SESSION_SECRET',
-    );
+  // Everything below reads or writes the throttle and session-version tables.
+  test.describe('with a database', () => {
+    test.skip(!process.env.DATABASE_URL, 'no DB');
+
+    test('correct password opens the admin panel', async ({ page }) => {
+      const login = new AdminLoginPage(page);
+      await login.goto();
+      await login.loginAsAdmin();
+      await new AdminPanelPage(page).expectLoaded();
+    });
+
+    test('a signed-in admin visiting the login page is sent to the panel', async ({ page }) => {
+      const login = new AdminLoginPage(page);
+      await login.goto();
+      await login.loginAsAdmin();
+      await new AdminPanelPage(page).expectLoaded();
+
+      await login.goto();
+      await new AdminPanelPage(page).expectLoaded();
+    });
+
 
     test('blocks after 5 wrong passwords, even for the correct one', async ({ page }) => {
       const login = new AdminLoginPage(page);
@@ -44,7 +61,7 @@ test.describe('Admin auth', () => {
       }
       await login.login('wrong-again');
       await login.expectThrottledError();
-      await login.login(process.env.ADMIN_PASSWORD!);
+      await login.loginAsAdmin();
       await login.expectThrottledError();
     });
   });

@@ -2,8 +2,9 @@
 
 import { cookies, headers } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { verifyPassword, createSessionToken, SESSION_COOKIE_NAME, SESSION_TTL_MS } from '@/lib/auth';
+import { verifyPassword, createSessionToken, isAuthenticated, SESSION_COOKIE_NAME, SESSION_TTL_MS } from '@/lib/auth';
 import { clearAttempts, getClientIp, hashIp, registerAttempt, type ThrottleStatus } from '@/lib/loginThrottle';
+import { bumpSessionVersion, getSessionVersion } from '@/lib/sessionVersion';
 
 const COOKIE_PATH = '/admin';
 
@@ -37,7 +38,15 @@ export async function login(_prevState: LoginState, formData: FormData): Promise
     console.error('clearing login attempts failed', err);
   }
 
-  (await cookies()).set(SESSION_COOKIE_NAME, createSessionToken(secret, SESSION_TTL_MS), {
+  let version: number;
+  try {
+    version = await getSessionVersion();
+  } catch (err) {
+    console.error('reading session version failed', err);
+    return { error: 'unavailable' };
+  }
+
+  (await cookies()).set(SESSION_COOKIE_NAME, createSessionToken(secret, SESSION_TTL_MS, version), {
     httpOnly: true,
     secure: true,
     sameSite: 'lax',
@@ -49,6 +58,15 @@ export async function login(_prevState: LoginState, formData: FormData): Promise
 }
 
 export async function logout(): Promise<void> {
+  // Only an authenticated caller may bump the version, or anyone could force-logout the admin.
+  const authenticated = await isAuthenticated();
   (await cookies()).delete({ name: SESSION_COOKIE_NAME, path: COOKIE_PATH });
+  if (authenticated) {
+    try {
+      await bumpSessionVersion();
+    } catch (err) {
+      console.error('revoking sessions on logout failed', err);
+    }
+  }
   redirect('/admin/login');
 }
