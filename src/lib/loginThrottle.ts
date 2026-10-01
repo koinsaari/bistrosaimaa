@@ -37,24 +37,36 @@ export function hashIp(ip: string, secret: string): string {
 }
 
 /**
- * Records this attempt, then counts the window. The insert must commit before the count runs
- * (separate statements, not one batch) so every concurrent request sees the others' attempts.
+ * Decides whether this attempt may check the password. Already-blocked clients add no rows, so a
+ * flood can't grow the table. Otherwise the attempt is recorded and then counted in separate
+ * statements: every concurrent request sees the others' attempts, so at most MAX_ATTEMPTS pass.
  */
 export async function registerAttempt(ipHash: string, now = new Date()): Promise<ThrottleStatus> {
   const db = getDb();
-  await db.batch([
-    db.insert(loginAttempts).values({ ipHash, attemptedAt: now }),
-    db.delete(loginAttempts).where(lt(loginAttempts.attemptedAt, new Date(now.getTime() - RETENTION_MS))),
-  ]);
+  const since = new Date(now.getTime() - WINDOW_MS);
+  const recentAttempts = async () =>
+    (
+      await db
+        .select({ attemptedAt: loginAttempts.attemptedAt })
+        .from(loginAttempts)
+        .where(and(eq(loginAttempts.ipHash, ipHash), gt(loginAttempts.attemptedAt, since)))
+    ).map((r) => r.attemptedAt);
 
-  const rows = await db
-    .select({ attemptedAt: loginAttempts.attemptedAt })
-    .from(loginAttempts)
-    .where(and(eq(loginAttempts.ipHash, ipHash), gt(loginAttempts.attemptedAt, new Date(now.getTime() - WINDOW_MS))));
-  return throttleStatus(
-    rows.map((r) => r.attemptedAt),
-    now,
-  );
+  const early = throttleStatus([...(await recentAttempts()), now], now);
+  if (early.blocked) return early;
+
+  await db.insert(loginAttempts).values({ ipHash, attemptedAt: now });
+  const status = throttleStatus(await recentAttempts(), now);
+  // Only the attempt that trips the limit reaches here blocked, so this is one line per lockout.
+  if (status.blocked) console.warn(`login throttled: client ${ipHash.slice(0, 8)}`);
+
+  // Housekeeping only; a failure here must not affect the login decision.
+  try {
+    await db.delete(loginAttempts).where(lt(loginAttempts.attemptedAt, new Date(now.getTime() - RETENTION_MS)));
+  } catch (err) {
+    console.error('pruning login attempts failed', err);
+  }
+  return status;
 }
 
 export async function clearAttempts(ipHash: string): Promise<void> {
