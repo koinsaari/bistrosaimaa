@@ -74,7 +74,8 @@ export async function getLunchRecord(now: Date = new Date()): Promise<LunchRecor
       if (row.dish !== null) entry.dishes.push(row.dish);
     }
     return { updatedAt: rows[0].updatedAt.toISOString(), days };
-  } catch {
+  } catch (err) {
+    console.error('Failed to load lunch menu', err);
     return null;
   }
 }

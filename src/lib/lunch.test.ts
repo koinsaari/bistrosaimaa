@@ -72,9 +72,13 @@ describe('getLunchRecord', () => {
     rowsMock.mockReset();
   });
 
-  it('returns null when the query throws', async () => {
-    rowsMock.mockRejectedValueOnce(new Error('network error'));
+  it('returns null and logs when the query throws', async () => {
+    const error = new Error('network error');
+    const logSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    rowsMock.mockRejectedValueOnce(error);
     await expect(getLunchRecord()).resolves.toBeNull();
+    expect(logSpy).toHaveBeenCalledWith(expect.any(String), error);
+    logSpy.mockRestore();
   });
 
   it('returns null when the current week is missing or unpublished', async () => {
