@@ -1,4 +1,13 @@
+import { existsSync } from 'node:fs';
 import { defineConfig, devices } from '@playwright/test';
+
+// Local runs hit the Neon ci branch (fixture data), not .env.local's dev branch. CI sets DATABASE_URL itself.
+if (!process.env.DATABASE_URL && existsSync('.env.e2e')) {
+  process.loadEnvFile('.env.e2e');
+}
+
+// Own port so a running `npm run dev` (dev DB) is never reused.
+const PORT = 3100;
 
 export default defineConfig({
   testDir: './e2e',
@@ -9,7 +18,7 @@ export default defineConfig({
   timeout: 30_000,
 
   use: {
-    baseURL: 'http://localhost:3000',
+    baseURL: `http://localhost:${PORT}`,
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
   },
@@ -28,8 +37,8 @@ export default defineConfig({
   ],
 
   webServer: {
-    command: process.env.CI ? 'npm run start' : 'npm run dev',
-    url: 'http://localhost:3000',
+    command: `${process.env.CI ? 'npm run start' : 'npm run dev'} -- --port ${PORT}`,
+    url: `http://localhost:${PORT}`,
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,
   },

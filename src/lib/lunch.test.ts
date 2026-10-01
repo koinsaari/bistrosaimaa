@@ -1,60 +1,54 @@
 import { describe, expect, it, vi, beforeEach } from 'vitest';
 
-const { getMock } = vi.hoisted(() => ({ getMock: vi.fn() }));
-vi.mock('@vercel/edge-config', () => ({ get: getMock }));
+const { rowsMock } = vi.hoisted(() => ({ rowsMock: vi.fn() }));
+vi.mock('@/db', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/db')>();
+  // Every query-builder call returns the chain; awaiting it resolves to the mocked rows.
+  const chain: Record<string, unknown> = {
+    then: (resolve: (v: unknown) => unknown, reject: (e: unknown) => unknown) => rowsMock().then(resolve, reject),
+  };
+  for (const method of ['select', 'from', 'leftJoin', 'where', 'orderBy']) chain[method] = () => chain;
+  return { ...actual, getDb: () => chain };
+});
 
 const { resolveLunchDisplay, formatUpdatedAt, getLunchRecord } = await import('@/lib/lunch');
-import type { LunchRecord as LunchRecordType } from '@/lib/lunch';
+import type { LunchRecord } from '@/lib/lunch';
 
-const fullRecord: LunchRecordType = {
-  monday: 'Lohikeitto',
-  tuesday: 'Jauhelihakastike',
-  wednesday: 'Kasvispata',
-  thursday: 'Hernekeitto',
-  friday: 'Uunikala',
-  saturday: 'Pizza',
-  sunday: 'Pata',
-  updatedAt: '2026-09-29T10:00:00.000Z',
-};
+const updatedAt = '2026-09-29T10:00:00.000Z';
 
 describe('resolveLunchDisplay', () => {
-  it('returns fallback when no record has ever been saved', () => {
+  it('returns fallback when there is no published week', () => {
     expect(resolveLunchDisplay(null)).toEqual({ status: 'fallback' });
   });
 
-  it('returns content for every day when the record is fully filled', () => {
-    const result = resolveLunchDisplay(fullRecord);
-    expect(result).toEqual({
-      status: 'available',
-      updatedAt: fullRecord.updatedAt,
-      days: [
-        { day: 'monday', status: 'content', text: 'Lohikeitto' },
-        { day: 'tuesday', status: 'content', text: 'Jauhelihakastike' },
-        { day: 'wednesday', status: 'content', text: 'Kasvispata' },
-        { day: 'thursday', status: 'content', text: 'Hernekeitto' },
-        { day: 'friday', status: 'content', text: 'Uunikala' },
-        { day: 'saturday', status: 'content', text: 'Pizza' },
-        { day: 'sunday', status: 'content', text: 'Pata' },
-      ],
-    });
+  it('shows dishes only, note only, and both', () => {
+    const record: LunchRecord = {
+      updatedAt,
+      days: {
+        monday: { dishes: ['Lohikeitto', 'Kievin kana'], note: null },
+        tuesday: { dishes: [], note: 'Vain huomautus' },
+        wednesday: { dishes: ['Kasvispata'], note: 'Sisältää pähkinää' },
+      },
+    };
+    const result = resolveLunchDisplay(record);
+    if (result.status !== 'available') throw new Error('expected available');
+    expect(result.updatedAt).toBe(updatedAt);
+    expect(result.days.slice(0, 3)).toEqual([
+      { day: 'monday', status: 'content', dishes: ['Lohikeitto', 'Kievin kana'], note: null },
+      { day: 'tuesday', status: 'content', dishes: [], note: 'Vain huomautus' },
+      { day: 'wednesday', status: 'content', dishes: ['Kasvispata'], note: 'Sisältää pähkinää' },
+    ]);
   });
 
-  it('shows a placeholder for a day left blank, without falling back to Facebook', () => {
-    const result = resolveLunchDisplay({ ...fullRecord, saturday: '', sunday: '   ' });
-    expect(result.status).toBe('available');
-    if (result.status !== 'available') throw new Error('unreachable');
-    expect(result.days.find((d) => d.day === 'saturday')).toEqual({ day: 'saturday', status: 'placeholder' });
-    expect(result.days.find((d) => d.day === 'sunday')).toEqual({ day: 'sunday', status: 'placeholder' });
-    expect(result.days.find((d) => d.day === 'monday')).toEqual({ day: 'monday', status: 'content', text: 'Lohikeitto' });
-  });
-
-  it('treats a day missing from the record as a placeholder instead of crashing', () => {
-    const withoutSunday: Partial<LunchRecordType> = { ...fullRecord };
-    delete withoutSunday.sunday;
-    const result = resolveLunchDisplay(withoutSunday as LunchRecordType);
-    expect(result.status).toBe('available');
-    if (result.status !== 'available') throw new Error('unreachable');
-    expect(result.days.find((d) => d.day === 'sunday')).toEqual({ day: 'sunday', status: 'placeholder' });
+  it('shows a placeholder for a day with no dishes and no note, or missing entirely', () => {
+    const record: LunchRecord = {
+      updatedAt,
+      days: { monday: { dishes: [], note: '   ' } },
+    };
+    const result = resolveLunchDisplay(record);
+    if (result.status !== 'available') throw new Error('expected available');
+    expect(result.days).toHaveLength(7);
+    expect(result.days.every((d) => d.status === 'placeholder')).toBe(true);
   });
 });
 
@@ -75,16 +69,42 @@ describe('formatUpdatedAt', () => {
 
 describe('getLunchRecord', () => {
   beforeEach(() => {
-    getMock.mockReset();
+    rowsMock.mockReset();
   });
 
-  it('returns null when the Edge Config read throws', async () => {
-    getMock.mockRejectedValueOnce(new Error('network error'));
+  it('returns null and logs when the query throws', async () => {
+    const error = new Error('network error');
+    const logSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    rowsMock.mockRejectedValueOnce(error);
+    await expect(getLunchRecord()).resolves.toBeNull();
+    expect(logSpy).toHaveBeenCalledWith(expect.any(String), error);
+    logSpy.mockRestore();
+  });
+
+  it('returns null when the current week is missing or unpublished', async () => {
+    rowsMock.mockResolvedValueOnce([]);
     await expect(getLunchRecord()).resolves.toBeNull();
   });
 
-  it('returns the record when the read succeeds', async () => {
-    getMock.mockResolvedValueOnce(fullRecord);
-    await expect(getLunchRecord()).resolves.toEqual(fullRecord);
+  it('groups joined rows into days with dishes in position order', async () => {
+    const weekUpdatedAt = new Date(updatedAt);
+    rowsMock.mockResolvedValueOnce([
+      { updatedAt: weekUpdatedAt, day: 1, note: null, dish: 'Lohikeitto' },
+      { updatedAt: weekUpdatedAt, day: 1, note: null, dish: 'Kievin kana' },
+      { updatedAt: weekUpdatedAt, day: 2, note: 'Vain huomautus', dish: null },
+      { updatedAt: weekUpdatedAt, day: null, note: null, dish: null },
+    ]);
+    await expect(getLunchRecord()).resolves.toEqual({
+      updatedAt,
+      days: {
+        monday: { dishes: ['Lohikeitto', 'Kievin kana'], note: null },
+        tuesday: { dishes: [], note: 'Vain huomautus' },
+      },
+    });
+  });
+
+  it('returns an empty week when it is published but has no days yet', async () => {
+    rowsMock.mockResolvedValueOnce([{ updatedAt: new Date(updatedAt), day: null, note: null, dish: null }]);
+    await expect(getLunchRecord()).resolves.toEqual({ updatedAt, days: {} });
   });
 });

@@ -1,0 +1,2 @@
+ALTER TABLE "lunch_dishes" ADD CONSTRAINT "lunch_dishes_position_nonnegative" CHECK ("lunch_dishes"."position" >= 0);--> statement-breakpoint
+ALTER TABLE "lunch_weeks" ADD CONSTRAINT "lunch_weeks_week_range" CHECK ("lunch_weeks"."iso_week" between 1 and 53);
