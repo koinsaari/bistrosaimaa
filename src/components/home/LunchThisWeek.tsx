@@ -22,7 +22,7 @@ export default async function LunchThisWeek() {
   await connection();
   const locale = await getLocale();
   const t = await getTranslations({ locale, namespace: 'HomePage' });
-  const display = locale === 'fi' ? await getLunchDisplay() : null;
+  const display = await getLunchDisplay();
 
   return (
     <section className="relative bg-muted/40 py-20 md:py-28">
@@ -38,7 +38,7 @@ export default async function LunchThisWeek() {
         </header>
 
         <div className="mx-auto max-w-3xl">
-          {display === null || display.status === 'fallback' ? (
+          {display.status === 'fallback' ? (
             <p data-testid="lunch-fallback" className="text-[15px] leading-relaxed text-foreground/85">
               {t('lunchFallback')}
             </p>
