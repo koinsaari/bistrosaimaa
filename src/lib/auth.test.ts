@@ -1,5 +1,25 @@
-import { describe, expect, it } from 'vitest';
-import { verifyPassword, createSessionToken, verifySessionToken } from '@/lib/auth';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import {
+  verifyPassword,
+  createSessionToken,
+  verifySessionToken,
+  requireAdmin,
+} from '@/lib/auth';
+
+const cookieJar = vi.hoisted(() => ({ value: undefined as string | undefined }));
+
+vi.mock('next/headers', () => ({
+  cookies: async () => ({
+    get: (name: string) =>
+      name === 'admin_session' && cookieJar.value ? { name, value: cookieJar.value } : undefined,
+  }),
+}));
+
+vi.mock('next/navigation', () => ({
+  redirect: (url: string) => {
+    throw new Error(`REDIRECT:${url}`);
+  },
+}));
 
 describe('verifyPassword', () => {
   it('returns true when input matches expected', () => {
@@ -41,5 +61,36 @@ describe('session token', () => {
 
   it('rejects a malformed token', () => {
     expect(verifySessionToken('not-a-real-token', secret)).toBe(false);
+  });
+});
+
+describe('requireAdmin', () => {
+  beforeEach(() => {
+    cookieJar.value = undefined;
+    vi.stubEnv('SESSION_SECRET', 'test-secret');
+  });
+
+  afterEach(() => {
+    vi.unstubAllEnvs();
+  });
+
+  it('redirects to the login page without a session cookie', async () => {
+    await expect(requireAdmin()).rejects.toThrow('REDIRECT:/admin/login');
+  });
+
+  it('redirects when the session token is invalid', async () => {
+    cookieJar.value = 'not-a-real-token';
+    await expect(requireAdmin()).rejects.toThrow('REDIRECT:/admin/login');
+  });
+
+  it('redirects when SESSION_SECRET is not configured', async () => {
+    cookieJar.value = createSessionToken('test-secret', 60_000);
+    vi.stubEnv('SESSION_SECRET', '');
+    await expect(requireAdmin()).rejects.toThrow('REDIRECT:/admin/login');
+  });
+
+  it('resolves for a valid session', async () => {
+    cookieJar.value = createSessionToken('test-secret', 60_000);
+    await expect(requireAdmin()).resolves.toBeUndefined();
   });
 });

@@ -1,5 +1,6 @@
 import { timingSafeEqual, createHash, createHmac } from 'node:crypto';
 import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
 
 export const SESSION_COOKIE_NAME = 'admin_session';
 export const SESSION_TTL_MS = 7 * 24 * 60 * 60 * 1000;
@@ -48,4 +49,8 @@ export async function isAuthenticated(): Promise<boolean> {
   const secret = process.env.SESSION_SECRET;
   if (!token || !secret) return false;
   return verifySessionToken(token, secret);
+}
+
+export async function requireAdmin(): Promise<void> {
+  if (!(await isAuthenticated())) redirect('/admin/login');
 }
