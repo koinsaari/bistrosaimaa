@@ -4,7 +4,7 @@ import { CURRENT_WEEK } from './fixtures/lunch';
 
 test.describe('Lunch section', () => {
   test.describe('without a published week', () => {
-    test.skip(!!process.env.DATABASE_URL, 'seeded DB has a published week');
+    test.skip(!process.env.CI || !!process.env.DATABASE_URL, 'only in CI without a DB');
 
     test('shows the fallback', async ({ page }) => {
       const lunch = new LunchSectionPage(page);
