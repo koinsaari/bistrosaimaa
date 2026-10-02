@@ -43,12 +43,19 @@ describe('resolveLunchDisplay', () => {
   it('shows a placeholder for a day with no dishes and no note, or missing entirely', () => {
     const record: LunchRecord = {
       updatedAt,
-      days: { monday: { dishes: [], note: '   ' } },
+      days: { monday: { dishes: [], note: '   ' }, tuesday: { dishes: ['Lohikeitto'], note: null } },
     };
     const result = resolveLunchDisplay(record);
     if (result.status !== 'available') throw new Error('expected available');
     expect(result.days).toHaveLength(7);
-    expect(result.days.every((d) => d.status === 'placeholder')).toBe(true);
+    expect(result.days.filter((d) => d.status === 'placeholder')).toHaveLength(6);
+  });
+
+  it('falls back when no day has any content', () => {
+    expect(resolveLunchDisplay({ updatedAt, days: {} })).toEqual({ status: 'fallback' });
+    expect(resolveLunchDisplay({ updatedAt, days: { monday: { dishes: [], note: '  ' } } })).toEqual({
+      status: 'fallback',
+    });
   });
 });
 

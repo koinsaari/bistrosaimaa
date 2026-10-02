@@ -13,6 +13,9 @@ export const FIXTURE_DISHES = [
   'E2E Broilerpasta',
 ] as const;
 
+// Long before any test run, so a saved week visibly moves the public "Päivitetty" date.
+export const CURRENT_WEEK_UPDATED_AT = new Date('2020-01-15T10:00:00Z');
+
 export const RETIRED_DISH = 'E2E Poistunut ruoka';
 
 export const CURRENT_WEEK: FixtureWeek = {

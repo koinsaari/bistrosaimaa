@@ -1,20 +1,31 @@
+import { DateTime } from 'luxon';
+
 export type IsoWeek = { isoYear: number; isoWeek: number };
 
-export function currentIsoWeek(date: Date, timeZone: string): IsoWeek {
-  const parts = new Intl.DateTimeFormat('en-CA', {
-    timeZone,
-    year: 'numeric',
-    month: 'numeric',
-    day: 'numeric',
-  }).formatToParts(date);
-  const get = (type: 'year' | 'month' | 'day') => Number(parts.find((p) => p.type === type)?.value);
+function toIsoWeek(date: DateTime): IsoWeek {
+  return { isoYear: date.weekYear, isoWeek: date.weekNumber };
+}
 
-  // Calendar date in the target zone, as a UTC midnight so the arithmetic below is DST-free.
-  const local = new Date(Date.UTC(get('year'), get('month') - 1, get('day')));
-  const weekday = local.getUTCDay() || 7;
-  // The Thursday of this week decides which ISO year the week belongs to.
-  local.setUTCDate(local.getUTCDate() + 4 - weekday);
-  const isoYear = local.getUTCFullYear();
-  const dayOfYear = (local.getTime() - Date.UTC(isoYear, 0, 1)) / 86_400_000 + 1;
-  return { isoYear, isoWeek: Math.ceil(dayOfYear / 7) };
+function mondayOf({ isoYear, isoWeek }: IsoWeek): DateTime {
+  return DateTime.fromObject({ weekYear: isoYear, weekNumber: isoWeek, weekday: 1 }, { zone: 'utc' });
+}
+
+export function currentIsoWeek(date: Date, timeZone: string): IsoWeek {
+  return toIsoWeek(DateTime.fromJSDate(date, { zone: timeZone }));
+}
+
+export function weeksInIsoYear(isoYear: number): number {
+  return DateTime.fromObject({ weekYear: isoYear }, { zone: 'utc' }).weeksInWeekYear;
+}
+
+export function addWeeks(week: IsoWeek, weeks: number): IsoWeek {
+  return toIsoWeek(mondayOf(week).plus({ weeks }));
+}
+
+/** "Viikko 41 (5.–11.10.)": the week number and its Monday–Sunday span. */
+export function formatWeekLabel(week: IsoWeek): string {
+  const monday = mondayOf(week);
+  const sunday = monday.plus({ days: 6 });
+  const start = `${monday.day}.${monday.month === sunday.month ? '' : `${monday.month}.`}`;
+  return `Viikko ${week.isoWeek} (${start}–${sunday.day}.${sunday.month}.)`;
 }

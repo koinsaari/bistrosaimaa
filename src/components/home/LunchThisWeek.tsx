@@ -105,7 +105,7 @@ export default async function LunchThisWeek() {
                 })}
               </ul>
 
-              <p className="mt-4 text-xs text-muted-foreground">
+              <p className="mt-4 text-xs text-muted-foreground" data-testid="lunch-updated">
                 {t('lunchUpdatedAt', { date: formatUpdatedAt(display.updatedAt) })}
               </p>
             </>

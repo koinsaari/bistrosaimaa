@@ -3,6 +3,7 @@ import {
   boolean,
   check,
   foreignKey,
+  index,
   integer,
   pgTable,
   primaryKey,
@@ -89,4 +90,26 @@ export const lunchDishes = pgTable(
       foreignColumns: [lunchDays.weekId, lunchDays.day],
     }).onDelete('cascade'),
   ],
+);
+
+export const loginAttempts = pgTable(
+  'login_attempts',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    ipHash: text('ip_hash').notNull(),
+    attemptedAt: timestamp('attempted_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => [
+    index('login_attempts_ip_time_idx').on(t.ipHash, t.attemptedAt),
+    index('login_attempts_time_idx').on(t.attemptedAt),
+  ],
+);
+
+export const adminState = pgTable(
+  'admin_state',
+  {
+    id: integer('id').primaryKey().default(1),
+    sessionVersion: integer('session_version').notNull().default(1),
+  },
+  (t) => [check('admin_state_singleton', sql`${t.id} = 1`)],
 );

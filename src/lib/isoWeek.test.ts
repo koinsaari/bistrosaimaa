@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { currentIsoWeek } from '@/lib/isoWeek';
+import { addWeeks, currentIsoWeek, formatWeekLabel, weeksInIsoYear } from '@/lib/isoWeek';
 
 const HELSINKI = 'Europe/Helsinki';
 
@@ -30,5 +30,48 @@ describe('currentIsoWeek', () => {
   it('rolls over at Monday 00:00 Helsinki, not UTC (winter time)', () => {
     // Sunday 22:30 UTC is Monday 00:30 in Helsinki (UTC+2)
     expect(currentIsoWeek(new Date('2026-12-27T22:30:00Z'), HELSINKI)).toEqual({ isoYear: 2026, isoWeek: 53 });
+  });
+});
+
+describe('weeksInIsoYear', () => {
+  it.each([
+    [2026, 53],
+    [2025, 52],
+    [2020, 53],
+    [2021, 52],
+  ])('%i has %i weeks', (year, weeks) => {
+    expect(weeksInIsoYear(year)).toBe(weeks);
+  });
+});
+
+describe('addWeeks', () => {
+  it('moves within a year', () => {
+    expect(addWeeks({ isoYear: 2026, isoWeek: 41 }, 2)).toEqual({ isoYear: 2026, isoWeek: 43 });
+    expect(addWeeks({ isoYear: 2026, isoWeek: 41 }, -1)).toEqual({ isoYear: 2026, isoWeek: 40 });
+  });
+
+  it('rolls over a 53-week year', () => {
+    expect(addWeeks({ isoYear: 2026, isoWeek: 52 }, 1)).toEqual({ isoYear: 2026, isoWeek: 53 });
+    expect(addWeeks({ isoYear: 2026, isoWeek: 53 }, 1)).toEqual({ isoYear: 2027, isoWeek: 1 });
+  });
+
+  it('rolls over a 52-week year, backwards too', () => {
+    expect(addWeeks({ isoYear: 2025, isoWeek: 52 }, 1)).toEqual({ isoYear: 2026, isoWeek: 1 });
+    expect(addWeeks({ isoYear: 2026, isoWeek: 1 }, -1)).toEqual({ isoYear: 2025, isoWeek: 52 });
+  });
+});
+
+describe('formatWeekLabel', () => {
+  it('shows the week number and Monday–Sunday within a month', () => {
+    expect(formatWeekLabel({ isoYear: 2026, isoWeek: 41 })).toBe('Viikko 41 (5.–11.10.)');
+  });
+
+  it('shows both months when the week spans two', () => {
+    expect(formatWeekLabel({ isoYear: 2026, isoWeek: 40 })).toBe('Viikko 40 (28.9.–4.10.)');
+  });
+
+  it('handles a week spanning the new year', () => {
+    expect(formatWeekLabel({ isoYear: 2026, isoWeek: 53 })).toBe('Viikko 53 (28.12.–3.1.)');
+    expect(formatWeekLabel({ isoYear: 2025, isoWeek: 1 })).toBe('Viikko 1 (30.12.–5.1.)');
   });
 });

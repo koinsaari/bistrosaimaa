@@ -39,4 +39,15 @@ export class LunchSectionPage {
     await expect(fallback).toBeVisible();
     await expect(this.page.locator('[data-testid^="lunch-day-"]')).toHaveCount(0);
   }
+
+  /** The public "Päivitetty d.m." line, which must show today once a week has just been saved. */
+  async expectUpdatedToday() {
+    const parts = new Intl.DateTimeFormat('fi-FI', {
+      timeZone: 'Europe/Helsinki',
+      day: 'numeric',
+      month: 'numeric',
+    }).formatToParts(new Date());
+    const get = (type: string) => parts.find((p) => p.type === type)?.value;
+    await expect(this.page.getByTestId('lunch-updated')).toContainText(`${get('day')}.${get('month')}.`);
+  }
 }

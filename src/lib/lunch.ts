@@ -21,18 +21,18 @@ export type LunchDisplay =
 export function resolveLunchDisplay(record: LunchRecord | null): LunchDisplay {
   if (!record) return { status: 'fallback' };
 
-  return {
-    status: 'available',
-    updatedAt: record.updatedAt,
-    days: DAY_KEYS.map((day) => {
-      const entry = record.days[day];
-      const dishNames = entry?.dishes ?? [];
-      const note = entry?.note?.trim() || null;
-      return dishNames.length || note
-        ? { day, status: 'content', dishes: dishNames, note }
-        : { day, status: 'placeholder' };
-    }),
-  };
+  const days: DayDisplay[] = DAY_KEYS.map((day) => {
+    const entry = record.days[day];
+    const dishNames = entry?.dishes ?? [];
+    const note = entry?.note?.trim() || null;
+    return dishNames.length || note
+      ? { day, status: 'content', dishes: dishNames, note }
+      : { day, status: 'placeholder' };
+  });
+
+  // A published week with nothing on any day says nothing useful; the fallback sentence does.
+  if (days.every((d) => d.status === 'placeholder')) return { status: 'fallback' };
+  return { status: 'available', updatedAt: record.updatedAt, days };
 }
 
 export function formatUpdatedAt(isoDate: string): string {
