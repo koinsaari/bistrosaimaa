@@ -13,8 +13,23 @@ export class AdminLunchPage {
     return this.page.getByTestId(`day-${day}`);
   }
 
-  private dishRow(day: number, name: string): Locator {
-    return this.day(day).getByTestId('day-dish').filter({ has: this.page.getByText(name, { exact: true }) });
+  private editor(): Locator {
+    return this.page.getByTestId('day-editor');
+  }
+
+  private dishRow(name: string): Locator {
+    return this.editor().getByTestId('day-dish').filter({ has: this.page.getByText(name, { exact: true }) });
+  }
+
+  private async inEditor<T>(day: number, fn: () => Promise<T>): Promise<T> {
+    await expect(async () => {
+      await this.day(day).click({ timeout: 1000 });
+      await expect(this.editor()).toBeVisible({ timeout: 1000 });
+    }).toPass();
+    const result = await fn();
+    await this.page.getByTestId('day-done').click();
+    await expect(this.editor()).toHaveCount(0);
+    return result;
   }
 
   private option(name: string): Locator {
@@ -32,20 +47,22 @@ export class AdminLunchPage {
   }
 
   async addDish(day: number, name: string) {
-    await this.day(day).getByTestId('day-add').click();
-    await this.option(name).click();
+    await this.inEditor(day, async () => {
+      await this.editor().getByTestId('day-add').click();
+      await this.option(name).click();
+    });
   }
 
   async moveDishUp(day: number, name: string) {
-    await this.dishRow(day, name).getByTestId('dish-up').click();
+    await this.inEditor(day, () => this.dishRow(name).getByTestId('dish-up').click());
   }
 
   async removeDish(day: number, name: string) {
-    await this.dishRow(day, name).getByTestId('dish-remove').click();
+    await this.inEditor(day, () => this.dishRow(name).getByTestId('dish-remove').click());
   }
 
   async setNote(day: number, note: string) {
-    await this.day(day).getByTestId('day-note').fill(note);
+    await this.inEditor(day, () => this.editor().getByTestId('day-note').fill(note));
   }
 
   async save() {
@@ -73,11 +90,11 @@ export class AdminLunchPage {
   }
 
   async expectRetiredBadge(day: number, name: string) {
-    await expect(this.dishRow(day, name).getByText('Poistettu käytöstä')).toBeVisible();
+    await this.inEditor(day, () => expect(this.dishRow(name).getByText('Poistettu käytöstä')).toBeVisible());
   }
 
   async expectNote(day: number, note: string) {
-    await expect(this.day(day).getByTestId('day-note')).toHaveValue(note);
+    await this.inEditor(day, () => expect(this.editor().getByTestId('day-note')).toHaveValue(note));
   }
 
   async expectStatus(status: 'Ei tallennettu' | 'Ei julkaistu' | 'Julkaistu') {
@@ -95,9 +112,11 @@ export class AdminLunchPage {
 
   /** Opens the add-dish picker and checks which dishes it offers. */
   async expectPickerOffers(day: number, name: string, offered: boolean) {
-    await this.day(day).getByTestId('day-add').click();
-    await expect(this.option(name)).toHaveCount(offered ? 1 : 0);
-    await this.page.keyboard.press('Escape');
+    await this.inEditor(day, async () => {
+      await this.editor().getByTestId('day-add').click();
+      await expect(this.option(name)).toHaveCount(offered ? 1 : 0);
+      await this.page.keyboard.press('Escape');
+    });
   }
 
   async expectUnsavedHint(visible: boolean) {

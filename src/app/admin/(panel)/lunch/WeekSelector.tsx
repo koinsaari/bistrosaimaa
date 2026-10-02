@@ -19,7 +19,7 @@ export default function WeekSelector({ options, current }: { options: WeekOption
           router.push(`/admin/lunch?year=${year}&week=${week}`);
         }}
       >
-        <SelectTrigger id="week-select" className="w-64" data-testid="week-select">
+        <SelectTrigger id="week-select" className="h-11 w-full sm:w-64" data-testid="week-select">
           <SelectValue />
         </SelectTrigger>
         <SelectContent>
