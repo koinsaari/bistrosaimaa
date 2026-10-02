@@ -31,19 +31,27 @@ export default defineConfig({
     {
       name: 'desktop',
       use: { ...devices['Desktop Chrome'] },
-      testIgnore: ['**/navigation-mobile.spec.ts', '**/admin-session.spec.ts'],
+      testIgnore: ['**/navigation-mobile.spec.ts', '**/admin-session.spec.ts', '**/admin-lunch-public.spec.ts'],
     },
     {
       name: 'mobile',
       use: { ...devices['Pixel 5'] },
-      testIgnore: ['**/navigation.spec.ts', '**/admin-session.spec.ts'],
+      testIgnore: ['**/navigation.spec.ts', '**/admin-session.spec.ts', '**/admin-lunch-public.spec.ts'],
+    },
+    {
+      // Edits the shared current week the public lunch specs read, so it runs alone after the parallel projects.
+      name: 'admin-public',
+      use: { ...devices['Desktop Chrome'] },
+      testMatch: '**/admin-lunch-public.spec.ts',
+      dependencies: ['desktop', 'mobile'],
+      fullyParallel: false,
     },
     {
       // Logout ends every admin session, so it runs alone after the parallel projects rather than kicking their logins.
       name: 'admin-session',
       use: { ...devices['Desktop Chrome'] },
       testMatch: '**/admin-session.spec.ts',
-      dependencies: ['desktop', 'mobile'],
+      dependencies: ['desktop', 'mobile', 'admin-public'],
       fullyParallel: false,
     },
   ],

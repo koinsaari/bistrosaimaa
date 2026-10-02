@@ -4,7 +4,7 @@ import { dishes, getDb } from '@/db';
 import { ALLERGENS } from '@/lib/allergens';
 import { isUniqueViolation, parseCategoryId } from '@/lib/categories';
 
-function isForeignKeyViolation(err: unknown): boolean {
+export function isForeignKeyViolation(err: unknown): boolean {
   const codeOf = (e: unknown) => (typeof e === 'object' && e !== null ? (e as { code?: unknown }).code : undefined);
   const cause = typeof err === 'object' && err !== null ? (err as { cause?: unknown }).cause : undefined;
   return codeOf(err) === '23503' || codeOf(cause) === '23503';

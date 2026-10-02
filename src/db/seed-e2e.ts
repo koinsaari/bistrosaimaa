@@ -1,6 +1,6 @@
 import { existsSync } from 'node:fs';
 import { sql } from 'drizzle-orm';
-import { CURRENT_WEEK, FIXTURE_CATEGORY, FIXTURE_DISHES, NEXT_WEEK, RETIRED_DISH, type FixtureWeek } from '../../e2e/fixtures/lunch';
+import { CURRENT_WEEK, CURRENT_WEEK_UPDATED_AT, FIXTURE_CATEGORY, FIXTURE_DISHES, NEXT_WEEK, RETIRED_DISH, type FixtureWeek } from '../../e2e/fixtures/lunch';
 import { DAY_KEYS } from '../lib/lunch';
 import { currentIsoWeek, type IsoWeek } from '../lib/isoWeek';
 import { categories, dishes, getDb, lunchDays, lunchDishes, lunchWeeks } from './index';
@@ -16,10 +16,16 @@ if (!process.env.DATABASE_URL && existsSync('.env.e2e')) {
 
 const db = getDb();
 
-async function insertWeek(week: IsoWeek, published: boolean, content: FixtureWeek, dishIdByName: Map<string, string>) {
+async function insertWeek(
+  week: IsoWeek,
+  published: boolean,
+  content: FixtureWeek,
+  dishIdByName: Map<string, string>,
+  updatedAt?: Date,
+) {
   const [{ id: weekId }] = await db
     .insert(lunchWeeks)
-    .values({ ...week, published })
+    .values({ ...week, published, updatedAt })
     .returning({ id: lunchWeeks.id });
 
   for (const [i, dayKey] of DAY_KEYS.entries()) {
@@ -54,7 +60,7 @@ async function main() {
 
   const now = new Date();
   const nextWeekDate = new Date(now.getTime() + 7 * 86_400_000);
-  await insertWeek(currentIsoWeek(now, 'Europe/Helsinki'), true, CURRENT_WEEK, dishIdByName);
+  await insertWeek(currentIsoWeek(now, 'Europe/Helsinki'), true, CURRENT_WEEK, dishIdByName, CURRENT_WEEK_UPDATED_AT);
   await insertWeek(currentIsoWeek(nextWeekDate, 'Europe/Helsinki'), false, NEXT_WEEK, dishIdByName);
 
   console.log('e2e fixture seeded');
