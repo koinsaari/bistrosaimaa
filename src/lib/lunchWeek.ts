@@ -2,7 +2,7 @@ import { and, asc, eq, sql } from 'drizzle-orm';
 import type { BatchItem } from 'drizzle-orm/batch';
 import { z } from 'zod';
 import { getDb, lunchDays, lunchDishes, lunchWeeks } from '@/db';
-import { isForeignKeyViolation } from '@/lib/dishes';
+import { isForeignKeyViolation } from '@/lib/dbErrors';
 import { weeksInIsoYear } from '@/lib/isoWeek';
 
 const WEEK_ERROR = 'Virheellinen viikko';

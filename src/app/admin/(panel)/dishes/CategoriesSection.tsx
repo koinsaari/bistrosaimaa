@@ -2,6 +2,16 @@
 
 import { useActionState } from 'react';
 import { Button } from '@/components/ui/button';
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import {
@@ -50,12 +60,32 @@ function CategoryRow({ category }: { category: Category }) {
             Tallenna
           </Button>
         </form>
-        <form action={deleteCategoryAction}>
-          <input type="hidden" name="id" value={category.id} />
-          <Button type="submit" variant="outline" data-testid="category-delete">
-            Poista
-          </Button>
-        </form>
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button type="button" variant="outline" data-testid="category-delete">
+              Poista
+            </Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Poistetaanko kategoria {category.name}?</DialogTitle>
+              <DialogDescription>Kategorian ruoat jäävät ilman kategoriaa.</DialogDescription>
+            </DialogHeader>
+            <form action={deleteCategoryAction}>
+              <input type="hidden" name="id" value={category.id} />
+              <DialogFooter>
+                <DialogClose asChild>
+                  <Button type="button" variant="outline">
+                    Peruuta
+                  </Button>
+                </DialogClose>
+                <Button type="submit" data-testid="category-delete-confirm">
+                  Poista
+                </Button>
+              </DialogFooter>
+            </form>
+          </DialogContent>
+        </Dialog>
       </div>
       {error && (
         <p className="text-sm text-destructive" data-testid="category-error">

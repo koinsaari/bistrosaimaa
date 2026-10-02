@@ -56,11 +56,10 @@ describe('logout', () => {
     expect(mocks.bumpSessionVersion).not.toHaveBeenCalled();
   });
 
-  it('still clears the cookie and redirects when revoking fails', async () => {
-    vi.spyOn(console, 'error').mockImplementation(() => {});
+  it('keeps the cookie and surfaces the error when revoking fails, so logout can be retried', async () => {
     mocks.isAuthenticated.mockResolvedValue(true);
     mocks.bumpSessionVersion.mockRejectedValue(new Error('db down'));
-    await expect(logout()).rejects.toThrow('REDIRECT:/admin/login');
-    expect(mocks.deleteCookie).toHaveBeenCalledOnce();
+    await expect(logout()).rejects.toThrow('db down');
+    expect(mocks.deleteCookie).not.toHaveBeenCalled();
   });
 });

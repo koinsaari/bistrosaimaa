@@ -60,6 +60,10 @@ export class AdminLunchPage {
     await expect(this.page.getByTestId('week-saved')).toBeVisible();
   }
 
+  async expectNotShownAsSaved() {
+    await expect(this.page.getByTestId('week-saved')).toHaveCount(0);
+  }
+
   async expectError(message: string) {
     await expect(this.page.getByTestId('week-error')).toHaveText(message);
   }

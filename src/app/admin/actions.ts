@@ -18,7 +18,10 @@ export async function login(_prevState: LoginState, formData: FormData): Promise
   const password = String(formData.get('password') ?? '');
   const expected = process.env.ADMIN_PASSWORD;
   const secret = process.env.SESSION_SECRET;
-  if (!expected || !secret) return { error: 'invalid' };
+  if (!expected || !secret) {
+    console.error('ADMIN_PASSWORD or SESSION_SECRET is not set');
+    return { error: 'unavailable' };
+  }
 
   const ipHash = hashIp(getClientIp(await headers()), secret);
   let status: ThrottleStatus;
@@ -59,14 +62,8 @@ export async function login(_prevState: LoginState, formData: FormData): Promise
 
 export async function logout(): Promise<void> {
   // Only an authenticated caller may bump the version, or anyone could force-logout the admin.
-  const authenticated = await isAuthenticated();
+  // If the bump fails, throw before deleting the cookie so the admin can retry.
+  if (await isAuthenticated()) await bumpSessionVersion();
   (await cookies()).delete({ name: SESSION_COOKIE_NAME, path: COOKIE_PATH });
-  if (authenticated) {
-    try {
-      await bumpSessionVersion();
-    } catch (err) {
-      console.error('revoking sessions on logout failed', err);
-    }
-  }
   redirect('/admin/login');
 }

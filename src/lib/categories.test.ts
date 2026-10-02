@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { isUniqueViolation, parseCategory, parseCategoryId } from '@/lib/categories';
+import { parseCategory, parseCategoryId } from '@/lib/categories';
 
 describe('parseCategory', () => {
   it('trims the name and parses the sort order', () => {
@@ -42,23 +42,6 @@ describe('parseCategory', () => {
 
   it('reports the name error first when both fields are invalid', () => {
     expect(parseCategory({ name: '', sortOrder: 'x' })).toEqual({ ok: false, error: 'Nimi vaaditaan' });
-  });
-});
-
-describe('isUniqueViolation', () => {
-  it('detects a Postgres unique violation', () => {
-    expect(isUniqueViolation({ code: '23505' })).toBe(true);
-  });
-
-  it('detects one wrapped as the cause of a query error', () => {
-    expect(isUniqueViolation(Object.assign(new Error('Failed query'), { cause: { code: '23505' } }))).toBe(true);
-  });
-
-  it('ignores other errors', () => {
-    expect(isUniqueViolation({ code: '23503' })).toBe(false);
-    expect(isUniqueViolation(new Error('boom'))).toBe(false);
-    expect(isUniqueViolation(null)).toBe(false);
-    expect(isUniqueViolation('23505')).toBe(false);
   });
 });
 

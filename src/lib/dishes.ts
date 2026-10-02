@@ -2,13 +2,8 @@ import { asc, eq, sql } from 'drizzle-orm';
 import { z } from 'zod';
 import { dishes, getDb } from '@/db';
 import { ALLERGENS } from '@/lib/allergens';
-import { isUniqueViolation, parseCategoryId } from '@/lib/categories';
-
-export function isForeignKeyViolation(err: unknown): boolean {
-  const codeOf = (e: unknown) => (typeof e === 'object' && e !== null ? (e as { code?: unknown }).code : undefined);
-  const cause = typeof err === 'object' && err !== null ? (err as { cause?: unknown }).cause : undefined;
-  return codeOf(err) === '23503' || codeOf(cause) === '23503';
-}
+import { parseCategoryId } from '@/lib/categories';
+import { isForeignKeyViolation, isUniqueViolation } from '@/lib/dbErrors';
 
 const NAME_MAX = 100;
 const DESCRIPTION_MAX = 300;
@@ -73,7 +68,6 @@ export async function createDish(input: DishInput): Promise<DishResult> {
     return { ok: true };
   } catch (err) {
     if (isUniqueViolation(err)) return { ok: false, error: DUPLICATE_ERROR };
-    // The category was deleted after the form was opened.
     if (isForeignKeyViolation(err)) return { ok: false, error: CATEGORY_GONE_ERROR };
     throw err;
   }
@@ -85,7 +79,6 @@ export async function updateDish(id: string, input: DishInput): Promise<DishResu
     return updated.length ? { ok: true } : { ok: false, error: NOT_FOUND_ERROR };
   } catch (err) {
     if (isUniqueViolation(err)) return { ok: false, error: DUPLICATE_ERROR };
-    // The category was deleted after the form was opened.
     if (isForeignKeyViolation(err)) return { ok: false, error: CATEGORY_GONE_ERROR };
     throw err;
   }

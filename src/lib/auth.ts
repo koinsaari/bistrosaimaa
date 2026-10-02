@@ -47,10 +47,6 @@ export function parseSessionToken(token: string, secret: string): { version: num
   }
 }
 
-export function verifySessionToken(token: string, secret: string, version: number): boolean {
-  return parseSessionToken(token, secret)?.version === version;
-}
-
 export async function isAuthenticated(): Promise<boolean> {
   const token = (await cookies()).get(SESSION_COOKIE_NAME)?.value;
   const secret = process.env.SESSION_SECRET;

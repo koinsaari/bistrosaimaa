@@ -87,10 +87,21 @@ test.describe('Admin lunch composer', () => {
     await lunch.addDish(MONDAY, JAUHELIHA);
     await lunch.expectPublishButton('Julkaise', false);
     await lunch.expectUnsavedHint(true);
+    await lunch.expectNotShownAsSaved();
 
     await lunch.save();
     await lunch.expectPublishButton('Julkaise', true);
     await lunch.expectUnsavedHint(false);
+  });
+
+  test('a note saved with surrounding spaces does not leave the week looking unsaved', async () => {
+    await lunch.goto(randomWeek());
+    await lunch.addDish(MONDAY, LOHIKEITTO);
+    await lunch.setNote(MONDAY, ' huomautus ');
+    await lunch.save();
+    await lunch.expectSaved();
+    await lunch.expectUnsavedHint(false);
+    await lunch.expectPublishButton('Julkaise', true);
   });
 
   test('a note that is too long shows an error and keeps what was typed', async () => {

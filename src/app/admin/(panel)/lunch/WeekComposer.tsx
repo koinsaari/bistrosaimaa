@@ -150,10 +150,12 @@ export default function WeekComposer({
   );
   const [saveState, saveAction, saving] = useActionState(saveWeekAction, null as WeekFormState);
   const [publishState, publishAction, publishing] = useActionState(setWeekPublishedAction, null as WeekFormState);
-  const error = [saveState, publishState].find((s) => s && !s.ok);
-  // Publishing shows the saved version, so unsaved edits must be saved first.
-  const saved = DAY_NAMES.map((_, i) => initialDays[i + 1] ?? { dishIds: [], note: '' });
-  const dirty = JSON.stringify(days) !== JSON.stringify(saved);
+  const [lastAction, setLastAction] = useState<'save' | 'publish'>('save');
+  const lastState = lastAction === 'save' ? saveState : publishState;
+  const error = lastState && !lastState.ok ? lastState : null;
+  // The server trims notes, so compare trimmed.
+  const snapshot = (list: DayState[]) => JSON.stringify(list.map((d) => ({ ...d, note: d.note.trim() })));
+  const dirty = snapshot(days) !== snapshot(DAY_NAMES.map((_, i) => initialDays[i + 1] ?? { dishIds: [], note: '' }));
 
   return (
     <div className="flex flex-col gap-4">
@@ -164,6 +166,7 @@ export default function WeekComposer({
         onSubmit={(event) => {
           event.preventDefault();
           const formData = new FormData(event.currentTarget);
+          setLastAction('save');
           startTransition(() => saveAction(formData));
         }}
       >
@@ -183,7 +186,7 @@ export default function WeekComposer({
           <Button type="submit" disabled={saving} data-testid="week-save">
             Tallenna
           </Button>
-          {saveState?.ok && <span data-testid="week-saved">Tallennettu</span>}
+          {saveState?.ok && !dirty && <span data-testid="week-saved">Tallennettu</span>}
         </div>
       </form>
       <form
@@ -191,6 +194,7 @@ export default function WeekComposer({
         onSubmit={(event) => {
           event.preventDefault();
           const formData = new FormData(event.currentTarget);
+          setLastAction('publish');
           startTransition(() => publishAction(formData));
         }}
       >
@@ -203,7 +207,7 @@ export default function WeekComposer({
         <span data-testid="week-status">{published ? 'Julkaistu' : stored ? 'Ei julkaistu' : 'Ei tallennettu'}</span>
         {dirty && stored && <span data-testid="week-dirty">Tallenna muutokset ennen julkaisua</span>}
       </form>
-      {error && !error.ok && (
+      {error && (
         <p className="text-sm text-destructive" data-testid="week-error">
           {error.error}
         </p>

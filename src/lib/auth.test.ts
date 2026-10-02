@@ -3,7 +3,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import {
   verifyPassword,
   createSessionToken,
-  verifySessionToken,
+  parseSessionToken,
   requireAdmin,
 } from '@/lib/auth';
 
@@ -45,45 +45,32 @@ describe('session token', () => {
   const secret = 'test-secret';
   const week = 7 * 24 * 60 * 60 * 1000;
 
-  it('verifies a freshly created token', () => {
-    const token = createSessionToken(secret, week, 1);
-    expect(verifySessionToken(token, secret, 1)).toBe(true);
-  });
-
-  it('rejects a token from an older session version', () => {
-    const token = createSessionToken(secret, week, 1);
-    expect(verifySessionToken(token, secret, 2)).toBe(false);
-  });
-
-  it('rejects a token from a newer session version', () => {
-    const token = createSessionToken(secret, week, 3);
-    expect(verifySessionToken(token, secret, 2)).toBe(false);
+  it('parses a freshly created token', () => {
+    expect(parseSessionToken(createSessionToken(secret, week, 3), secret)).toEqual({ version: 3 });
   });
 
   it('rejects a correctly signed legacy token without a version claim', () => {
     const payload = Buffer.from(JSON.stringify({ exp: Date.now() + week })).toString('base64url');
     const signature = createHmac('sha256', secret).update(payload).digest('base64url');
-    expect(verifySessionToken(`${payload}.${signature}`, secret, 1)).toBe(false);
+    expect(parseSessionToken(`${payload}.${signature}`, secret)).toBeNull();
   });
 
   it('rejects a tampered token', () => {
     const token = createSessionToken(secret, week, 1);
     const tampered = `${token.slice(0, -1)}${token.slice(-1) === 'a' ? 'b' : 'a'}`;
-    expect(verifySessionToken(tampered, secret, 1)).toBe(false);
+    expect(parseSessionToken(tampered, secret)).toBeNull();
   });
 
-  it('rejects a token verified with the wrong secret', () => {
-    const token = createSessionToken(secret, week, 1);
-    expect(verifySessionToken(token, 'other-secret', 1)).toBe(false);
+  it('rejects a token parsed with the wrong secret', () => {
+    expect(parseSessionToken(createSessionToken(secret, week, 1), 'other-secret')).toBeNull();
   });
 
   it('rejects an expired token', () => {
-    const token = createSessionToken(secret, -1000, 1);
-    expect(verifySessionToken(token, secret, 1)).toBe(false);
+    expect(parseSessionToken(createSessionToken(secret, -1000, 1), secret)).toBeNull();
   });
 
   it('rejects a malformed token', () => {
-    expect(verifySessionToken('not-a-real-token', secret, 1)).toBe(false);
+    expect(parseSessionToken('not-a-real-token', secret)).toBeNull();
   });
 });
 
@@ -131,6 +118,11 @@ describe('requireAdmin', () => {
   it('redirects once all sessions have been revoked', async () => {
     cookieJar.value = createSessionToken('test-secret', 60_000, 1);
     sessionVersion.get.mockResolvedValue(2);
+    await expect(requireAdmin()).rejects.toThrow('REDIRECT:/admin/login');
+  });
+
+  it('redirects for a token from a newer session version', async () => {
+    cookieJar.value = createSessionToken('test-secret', 60_000, 3);
     await expect(requireAdmin()).rejects.toThrow('REDIRECT:/admin/login');
   });
 

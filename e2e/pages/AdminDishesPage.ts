@@ -48,6 +48,13 @@ export class AdminDishesPage {
 
   async deleteCategory(name: string) {
     await this.row(name).getByTestId('category-delete').click();
+    await this.dialog.getByTestId('category-delete-confirm').click();
+  }
+
+  async cancelCategoryDelete(name: string) {
+    await this.row(name).getByTestId('category-delete').click();
+    await this.dialog.getByRole('button', { name: 'Peruuta' }).click();
+    await expect(this.dialog).toHaveCount(0);
   }
 
   async expectCategory(name: string, sortOrder: string) {

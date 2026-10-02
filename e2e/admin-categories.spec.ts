@@ -35,6 +35,18 @@ test.describe('Admin categories', () => {
     await dishes.expectNoCategory(renamed);
   });
 
+  test('cancelling the delete confirmation keeps the category', async () => {
+    const name = uniqueName();
+    await dishes.addCategory(name, '900');
+    await dishes.expectCategory(name, '900');
+
+    await dishes.cancelCategoryDelete(name);
+    await dishes.expectCategory(name, '900');
+
+    await dishes.deleteCategory(name);
+    await dishes.expectNoCategory(name);
+  });
+
   test('a duplicate name is rejected and the typed name is kept', async () => {
     const name = uniqueName();
     await dishes.addCategory(name, '900');
