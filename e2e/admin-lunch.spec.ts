@@ -14,8 +14,16 @@ test.describe('Admin lunch composer', () => {
   test.skip(!process.env.DATABASE_URL, 'no DB');
 
   let lunch: AdminLunchPage;
-  // A random far-future week per test: the shared fixture weeks stay untouched, and parallel runs never collide.
-  const randomWeek = () => ({ isoYear: randomInt(2050, 2100), isoWeek: randomInt(1, 53) });
+  // A random far-future week per test keeps the shared fixture weeks untouched. A local DB keeps weeks saved by
+  // earlier runs, so retry until the picked week is empty. Leaves the page on that week.
+  const emptyWeek = async () => {
+    for (let attempt = 0; attempt < 20; attempt++) {
+      const week = { isoYear: randomInt(2050, 2100), isoWeek: randomInt(1, 53) };
+      await lunch.goto(week);
+      if (!(await lunch.isStored())) return week;
+    }
+    throw new Error('no empty far-future week found');
+  };
 
   test.beforeEach(async ({ page }) => {
     await page.setExtraHTTPHeaders({ 'x-forwarded-for': randomUUID() });
@@ -26,8 +34,7 @@ test.describe('Admin lunch composer', () => {
   });
 
   test('composes a week, reorders and removes dishes, and keeps it after a reload', async () => {
-    const week = randomWeek();
-    await lunch.goto(week);
+    const week = await emptyWeek();
 
     await lunch.addDish(MONDAY, LOHIKEITTO);
     await lunch.addDish(MONDAY, JAUHELIHA);
@@ -48,7 +55,7 @@ test.describe('Admin lunch composer', () => {
   });
 
   test('the picker offers only active dishes that are not already on the day', async () => {
-    await lunch.goto(randomWeek());
+    await emptyWeek();
     await lunch.expectPickerOffers(MONDAY, LOHIKEITTO, true);
     await lunch.expectPickerOffers(MONDAY, RETIRED_DISH, false);
 
@@ -58,7 +65,7 @@ test.describe('Admin lunch composer', () => {
   });
 
   test('a week can only be published after it is saved', async () => {
-    await lunch.goto(randomWeek());
+    await emptyWeek();
     await lunch.expectStatus('Ei tallennettu');
     await lunch.expectPublishButton('Julkaise', false);
 
@@ -77,7 +84,7 @@ test.describe('Admin lunch composer', () => {
   });
 
   test('publishing is blocked while there are unsaved edits', async () => {
-    await lunch.goto(randomWeek());
+    await emptyWeek();
     await lunch.addDish(MONDAY, LOHIKEITTO);
     await lunch.save();
     await lunch.expectSaved();
@@ -95,7 +102,7 @@ test.describe('Admin lunch composer', () => {
   });
 
   test('a note saved with surrounding spaces does not leave the week looking unsaved', async () => {
-    await lunch.goto(randomWeek());
+    await emptyWeek();
     await lunch.addDish(MONDAY, LOHIKEITTO);
     await lunch.setNote(MONDAY, ' huomautus ');
     await lunch.save();
@@ -105,7 +112,7 @@ test.describe('Admin lunch composer', () => {
   });
 
   test('a note that is too long shows an error and keeps what was typed', async () => {
-    await lunch.goto(randomWeek());
+    await emptyWeek();
     const note = 'a'.repeat(301);
     await lunch.addDish(MONDAY, LOHIKEITTO);
     await lunch.setNote(WEDNESDAY, note);
@@ -125,8 +132,7 @@ test.describe('Admin lunch composer', () => {
     await dishes.expectDishFormClosed();
     await dishes.expectDish(dish);
 
-    const week = randomWeek();
-    await lunch.goto(week);
+    const week = await emptyWeek();
     await lunch.addDish(MONDAY, dish);
     await lunch.save();
     await lunch.expectSaved();

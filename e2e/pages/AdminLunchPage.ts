@@ -41,6 +41,12 @@ export class AdminLunchPage {
     await expect(this.weekSelect).toBeVisible();
   }
 
+  /** True when the week open on the page has been saved before. */
+  async isStored() {
+    await expect(this.page.getByTestId('week-status')).toHaveText(/./);
+    return (await this.page.getByTestId('week-status').textContent()) !== 'Ei tallennettu';
+  }
+
   async selectWeek(label: string) {
     await this.weekSelect.click();
     await this.option(label).click();
