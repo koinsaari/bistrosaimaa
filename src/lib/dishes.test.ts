@@ -1,5 +1,24 @@
-import { describe, expect, it } from 'vitest';
-import { copyName, parseDish } from '@/lib/dishes';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+
+const mocks = vi.hoisted(() => ({
+  source: vi.fn(),
+  names: vi.fn(),
+  insertValues: vi.fn(),
+}));
+
+// The fake covers just the three calls duplicateDish makes: read the source, read every name, insert.
+vi.mock('@/db', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@/db')>()),
+  getDb: () => ({
+    select: (columns?: unknown) =>
+      columns
+        ? { from: () => mocks.names() }
+        : { from: () => ({ where: () => mocks.source() }) },
+    insert: () => ({ values: mocks.insertValues }),
+  }),
+}));
+
+import { copyName, duplicateDish, parseDish } from '@/lib/dishes';
 
 const CATEGORY = '3f2b8f0e-6a52-4a44-9a3e-1c1f3c2d9a10';
 
@@ -72,5 +91,53 @@ describe('copyName', () => {
     const name = copyName('a'.repeat(100), []);
     expect(name).toHaveLength(100);
     expect(name.endsWith(' (kopio)')).toBe(true);
+  });
+});
+
+describe('duplicateDish', () => {
+  const source = { id: CATEGORY, name: 'Lohikeitto', description: null, categoryId: null, allergens: ['G'], isActive: false };
+  const taken = Object.assign(new Error('duplicate key'), { code: '23505' });
+
+  beforeEach(() => {
+    vi.resetAllMocks();
+    mocks.source.mockResolvedValue([source]);
+    mocks.names.mockResolvedValue([{ name: 'Lohikeitto' }]);
+    mocks.insertValues.mockResolvedValue(undefined);
+  });
+
+  it('creates an active copy', async () => {
+    expect(await duplicateDish(CATEGORY)).toEqual({ ok: true });
+    expect(mocks.insertValues).toHaveBeenCalledWith(
+      expect.objectContaining({ name: 'Lohikeitto (kopio)', isActive: true, allergens: ['G'] }),
+    );
+  });
+
+  it('reports a dish that is gone', async () => {
+    mocks.source.mockResolvedValue([]);
+    expect(await duplicateDish(CATEGORY)).toEqual({ ok: false, error: 'Ruokaa ei löytynyt' });
+    expect(mocks.insertValues).not.toHaveBeenCalled();
+  });
+
+  it('re-reads the names and picks the next free one when a concurrent copy takes the name', async () => {
+    mocks.names
+      .mockResolvedValueOnce([{ name: 'Lohikeitto' }])
+      .mockResolvedValueOnce([{ name: 'Lohikeitto' }, { name: 'Lohikeitto (kopio)' }]);
+    mocks.insertValues.mockRejectedValueOnce(taken).mockResolvedValueOnce(undefined);
+
+    expect(await duplicateDish(CATEGORY)).toEqual({ ok: true });
+    expect(mocks.insertValues).toHaveBeenCalledTimes(2);
+    expect(mocks.insertValues).toHaveBeenLastCalledWith(expect.objectContaining({ name: 'Lohikeitto (kopio 2)' }));
+  });
+
+  it('gives up with the duplicate error after three attempts', async () => {
+    mocks.insertValues.mockRejectedValue(taken);
+    expect(await duplicateDish(CATEGORY)).toEqual({ ok: false, error: 'Samanniminen ruoka on jo olemassa' });
+    expect(mocks.insertValues).toHaveBeenCalledTimes(3);
+  });
+
+  it('does not retry other database errors', async () => {
+    mocks.insertValues.mockRejectedValue(new Error('connection lost'));
+    await expect(duplicateDish(CATEGORY)).rejects.toThrow('connection lost');
+    expect(mocks.insertValues).toHaveBeenCalledTimes(1);
   });
 });

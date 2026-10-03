@@ -175,4 +175,39 @@ test.describe('Admin dishes', () => {
     await admin.deleteCategory(category);
     await admin.expectNoCategory(category);
   });
+
+  test('editing changes the description', async () => {
+    const name = uniqueName();
+    await admin.searchDishes(name);
+    await admin.addDish({ name, description: 'vanha kuvaus' });
+    await admin.expectDishFormClosed();
+
+    await admin.openEditDish(name);
+    await admin.expectDishFormDescription('vanha kuvaus');
+    await admin.fillDish({ description: 'uusi kuvaus' });
+    await admin.saveDish();
+    await admin.expectDishFormClosed();
+
+    await admin.openEditDish(name);
+    await admin.expectDishFormDescription('uusi kuvaus');
+  });
+
+  test('saving a dish whose category was deleted meanwhile shows an error and keeps the form', async ({ page }) => {
+    const name = uniqueName();
+    const category = `e2e-kat-${randomUUID().slice(0, 8)}`;
+    await admin.addCategory(category, '900');
+    await admin.expectCategory(category, '900');
+
+    // Tab A has the dish form open with the category picked; tab B (same session) deletes the category.
+    await admin.openNewDish();
+    await admin.fillDish({ name, category });
+    const other = new AdminDishesPage(await page.context().newPage());
+    await other.goto();
+    await other.expectLoaded();
+    await other.deleteCategory(category);
+    await other.expectNoCategory(category);
+
+    await admin.saveDish();
+    await admin.expectDishError('Kategoriaa ei löytynyt', name);
+  });
 });

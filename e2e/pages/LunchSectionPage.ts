@@ -1,7 +1,16 @@
 import { Page, expect } from '@playwright/test';
 import type { DayKey } from '../../src/lib/lunch';
 
+const helsinkiDayMonth = (date: Date) => {
+  const parts = new Intl.DateTimeFormat('fi-FI', { timeZone: 'Europe/Helsinki', day: 'numeric', month: 'numeric' }).formatToParts(date);
+  const get = (type: string) => parts.find((p) => p.type === type)?.value;
+  return `${get('day')}.${get('month')}.`;
+};
+const escapeRegExp = (text: string) => text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
 export class LunchSectionPage {
+  private createdAt = new Date();
+
   constructor(private page: Page) {}
 
   private day(day: DayKey) {
@@ -40,14 +49,12 @@ export class LunchSectionPage {
     await expect(this.page.locator('[data-testid^="lunch-day-"]')).toHaveCount(0);
   }
 
-  /** The public "Päivitetty d.m." line, which must show today once a week has just been saved. */
+  /**
+   * The public "Päivitetty d.m." line, which must show today once a week has just been saved. A run can cross
+   * midnight (Helsinki) between the page object being created and this check, so either day counts.
+   */
   async expectUpdatedToday() {
-    const parts = new Intl.DateTimeFormat('fi-FI', {
-      timeZone: 'Europe/Helsinki',
-      day: 'numeric',
-      month: 'numeric',
-    }).formatToParts(new Date());
-    const get = (type: string) => parts.find((p) => p.type === type)?.value;
-    await expect(this.page.getByTestId('lunch-updated')).toContainText(`${get('day')}.${get('month')}.`);
+    const days = new Set([this.createdAt, new Date()].map(helsinkiDayMonth));
+    await expect(this.page.getByTestId('lunch-updated')).toHaveText(new RegExp(`(?:^|\\D)(?:${[...days].map(escapeRegExp).join('|')})`));
   }
 }

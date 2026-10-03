@@ -146,6 +146,10 @@ export class AdminDishesPage {
     await expect(this.dialog.getByTestId('dish-name')).toHaveValue(typedName);
   }
 
+  async expectDishFormDescription(description: string) {
+    await expect(this.dialog.getByTestId('dish-description')).toHaveValue(description);
+  }
+
   async expectDishFormCategory(category: string) {
     await expect(this.dialog.getByTestId('dish-category')).toHaveText(category);
   }
