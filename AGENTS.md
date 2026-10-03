@@ -49,7 +49,7 @@ The sitemap emits both `/...` and `/en/...` URLs with `alternates.languages`.
 
 ## Admin (`/admin`)
 
-Two pages behind one shared password: `/admin/lunch` (week composer: pick an ISO week, ordered dishes per day, a note per day, **Tallenna**, **Julkaise/Piilota**) and `/admin/dishes` ("Ruoat": dish table with search/filters, create/edit dialog, **Kopioi**, retire/restore, plus the category list). There is no separate categories page. Admin copy is Finnish only.
+Two pages behind one shared password: `/admin/lunch` (week composer: pick an ISO week, a table of day rows that each open a sheet with the day's ordered dishes and note, pinned **Tallenna**, **Julkaise/Piilota**; used on Android phones, so keep touch targets ≥44px. A shadcn `SelectTrigger` needs `data-[size=default]:h-11`, plain `h-11` loses to its `h-9`) and `/admin/dishes` ("Ruoat": dish table with search/filters, create/edit dialog, **Kopioi**, retire/restore, plus the category list). There is no separate categories page. Admin copy is Finnish only.
 
 - **Call `requireAdmin()` first in every admin page and server action.** Layouts don't guard (they don't re-run on client navigations and server actions don't pass through them), and server actions are public HTTP endpoints.
 - **Layers:** `src/lib/<thing>.ts` (Zod parse + DB functions, input typed `unknown`: it comes from `FormData`) → server actions in the route folder (return `{ ok: false, error }` for `useActionState`) → thin client component. See `lib/categories.ts`, `lib/dishes.ts`, `lib/lunchWeek.ts`.
@@ -88,9 +88,11 @@ The root `layout.tsx` injects a `Restaurant` JSON-LD blob with address, hours, a
 
 ## Testing
 
-Vitest covers pure logic and testable seams (`src/lib/*.test.ts`) — password/session crypto in `lib/auth.ts`, ISO weeks in `lib/isoWeek.ts`, lunch-menu display/fallback logic in `lib/lunch.ts`. Mock external boundaries (`@/db`) at the module boundary with `vi.mock`, not by mocking internal collaborators. Thin adapters that just forward to an external API don't need unit tests of their own — cover the logic around them instead.
+Prefer Playwright: use e2e whenever the real UI and DB can show the behaviour. Add Vitest only for pure logic or what e2e can't reach (DB failure paths, server actions called without a session). Don't unit-test DB queries through a fake query builder. Mock `@/db` at the module boundary with `vi.mock` when a boundary must be mocked.
 
-Admin specs: `test.skip(!process.env.DATABASE_URL, 'no DB')`, a random `x-forwarded-for` per test (own throttle bucket), sign in with `AdminLoginPage.loginAsAdmin()`, unique data names (the composer specs use a random far-future ISO week so the fixture weeks stay untouched).
+Admin specs: `test.skip(!process.env.DATABASE_URL, 'no DB')`, a random `x-forwarded-for` per test (own throttle bucket), sign in with `AdminLoginPage.loginAsAdmin()`, unique data names (composer specs use `AdminLunchPage.openEmptyWeek()`: a random far-future week never saved before, so fixture weeks stay untouched).
+
+`AdminLunchPage` helpers open and close the day sheet themselves. `admin-lunch-mobile.spec.ts` is mobile-only and checks phone layout.
 
 Playwright (`e2e/`) covers user-facing flows end to end, using page objects in `e2e/pages/` with `data-testid` locators. DB-backed specs read their expected data from `e2e/fixtures/lunch.ts`, the same fixture `db:seed:e2e` writes.
 
