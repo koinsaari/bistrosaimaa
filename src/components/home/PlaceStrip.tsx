@@ -17,7 +17,7 @@ export default async function PlaceStrip() {
           <div className="md:col-span-7">
             <div className="relative aspect-[16/10] w-full overflow-hidden rounded-xl">
               <Image
-                src="/gallery/outside-1.jpg"
+                src="/gallery/outside-6.jpg"
                 alt=""
                 fill
                 sizes="(max-width: 767px) 100vw, 60vw"

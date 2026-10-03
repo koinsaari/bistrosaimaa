@@ -7,13 +7,13 @@ import Reveal from '@/components/Reveal';
 import GalleryPreviewCarousel from '@/components/home/GalleryPreviewCarousel';
 
 const PREVIEW_TILES: Array<{ src: string; altKey: string }> = [
+  { src: '/gallery/outside-7.jpg', altKey: 'outside' },
+  { src: '/gallery/food-13.jpeg', altKey: 'salmonSpread' },
   { src: '/gallery/interior-7.jpg', altKey: 'interior' },
-  { src: '/gallery/food-9.jpeg', altKey: 'food' },
-  { src: '/gallery/outside-3.jpg', altKey: 'outside' },
-  { src: '/gallery/kabinetti-2.jpg', altKey: 'kabinetti' },
-  { src: '/gallery/food-22.jpeg', altKey: 'food2' },
-  { src: '/gallery/interior-4.jpg', altKey: 'interior2' },
-  { src: '/gallery/food-1.jpeg', altKey: 'food3' },
+  { src: '/gallery/kabinetti-9.jpg', altKey: 'kabinetti' },
+  { src: '/gallery/food-28.jpeg', altKey: 'cake' },
+  { src: '/gallery/interior-3.jpg', altKey: 'atmosphere' },
+  { src: '/gallery/sauna-1.jpg', altKey: 'sauna' },
 ];
 
 export default async function GalleryPreview() {

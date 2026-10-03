@@ -29,7 +29,7 @@ type Offering = {
 const OFFERINGS: Offering[] = [
   {
     testid: 'offering-card-menu',
-    image: '/gallery/food-13.jpeg',
+    image: '/gallery/food-37.jpeg',
     imageAltKey: 'menuImageAlt',
     titleKey: 'menuTitle',
     descriptionKey: 'menuDescription',
@@ -48,7 +48,7 @@ const OFFERINGS: Offering[] = [
   },
   {
     testid: 'offering-card-catering',
-    image: '/gallery/food-37.jpeg',
+    image: '/gallery/outside-1.jpg',
     imageAltKey: 'cateringImageAlt',
     titleKey: 'cateringTitle',
     descriptionKey: 'cateringDescription',

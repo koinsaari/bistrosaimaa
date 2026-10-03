@@ -8,10 +8,10 @@ test.describe('Gallery Page', () => {
     await gallery.expectTitleVisible();
   });
 
-  test('shows all 76 images by default', async ({ page }) => {
+  test('shows all 80 images by default', async ({ page }) => {
     const gallery = new GalleryPage(page);
     await gallery.goto();
-    await gallery.expectImageCount(76);
+    await gallery.expectImageCount(80);
   });
 
   test('food filter shows 42 images', async ({ page }) => {
@@ -26,14 +26,14 @@ test.describe('Gallery Page', () => {
     await gallery.goto();
     await gallery.clickCategory('Ruoka');
     await gallery.clickCategory('Kaikki');
-    await gallery.expectImageCount(76);
+    await gallery.expectImageCount(80);
   });
 
   test('clicking an image opens the lightbox', async ({ page }) => {
     const gallery = new GalleryPage(page);
     await gallery.goto();
     await gallery.openImage();
-    await gallery.expectLightboxCounter('1 / 76');
+    await gallery.expectLightboxCounter('1 / 80');
   });
 
   test('lightbox next button advances to image 2', async ({ page }) => {
@@ -41,7 +41,7 @@ test.describe('Gallery Page', () => {
     await gallery.goto();
     await gallery.openImage();
     await gallery.clickLightboxNext();
-    await gallery.expectLightboxCounter('2 / 76');
+    await gallery.expectLightboxCounter('2 / 80');
   });
 
   test('Escape closes the lightbox', async ({ page }) => {

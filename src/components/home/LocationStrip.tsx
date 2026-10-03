@@ -74,7 +74,7 @@ export default async function LocationStrip() {
 
           <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl md:aspect-[5/4]">
             <Image
-              src="/gallery/outside-4.jpg"
+              src="/gallery/outside-8.jpg"
               alt=""
               fill
               sizes="(max-width: 767px) 100vw, 50vw"
