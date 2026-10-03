@@ -48,7 +48,7 @@
 
   --ink: #2a3a35;
   --nav-h: 72px;
-  --banner-h: 40px;
+  --banner-h: 0px; /* 40px while <VoteBanner /> is shown */
 
   --brand-dark-wood: #f8f6f1;
   --brand-wood: #ffffff;
