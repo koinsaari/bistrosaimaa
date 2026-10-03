@@ -1,4 +1,4 @@
-import { randomInt, randomUUID } from 'node:crypto';
+import { randomUUID } from 'node:crypto';
 import { test } from '@playwright/test';
 import { AdminDishesPage } from './pages/AdminDishesPage';
 import { AdminLoginPage } from './pages/AdminLoginPage';
@@ -14,16 +14,7 @@ test.describe('Admin lunch composer', () => {
   test.skip(!process.env.DATABASE_URL, 'no DB');
 
   let lunch: AdminLunchPage;
-  // A random far-future week per test keeps the shared fixture weeks untouched. A local DB keeps weeks saved by
-  // earlier runs, so retry until the picked week is empty. Leaves the page on that week.
-  const emptyWeek = async () => {
-    for (let attempt = 0; attempt < 20; attempt++) {
-      const week = { isoYear: randomInt(2050, 2100), isoWeek: randomInt(1, 53) };
-      await lunch.goto(week);
-      if (!(await lunch.isStored())) return week;
-    }
-    throw new Error('no empty far-future week found');
-  };
+  const emptyWeek = () => lunch.openEmptyWeek();
 
   test.beforeEach(async ({ page }) => {
     await page.setExtraHTTPHeaders({ 'x-forwarded-for': randomUUID() });

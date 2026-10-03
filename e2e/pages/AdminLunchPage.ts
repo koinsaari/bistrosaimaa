@@ -1,3 +1,4 @@
+import { randomInt } from 'node:crypto';
 import { Locator, Page, expect } from '@playwright/test';
 
 type WeekRef = { isoYear: number; isoWeek: number };
@@ -39,6 +40,21 @@ export class AdminLunchPage {
   async goto(week?: WeekRef) {
     await this.page.goto(week ? `/admin/lunch?year=${week.isoYear}&week=${week.isoWeek}` : '/admin/lunch');
     await expect(this.weekSelect).toBeVisible();
+    // A click before React hydrates does nothing, so wait until the buttons have their handlers.
+    await expect.poll(() => this.saveButton.evaluate((el) => Object.keys(el).some((k) => k.startsWith('__reactProps')))).toBe(true);
+  }
+
+  /**
+   * Opens a random far-future week that has never been saved, so the shared fixture weeks stay untouched. A local
+   * DB keeps weeks saved by earlier runs, hence the retry. Returns the week it landed on.
+   */
+  async openEmptyWeek(): Promise<WeekRef> {
+    for (let attempt = 0; attempt < 20; attempt++) {
+      const week = { isoYear: randomInt(2050, 2100), isoWeek: randomInt(1, 53) };
+      await this.goto(week);
+      if (!(await this.isStored())) return week;
+    }
+    throw new Error('no empty far-future week found');
   }
 
   /** True when the week open on the page has been saved before. */
@@ -127,5 +143,59 @@ export class AdminLunchPage {
 
   async expectUnsavedHint(visible: boolean) {
     await expect(this.page.getByTestId('week-dirty')).toHaveCount(visible ? 1 : 0);
+  }
+
+  // Phone layout checks
+
+  private async box(locator: Locator) {
+    const box = await locator.boundingBox();
+    if (!box) throw new Error('element has no layout box');
+    return box;
+  }
+
+  async expectNoHorizontalScroll() {
+    const overflow = await this.page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+    expect(overflow).toBeLessThanOrEqual(0);
+  }
+
+  /** Scrolled to the very bottom, the last day must end above the pinned save bar, not under it. */
+  async expectLastDayClearOfSaveBar() {
+    await this.page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+    const last = await this.box(this.day(7));
+    const bar = await this.box(this.page.getByTestId('week-bar'));
+    expect(last.y + last.height).toBeLessThanOrEqual(bar.y);
+  }
+
+  async expectSaveBarTouchTargets() {
+    for (const button of [this.saveButton, this.publishButton, this.weekSelect]) {
+      expect((await this.box(button)).height).toBeGreaterThanOrEqual(44);
+    }
+  }
+
+  /** Opens a day and checks the sheet sits inside the viewport with Valmis reachable and every control tappable. */
+  async expectDaySheetFits(day: number) {
+    await this.inEditor(day, async () => {
+      const viewport = this.page.viewportSize()!;
+      const sheetBox = () => this.box(this.page.locator('[data-slot="sheet-content"]'));
+      // The sheet slides in, so poll until it has settled instead of measuring mid-animation.
+      await expect.poll(async () => (await sheetBox()).y + (await sheetBox()).height).toBeLessThanOrEqual(viewport.height);
+      const sheet = await sheetBox();
+      expect(sheet.y).toBeGreaterThanOrEqual(0);
+      expect(sheet.x + sheet.width).toBeLessThanOrEqual(viewport.width);
+
+      const done = this.page.getByTestId('day-done');
+      await expect(done).toBeInViewport();
+      expect((await this.box(done)).height).toBeGreaterThanOrEqual(44);
+
+      for (const testId of ['dish-up', 'dish-down', 'dish-remove']) {
+        for (const control of await this.editor().getByTestId(testId).all()) {
+          const box = await this.box(control);
+          expect(Math.min(box.width, box.height)).toBeGreaterThanOrEqual(44);
+        }
+      }
+      expect((await this.box(this.editor().getByTestId('day-add'))).height).toBeGreaterThanOrEqual(44);
+      expect((await this.box(this.editor().getByTestId('day-note'))).height).toBeGreaterThanOrEqual(44);
+      await this.expectNoHorizontalScroll();
+    });
   }
 }

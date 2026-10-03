@@ -31,7 +31,12 @@ export default defineConfig({
     {
       name: 'desktop',
       use: { ...devices['Desktop Chrome'] },
-      testIgnore: ['**/navigation-mobile.spec.ts', '**/admin-session.spec.ts', '**/admin-lunch-public.spec.ts'],
+      testIgnore: [
+        '**/navigation-mobile.spec.ts',
+        '**/admin-lunch-mobile.spec.ts',
+        '**/admin-session.spec.ts',
+        '**/admin-lunch-public.spec.ts',
+      ],
     },
     {
       name: 'mobile',

@@ -103,7 +103,7 @@ function DayEditor({
       <div className="flex flex-col gap-1.5">
         <Label htmlFor={`add-${day}`}>Lisää ruoka</Label>
         <Select value="" onValueChange={(id) => id && onChange({ ...state, dishIds: [...state.dishIds, id] })}>
-          <SelectTrigger id={`add-${day}`} className="h-11 w-full" data-testid="day-add">
+          <SelectTrigger id={`add-${day}`} className="w-full data-[size=default]:h-11" data-testid="day-add">
             <SelectValue placeholder="Valitse ruoka" />
           </SelectTrigger>
           <SelectContent>
@@ -261,7 +261,7 @@ export default function WeekComposer({
         <input type="hidden" name="published" value={String(!published)} />
       </form>
 
-      <div className="fixed inset-x-0 bottom-0 z-40 bg-background px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
+      <div data-testid="week-bar" className="fixed inset-x-0 bottom-0 z-40 bg-background px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
         <Separator className="absolute inset-x-0 top-0" />
         <div className="mx-auto flex max-w-4xl flex-col gap-2">
           <div className="flex flex-wrap items-center gap-x-3 text-sm">
