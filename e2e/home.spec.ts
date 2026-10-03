@@ -22,10 +22,10 @@ test.describe('Home Page', () => {
     await expect(page).toHaveURL('/contact');
   });
 
-  test('offerings section shows 3 cards', async ({ page }) => {
+  test('place strip presents catering and the event room', async ({ page }) => {
     const home = new HomePage(page);
     await home.goto();
-    await home.expectOfferingCardsVisible();
+    await home.expectCateringAndKabinettiVisible();
   });
 
   test('place strip call button has correct tel link', async ({ page }) => {

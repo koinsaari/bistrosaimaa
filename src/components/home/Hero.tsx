@@ -49,12 +49,8 @@ export default async function Hero() {
             <WaterLine variant="inline" className="text-white/70" />
           </p>
 
-          <h1 className="mb-6 font-serif font-normal leading-[0.98] tracking-[-0.02em] text-[clamp(2.75rem,7vw,5.5rem)] [text-shadow:0_2px_24px_rgba(0,0,0,0.35)]">
-            {t.rich('heroTitle', {
-              i: (chunks) => (
-                <em className="block font-semibold italic text-white">{chunks}</em>
-              ),
-            })}
+          <h1 className="mb-6 text-balance font-serif font-normal leading-[0.98] tracking-[-0.02em] text-[clamp(2.75rem,7vw,5.5rem)] [text-shadow:0_2px_24px_rgba(0,0,0,0.35)]">
+            {t('heroTitle')}
           </h1>
 
           <p className="mx-auto mb-10 max-w-[52ch] text-base leading-relaxed text-white/90 md:text-lg">

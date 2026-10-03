@@ -3,7 +3,6 @@ import { Page, expect } from '@playwright/test';
 export class HomePage {
   private hero = this.page.locator('[data-testid="home-hero"]');
   private placeStrip = this.page.locator('[data-testid="home-place-strip"]');
-  private offerings = this.page.locator('[data-testid="home-offerings"]');
   private reviews = this.page.locator('[data-testid="home-reviews"]');
 
   constructor(private page: Page) {}
@@ -26,12 +25,10 @@ export class HomePage {
     await this.hero.locator('a[href="/contact"]').click();
   }
 
-  async expectOfferingCardsVisible() {
-    await this.offerings.scrollIntoViewIfNeeded();
-    await expect(this.offerings.getByRole('heading', { level: 2 })).toBeVisible();
-    await expect(this.page.locator('[data-testid="offering-card-menu"]')).toBeAttached();
-    await expect(this.page.locator('[data-testid="offering-card-lunch"]')).toBeAttached();
-    await expect(this.page.locator('[data-testid="offering-card-catering"]')).toBeAttached();
+  async expectCateringAndKabinettiVisible() {
+    await this.placeStrip.scrollIntoViewIfNeeded();
+    await expect(this.placeStrip.locator('[data-testid="place-strip-catering"]')).toBeVisible();
+    await expect(this.placeStrip.locator('[data-testid="place-strip-kabinetti"]')).toBeVisible();
   }
 
   async expectCallCtaVisible() {
