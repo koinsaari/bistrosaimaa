@@ -104,8 +104,6 @@
     "subtitle": "Varaa kabinetti, tilaa pitopalvelu tai kysy lisää",
     "bistroSaimaa": "Bistro Saimaa",
     "address": "Osoite",
-    "addressLine1": "Brahentie 42",
-    "addressLine2": "52300 Ristiina",
     "showOnMap": "Näytä kartalla",
     "phone": "Puhelin",
     "email": "Sähköposti",
@@ -159,7 +157,6 @@
     "bistroSaimaa": "Bistro Saimaa",
     "subtitle": "Ravintola, kabinetit ja pitopalvelut",
     "contactInfo": "Yhteystiedot",
-    "addressLine1": "Brahentie 42, 52300 Ristiina",
     "openingHours": "Aukioloajat",
     "monFri": "Ma-Pe:",
     "saturday": "La:",
@@ -266,11 +263,11 @@
     "section6Item1": "Tarkastaa mitä tietoja olemme sinusta keränneet, eli viestit joita olet lähettänyt lomakkeen kautta",
     "section6Item2": "Pyytää tietojesi poistamista sähköpostistamme",
     "section6Item3": "Pyytää tietojesi oikaisemista",
-    "section6Text": "Voit käyttää näitä oikeuksia ottamalla yhteyttä sähköpostitse osoitteeseen bistrosaimaa@gmail.com.",
+    "section6Text": "Voit käyttää näitä oikeuksia ottamalla yhteyttä sähköpostitse osoitteeseen {email}.",
     "section7Title": "7. Yhteystiedot",
     "section7Line1": "Rekisterinpitäjä: Bistro Saimaa Oy",
-    "section7Line2": "Osoite: Brahentie 42, 52300 Ristiina",
-    "section7Line3": "Puhelin: +358 50 4499 322",
-    "section7Line4": "Sähköposti: bistrosaimaa@gmail.com"
+    "section7Line2": "Osoite: {address}",
+    "section7Line3": "Puhelin: {phone}",
+    "section7Line4": "Sähköposti: {email}"
   }
 }

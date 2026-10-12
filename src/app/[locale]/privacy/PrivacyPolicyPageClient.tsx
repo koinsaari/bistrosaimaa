@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useTranslations } from 'next-intl';
 import WaterLine from '@/components/WaterLine';
+import { ADDRESS_LINE, BUSINESS } from '@/lib/business';
 
 const PrivacyPolicyHero = () => {
   const t = useTranslations('PrivacyPage');
@@ -122,16 +123,16 @@ const PrivacyPolicyContent = () => {
             <li>{t('section6Item3')}</li>
           </ul>
           <p className="text-foreground mt-3">
-            {t('section6Text')}
+            {t('section6Text', { email: BUSINESS.email })}
           </p>
         </section>
 
         <section>
           <h3 data-testid="privacy-section-7" className="font-serif text-xl font-medium text-ink mb-3">{t('section7Title')}</h3>
           <p className="text-foreground mb-3">{t('section7Line1')}</p>
-          <p className="text-foreground mb-1">{t('section7Line2')}</p>
-          <p className="text-foreground mb-1">{t('section7Line3')}</p>
-          <p className="text-foreground">{t('section7Line4')}</p>
+          <p className="text-foreground mb-1">{t('section7Line2', { address: ADDRESS_LINE })}</p>
+          <p className="text-foreground mb-1">{t('section7Line3', { phone: BUSINESS.phone.international })}</p>
+          <p className="text-foreground">{t('section7Line4', { email: BUSINESS.email })}</p>
         </section>
       </CardContent>
     </Card>

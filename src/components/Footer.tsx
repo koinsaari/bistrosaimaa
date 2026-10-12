@@ -5,6 +5,7 @@ import { Link } from '@/i18n/navigation';
 import { Button } from '@/components/ui/button';
 import { useTranslations } from 'next-intl';
 import WaterLine from '@/components/WaterLine';
+import { ADDRESS_LINE, BUSINESS } from '@/lib/business';
 
 export default function Footer() {
   const t = useTranslations('Footer');
@@ -38,11 +39,11 @@ export default function Footer() {
                     className="h-auto p-0 text-sm text-muted-foreground hover:text-primary"
                   >
                     <Link
-                      href="https://maps.google.com/?q=Bistro+Saimaa+Ristiina"
+                      href={BUSINESS.mapsUrl}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      {t('addressLine1')}
+                      {ADDRESS_LINE}
                     </Link>
                   </Button>
                 </div>
@@ -53,8 +54,8 @@ export default function Footer() {
                     asChild
                     className="h-auto p-0 text-sm text-muted-foreground hover:text-primary"
                   >
-                    <Link href="tel:+358504499322" data-testid="footer-phone">
-                      +358 50 4499 322
+                    <Link href={`tel:${BUSINESS.phone.e164}`} data-testid="footer-phone">
+                      {BUSINESS.phone.international}
                     </Link>
                   </Button>
                 </div>
@@ -65,8 +66,8 @@ export default function Footer() {
                     asChild
                     className="h-auto p-0 text-sm text-muted-foreground hover:text-primary"
                   >
-                    <Link href="mailto:bistrosaimaa@gmail.com" data-testid="footer-email">
-                      bistrosaimaa@gmail.com
+                    <Link href={`mailto:${BUSINESS.email}`} data-testid="footer-email">
+                      {BUSINESS.email}
                     </Link>
                   </Button>
                 </div>

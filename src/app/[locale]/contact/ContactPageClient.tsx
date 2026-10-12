@@ -5,6 +5,7 @@ import { MapPin, Phone, Mail, Clock, ExternalLink } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import WaterLine from '@/components/WaterLine';
+import { BUSINESS } from '@/lib/business';
 import ContactForm from './ContactForm';
 import { useTranslations } from 'next-intl';
 
@@ -55,13 +56,13 @@ const ContactInfoCard = () => {
             <div className="text-left">
               <h3 className="font-medium text-foreground">{t('address')}</h3>
               <p data-testid="contact-address" className="text-muted-foreground">
-                {t('addressLine1')}
+                {BUSINESS.address.street}
                 <br />
-                {t('addressLine2')}
+                {BUSINESS.address.postalCode} {BUSINESS.address.locality}
               </p>
               <Button variant="link" asChild className="h-auto p-0 text-sm mt-1">
                 <a
-                  href="https://maps.google.com/?q=Bistro+Saimaa+Ristiina"
+                  href={BUSINESS.mapsUrl}
          data-testid="contact-maps-link"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -83,8 +84,8 @@ const ContactInfoCard = () => {
               <h3 className="font-medium text-foreground">{t('phone')}</h3>
               <p className="text-muted-foreground">
                 <Button variant="link" asChild className="h-auto p-0 text-muted-foreground">
-                  <a href="tel:+358504499322" data-testid="contact-phone">
-                    +358 50 4499 322
+                  <a href={`tel:${BUSINESS.phone.e164}`} data-testid="contact-phone">
+                    {BUSINESS.phone.international}
                   </a>
                 </Button>
               </p>
@@ -101,8 +102,8 @@ const ContactInfoCard = () => {
               <div className="relative group">
                 <p className="text-muted-foreground">
                   <Button variant="link" asChild className="h-auto p-0 text-muted-foreground">
-                    <a href="mailto:bistrosaimaa@gmail.com" data-testid="contact-email">
-                      bistrosaimaa@gmail.com
+                    <a href={`mailto:${BUSINESS.email}`} data-testid="contact-email">
+                      {BUSINESS.email}
                     </a>
                   </Button>
                 </p>

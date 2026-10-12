@@ -5,15 +5,14 @@ import { Link } from '@/i18n/navigation';
 import { Button } from '@/components/ui/button';
 import WaterLine from '@/components/WaterLine';
 import { getTodayHoursKey } from '@/lib/hours';
+import { ADDRESS_LINE } from '@/lib/business';
 
 export default async function Hero() {
   const locale = await getLocale();
   const t = await getTranslations({ locale, namespace: 'HomePage' });
   const tFooter = await getTranslations({ locale, namespace: 'Footer' });
-  const tContact = await getTranslations({ locale, namespace: 'ContactPage' });
 
   const todayHours = tFooter(getTodayHoursKey());
-  const address = `${tContact('addressLine1')}, ${tContact('addressLine2')}`;
 
   return (
     <section
@@ -81,7 +80,7 @@ export default async function Hero() {
 
       <div className="absolute inset-x-0 bottom-0 z-10 bg-gradient-to-t from-black/55 to-transparent">
         <div className="container mx-auto flex items-center justify-between gap-4 px-6 py-3 text-[11px] font-medium uppercase tracking-[0.18em] text-white/95">
-          <span>{address}</span>
+          <span>{ADDRESS_LINE}</span>
           <span>
             {t('todayOpenLabel')} {todayHours}
           </span>

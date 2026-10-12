@@ -4,6 +4,7 @@ import { MapPin, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import WaterLine from '@/components/WaterLine';
 import Reveal from '@/components/Reveal';
+import { ADDRESS_LINE } from '@/lib/business';
 
 const MAPS_URL =
   'https://www.google.com/maps/place/Kahvila+Ravintola+Saimaa+Oy/@61.5066667,27.2560361,17z/data=!4m8!3m7!1s0x469073801b964d6d:0xa50b1dbd31d8cb94!8m2!3d61.5066667!4d27.258611!9m1!1b1!16s%2Fg%2F11dxhzpvtq';
@@ -36,7 +37,7 @@ export default async function LocationStrip() {
                   {tContact('address')}
                 </dt>
                 <dd>
-                  {tContact('addressLine1')}, {tContact('addressLine2')}
+                  {ADDRESS_LINE}
                 </dd>
               </div>
               <div className="flex gap-3">

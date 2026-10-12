@@ -10,6 +10,7 @@ import NavigationBar from '@/components/NavigationBar';
 import Footer from '@/components/Footer';
 import { routing, type Locale } from '@/i18n/routing';
 import { localeAlternates } from '@/i18n/metadata';
+import { BUSINESS } from '@/lib/business';
 import '@fontsource-variable/fraunces/index.css';
 import '../globals.css';
 
@@ -65,18 +66,19 @@ export default async function RootLayout({
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Restaurant',
-    name: 'Bistro Saimaa',
+    name: BUSINESS.name,
     image: 'https://bistrosaimaa.fi/logo-saimaa.png',
     '@id': 'https://bistrosaimaa.fi',
     url: 'https://bistrosaimaa.fi',
-    telephone: '+358504499322',
+    telephone: BUSINESS.phone.e164,
+    email: BUSINESS.email,
     priceRange: '€€',
     address: {
       '@type': 'PostalAddress',
-      streetAddress: 'Brahentie 42',
-      addressLocality: 'Ristiina',
-      postalCode: '52300',
-      addressCountry: 'FI',
+      streetAddress: BUSINESS.address.street,
+      addressLocality: BUSINESS.address.locality,
+      postalCode: BUSINESS.address.postalCode,
+      addressCountry: BUSINESS.address.country,
     },
     geo: {
       '@type': 'GeoCoordinates',

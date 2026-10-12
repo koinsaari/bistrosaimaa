@@ -104,8 +104,6 @@
     "subtitle": "Book an event room, order catering or ask for more information",
     "bistroSaimaa": "Bistro Saimaa",
     "address": "Address",
-    "addressLine1": "Brahentie 42",
-    "addressLine2": "52300 Ristiina",
     "showOnMap": "Show on Map",
     "phone": "Phone",
     "email": "Email",
@@ -159,7 +157,6 @@
     "bistroSaimaa": "Bistro Saimaa",
     "subtitle": "Restaurant, event rooms, and catering",
     "contactInfo": "Contact Information",
-    "addressLine1": "Brahentie 42, 52300 Ristiina",
     "openingHours": "Opening Hours",
     "monFri": "Mon-Fri:",
     "saturday": "Sat:",
@@ -266,11 +263,11 @@
     "section6Item1": "Review what data we have collected about you, i.e., messages you have sent through the form",
     "section6Item2": "Request deletion of your data from our email",
     "section6Item3": "Request correction of your data",
-    "section6Text": "You can exercise these rights by contacting us via email at bistrosaimaa@gmail.com.",
+    "section6Text": "You can exercise these rights by contacting us via email at {email}.",
     "section7Title": "7. Contact Information",
     "section7Line1": "Data controller: Bistro Saimaa Oy",
-    "section7Line2": "Address: Brahentie 42, 52300 Ristiina",
-    "section7Line3": "Phone: +358 50 4499 322",
-    "section7Line4": "Email: bistrosaimaa@gmail.com"
+    "section7Line2": "Address: {address}",
+    "section7Line3": "Phone: {phone}",
+    "section7Line4": "Email: {email}"
   }
 }

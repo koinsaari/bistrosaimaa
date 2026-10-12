@@ -5,8 +5,7 @@ import { Link } from '@/i18n/navigation';
 import { Button } from '@/components/ui/button';
 import WaterLine from '@/components/WaterLine';
 import Reveal from '@/components/Reveal';
-
-const PHONE_DISPLAY = '050 449 9322';
+import { BUSINESS } from '@/lib/business';
 
 const FEATURES = [
   { testid: 'place-strip-catering', image: '/gallery/food-37.jpeg', titleKey: 'placeStripCateringTitle', bodyKey: 'placeStripCateringBody' },
@@ -58,9 +57,9 @@ export default async function PlaceStrip() {
             </ul>
             <div className="flex flex-wrap gap-3">
               <Button asChild size="lg" className="rounded-full bg-primary hover:bg-primary/90">
-                <a href="tel:+358504499322" data-testid="place-strip-call">
+                <a href={`tel:${BUSINESS.phone.e164}`} data-testid="place-strip-call">
                   <Phone className="mr-2 h-4 w-4" />
-                  {t('placeStripCall')} {PHONE_DISPLAY}
+                  {t('placeStripCall')} {BUSINESS.phone.national}
                 </a>
               </Button>
               <Button
