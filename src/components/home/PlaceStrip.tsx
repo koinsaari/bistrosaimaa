@@ -32,14 +32,14 @@ export default async function PlaceStrip() {
             </div>
           </div>
           <div className="md:col-span-6">
-            <p className="mb-5 flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-primary">
+            <p className="mb-5 flex items-center gap-3 text-eyebrow font-semibold uppercase tracking-[0.2em] text-primary">
               <WaterLine variant="inline" />
               <span>{t('placeStripEyebrow')}</span>
             </p>
             <h2 className="mb-5 font-serif font-normal leading-[1.05] tracking-[-0.02em] text-[clamp(1.875rem,3vw,2.75rem)] text-ink">
               {t('placeStripHeading')}
             </h2>
-            <p className="mb-7 max-w-[54ch] text-base leading-relaxed text-foreground/80 md:text-[17px]">
+            <p className="mb-7 max-w-[54ch] text-base leading-relaxed text-foreground/80 md:text-lg">
               {t('placeStripBody')}
             </p>
             <ul className="mb-8 flex flex-col gap-4">

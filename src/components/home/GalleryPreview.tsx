@@ -29,7 +29,7 @@ export default async function GalleryPreview() {
       <Reveal className="container mx-auto px-6">
         <header className="mb-10 flex flex-col items-start gap-3 md:flex-row md:items-end md:justify-between">
           <div>
-            <p className="mb-3 flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-primary">
+            <p className="mb-3 flex items-center gap-3 text-eyebrow font-semibold uppercase tracking-[0.2em] text-primary">
               <WaterLine variant="inline" />
               <span>{tGallery('subtitle')}</span>
             </p>

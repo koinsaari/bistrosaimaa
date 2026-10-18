@@ -11,7 +11,7 @@ const PrivacyPolicyHero = () => {
 
   return (
     <div className="container mx-auto px-6 pt-32 pb-10 md:pt-40">
-      <p className="mb-4 flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-primary">
+      <p className="mb-4 flex items-center gap-3 text-eyebrow font-semibold uppercase tracking-[0.2em] text-primary">
         <WaterLine variant="inline" />
         <span>{t('lastUpdated')}</span>
       </p>

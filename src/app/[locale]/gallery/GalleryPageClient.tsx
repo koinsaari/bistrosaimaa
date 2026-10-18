@@ -160,7 +160,7 @@ export default function GalleryPageClient() {
         id="gallery-hero"
         className="container mx-auto px-6 pt-32 pb-12 md:pt-40 md:pb-16"
       >
-        <p className="mb-4 flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-primary">
+        <p className="mb-4 flex items-center gap-3 text-eyebrow font-semibold uppercase tracking-[0.2em] text-primary">
           <WaterLine variant="inline" />
           <span>{t('subtitle')}</span>
         </p>
@@ -187,7 +187,7 @@ export default function GalleryPageClient() {
                 variant="ghost"
                 size="sm"
                 onClick={() => setSelectedCategory(category)}
-                className={`rounded-full px-5 py-2 text-[13px] transition-all duration-200 ${
+                className={`rounded-full px-5 py-2 text-sm transition-all duration-200 ${
                   selectedCategory === category
                     ? 'bg-primary text-primary-foreground shadow-sm hover:bg-primary/90 hover:text-primary-foreground'
                     : 'text-foreground hover:bg-background hover:text-primary'

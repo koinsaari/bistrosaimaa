@@ -110,7 +110,7 @@ export default function MenuPageClient() {
         id="menu-hero"
         className="container mx-auto px-6 pt-32 pb-12 md:pt-40 md:pb-16"
       >
-        <p className="mb-4 flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-primary">
+        <p className="mb-4 flex items-center gap-3 text-eyebrow font-semibold uppercase tracking-[0.2em] text-primary">
           <WaterLine variant="inline" />
           <span>{t('subtitle')}</span>
         </p>
@@ -181,7 +181,7 @@ export default function MenuPageClient() {
             <h2 className="font-serif font-normal leading-[1.05] tracking-[-0.02em] text-[clamp(1.875rem,3vw,2.75rem)] text-ink mb-3">
               {t('newMenu')}
             </h2>
-            <p className="text-muted-foreground text-[15px]">{t('newMenuSubtitle')}</p>
+            <p className="text-muted-foreground text-base">{t('newMenuSubtitle')}</p>
           </motion.div>
 
           <div className="max-w-2xl mx-auto md:px-0">

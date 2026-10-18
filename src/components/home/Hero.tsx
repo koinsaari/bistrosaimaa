@@ -42,7 +42,7 @@ export default async function Hero() {
 
       <div className="relative flex min-h-[inherit] items-center justify-center px-6 pt-32 pb-24 md:py-32">
         <div className="mx-auto max-w-3xl text-center text-white">
-          <p className="mb-6 flex items-center justify-center gap-4 text-[11px] font-semibold uppercase tracking-[0.28em] text-white/90">
+          <p className="mb-6 flex items-center justify-center gap-4 text-eyebrow font-semibold uppercase tracking-[0.28em] text-white/90">
             <WaterLine variant="inline" className="text-white/70" />
             <span>{t('heroEyebrow')}</span>
             <WaterLine variant="inline" className="text-white/70" />
@@ -79,7 +79,7 @@ export default async function Hero() {
       </div>
 
       <div className="absolute inset-x-0 bottom-0 z-10 bg-gradient-to-t from-black/55 to-transparent">
-        <div className="container mx-auto flex items-center justify-between gap-4 px-6 py-3 text-[11px] font-medium uppercase tracking-[0.18em] text-white/95">
+        <div className="container mx-auto flex items-center justify-between gap-4 px-6 py-3 text-eyebrow font-medium uppercase tracking-[0.18em] text-white/95">
           <span>{ADDRESS_LINE}</span>
           <span>
             {t('todayOpenLabel')} {todayHours}

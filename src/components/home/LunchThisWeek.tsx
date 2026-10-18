@@ -53,7 +53,7 @@ export default async function LunchThisWeek() {
     <section className="relative bg-muted/40 py-20 md:py-28">
       <Reveal className="container mx-auto px-6">
         <header className="mb-12 max-w-2xl">
-          <p className="mb-4 flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-primary">
+          <p className="mb-4 flex items-center gap-3 text-eyebrow font-semibold uppercase tracking-[0.2em] text-primary">
             <WaterLine variant="inline" />
             <span>{t('lunchEyebrow')}</span>
           </p>

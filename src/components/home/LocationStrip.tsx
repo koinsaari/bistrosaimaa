@@ -20,18 +20,18 @@ export default async function LocationStrip() {
       <Reveal className="container mx-auto px-6">
         <div className="grid grid-cols-1 items-center gap-10 md:grid-cols-2 md:gap-16">
           <div>
-            <p className="mb-4 flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-primary">
+            <p className="mb-4 flex items-center gap-3 text-eyebrow font-semibold uppercase tracking-[0.2em] text-primary">
               <WaterLine variant="inline" />
               <span>{t('locationEyebrow')}</span>
             </p>
             <h2 className="mb-5 font-serif font-normal leading-[1.05] tracking-[-0.02em] text-[clamp(1.875rem,3vw,2.75rem)] text-ink">
               {t('locationHeading')}
             </h2>
-            <p className="mb-8 max-w-[48ch] text-[15px] leading-relaxed text-foreground/80">
+            <p className="mb-8 max-w-[48ch] text-base leading-relaxed text-foreground/80">
               {t('locationBody')}
             </p>
 
-            <dl className="mb-8 space-y-3 text-[14px] text-foreground/85">
+            <dl className="mb-8 space-y-3 text-sm text-foreground/85">
               <div className="flex gap-3">
                 <dt className="w-24 shrink-0 font-medium text-muted-foreground">
                   {tContact('address')}

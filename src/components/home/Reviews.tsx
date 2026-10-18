@@ -115,7 +115,7 @@ export default function Reviews() {
     >
       <div className="container mx-auto px-6">
         <header className="mb-12 text-center">
-          <p className="mb-4 flex items-center justify-center gap-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-primary">
+          <p className="mb-4 flex items-center justify-center gap-3 text-eyebrow font-semibold uppercase tracking-[0.2em] text-primary">
             <WaterLine variant="inline" />
             <span>{t('reviews')}</span>
             <WaterLine variant="inline" />

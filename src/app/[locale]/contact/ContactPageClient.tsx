@@ -17,7 +17,7 @@ const ContactHero = () => {
       id="contact-hero"
       className="container mx-auto px-6 pt-32 pb-12 md:pt-40 md:pb-16"
     >
-      <p className="mb-4 flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-primary">
+      <p className="mb-4 flex items-center gap-3 text-eyebrow font-semibold uppercase tracking-[0.2em] text-primary">
         <WaterLine variant="inline" />
         <span>{t('subtitle')}</span>
       </p>

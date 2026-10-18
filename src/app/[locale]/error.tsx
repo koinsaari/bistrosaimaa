@@ -21,7 +21,7 @@ export default function Error({
   return (
     <div className="flex min-h-svh items-center justify-center bg-background px-6">
       <div className="max-w-md space-y-6 text-center">
-        <p className="flex items-center justify-center gap-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-primary">
+        <p className="flex items-center justify-center gap-3 text-eyebrow font-semibold uppercase tracking-[0.2em] text-primary">
           <WaterLine variant="inline" />
           <span>{t('subtitle')}</span>
           <WaterLine variant="inline" />
@@ -29,7 +29,7 @@ export default function Error({
         <h1 className="font-serif font-normal leading-[1.05] tracking-[-0.02em] text-[clamp(2.25rem,5vw,4rem)] text-ink">
           {t('title')}
         </h1>
-        <p className="text-[15px] leading-relaxed text-muted-foreground">{t('description')}</p>
+        <p className="text-base leading-relaxed text-muted-foreground">{t('description')}</p>
 
         <div className="flex flex-col gap-3 sm:flex-row sm:justify-center">
           <Button onClick={() => reset()} className="rounded-full bg-primary hover:bg-primary/90">
