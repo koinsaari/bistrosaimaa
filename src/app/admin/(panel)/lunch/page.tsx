@@ -1,7 +1,7 @@
 import { requireAdmin } from '@/lib/auth';
 import { listCategories } from '@/lib/categories';
 import { listDishes } from '@/lib/dishes';
-import { addWeeks, currentIsoWeek, formatWeekLabel, type IsoWeek } from '@/lib/isoWeek';
+import { addWeeks, formatWeekLabel, shownLunchWeek, type IsoWeek } from '@/lib/isoWeek';
 import { getWeek, parseWeek } from '@/lib/lunchWeek';
 import WeekComposer from './WeekComposer';
 import WeekSelector from './WeekSelector';
@@ -21,7 +21,7 @@ export default async function AdminLunchPage({
   await requireAdmin();
   const params = await searchParams;
 
-  const now = currentIsoWeek(new Date(), 'Europe/Helsinki');
+  const now = shownLunchWeek(new Date());
   const requested = parseWeek({ isoYear: pick(params.year), isoWeek: pick(params.week), days: [] });
   const selected: IsoWeek = requested.ok ? requested.data : now;
 

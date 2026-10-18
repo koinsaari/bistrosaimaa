@@ -21,13 +21,26 @@ export class LunchSectionPage {
     await this.page.goto(path);
   }
 
+  async expectDishAllergens(day: DayKey, name: string, allergens: string) {
+    const dish = this.day(day).locator('[data-testid="lunch-dish"]', { hasText: name });
+    await expect(dish.getByTestId('lunch-dish-allergens')).toHaveText(allergens);
+  }
+
+  async expectAllergenKey(text: string) {
+    await expect(this.page.getByTestId('lunch-allergen-key')).toHaveText(text);
+  }
+
+  async expectWeekLabel(text: string) {
+    await expect(this.page.getByTestId('lunch-week')).toHaveText(text);
+  }
+
   async expectDayDishes(day: DayKey, names: string[]) {
     await this.day(day).scrollIntoViewIfNeeded();
-    await expect(this.day(day).locator('[data-testid="lunch-dish"]')).toHaveText(names);
+    await expect(this.day(day).locator('[data-testid="lunch-dish-name"]')).toHaveText(names);
   }
 
   async expectDishNowhere(name: string) {
-    await expect(this.page.locator('[data-testid="lunch-dish"]', { hasText: name })).toHaveCount(0);
+    await expect(this.page.locator('[data-testid="lunch-dish-name"]', { hasText: name })).toHaveCount(0);
   }
 
   async expectNote(day: DayKey, text: string) {

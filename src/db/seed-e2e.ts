@@ -2,7 +2,7 @@ import { existsSync } from 'node:fs';
 import { sql } from 'drizzle-orm';
 import { CURRENT_WEEK, CURRENT_WEEK_UPDATED_AT, FIXTURE_CATEGORY, FIXTURE_DISHES, NEXT_WEEK, RETIRED_DISH, type FixtureWeek } from '../../e2e/fixtures/lunch';
 import { DAY_KEYS } from '../lib/lunch';
-import { currentIsoWeek, type IsoWeek } from '../lib/isoWeek';
+import { addWeeks, shownLunchWeek, type IsoWeek } from '../lib/isoWeek';
 import { categories, dishes, getDb, lunchDays, lunchDishes, lunchWeeks } from './index';
 
 // Wipes every table. Only ever loads .env.e2e (ci branch), never .env.local, and needs an explicit opt-in outside CI.
@@ -58,10 +58,9 @@ async function main() {
     .returning({ id: dishes.id, name: dishes.name });
   const dishIdByName = new Map(inserted.map((d) => [d.name, d.id]));
 
-  const now = new Date();
-  const nextWeekDate = new Date(now.getTime() + 7 * 86_400_000);
-  await insertWeek(currentIsoWeek(now, 'Europe/Helsinki'), true, CURRENT_WEEK, dishIdByName, CURRENT_WEEK_UPDATED_AT);
-  await insertWeek(currentIsoWeek(nextWeekDate, 'Europe/Helsinki'), false, NEXT_WEEK, dishIdByName);
+  const shown = shownLunchWeek(new Date());
+  await insertWeek(shown, true, CURRENT_WEEK, dishIdByName, CURRENT_WEEK_UPDATED_AT);
+  await insertWeek(addWeeks(shown, 1), false, NEXT_WEEK, dishIdByName);
 
   console.log('e2e fixture seeded');
 }

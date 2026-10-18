@@ -1,6 +1,7 @@
 import { test } from '@playwright/test';
 import { LunchSectionPage } from './pages/LunchSectionPage';
 import { CURRENT_WEEK, NEXT_WEEK } from './fixtures/lunch';
+import { formatWeekDates, shownLunchWeek } from '../src/lib/isoWeek';
 
 test.describe('Lunch section', () => {
   test.describe('without a published week', () => {
@@ -49,6 +50,25 @@ test.describe('Lunch section', () => {
       await lunch.goto();
       await lunch.expectDayDishes('monday', CURRENT_WEEK.monday!.dishes);
       for (const name of NEXT_WEEK.monday!.dishes) await lunch.expectDishNowhere(name);
+    });
+
+    test('labels the shown week with its number and dates, in both languages', async ({ page }) => {
+      const week = shownLunchWeek(new Date());
+      const lunch = new LunchSectionPage(page);
+      await lunch.goto();
+      await lunch.expectWeekLabel(`Viikko ${week.isoWeek} · ${formatWeekDates(week, 'fi')}`);
+      await lunch.goto('/en');
+      await lunch.expectWeekLabel(`Week ${week.isoWeek} · ${formatWeekDates(week, 'en')}`);
+    });
+
+    test("shows each dish's allergens and explains the codes", async ({ page }) => {
+      const lunch = new LunchSectionPage(page);
+      await lunch.goto();
+      // The fixture gives every active dish L and G; they show in the fixed G, L, VL, M, Veg order.
+      await lunch.expectDishAllergens('monday', CURRENT_WEEK.monday!.dishes[0], 'G, L');
+      await lunch.expectAllergenKey('G = gluteeniton · L = laktoositon · VL = vähälaktoosinen · M = maidoton · Veg = vegaaninen');
+      await lunch.goto('/en');
+      await lunch.expectAllergenKey('G = gluten-free · L = lactose-free · VL = low-lactose · M = dairy-free · Veg = vegan');
     });
 
     test('English shows the same Finnish dishes', async ({ page }) => {

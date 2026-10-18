@@ -6,7 +6,9 @@ import { Separator } from '@/components/ui/separator';
 import { Skeleton } from '@/components/ui/skeleton';
 import WaterLine from '@/components/WaterLine';
 import Reveal from '@/components/Reveal';
-import { getLunchDisplay, formatUpdatedAt, DAY_KEYS, type DayKey } from '@/lib/lunch';
+import { ALLERGENS } from '@/lib/allergens';
+import { formatWeekDates, shownLunchWeek } from '@/lib/isoWeek';
+import { getLunchDisplay, formatLunchHours, formatUpdatedAt, DAY_KEYS, type DayKey } from '@/lib/lunch';
 
 const DAY_MESSAGE_KEYS: Record<DayKey, string> = {
   monday: 'lunchDay.monday',
@@ -44,7 +46,8 @@ export default async function LunchThisWeek() {
   await connection();
   const locale = await getLocale();
   const t = await getTranslations({ locale, namespace: 'HomePage' });
-  const display = await getLunchDisplay();
+  const week = shownLunchWeek(new Date());
+  const display = await getLunchDisplay(week);
 
   return (
     <section className="relative bg-muted/40 py-20 md:py-28">
@@ -57,6 +60,9 @@ export default async function LunchThisWeek() {
           <h2 className="font-serif font-normal leading-[1.05] tracking-[-0.02em] text-[clamp(1.875rem,3vw,2.75rem)] text-ink">
             {t('lunchHeading')}
           </h2>
+          <p data-testid="lunch-week" className="mt-3 text-sm text-muted-foreground">
+            {t('lunchWeek', { week: week.isoWeek, dates: formatWeekDates(week, locale) })}
+          </p>
         </header>
 
         <div className="mx-auto max-w-3xl">
@@ -84,7 +90,12 @@ export default async function LunchThisWeek() {
                             <ul>
                               {dayDisplay.dishes.map((dish, i) => (
                                 <li key={i} data-testid="lunch-dish">
-                                  {dish}
+                                  <span data-testid="lunch-dish-name">{dish.name}</span>
+                                  {dish.allergens.length > 0 && (
+                                    <span data-testid="lunch-dish-allergens" className="block text-xs text-muted-foreground">
+                                      {dish.allergens.join(', ')}
+                                    </span>
+                                  )}
                                 </li>
                               ))}
                             </ul>
@@ -105,7 +116,13 @@ export default async function LunchThisWeek() {
                 })}
               </ul>
 
-              <p className="mt-4 text-xs text-muted-foreground" data-testid="lunch-updated">
+              {display.days.some((d) => d.status === 'content' && d.dishes.some((dish) => dish.allergens.length)) && (
+                <p className="mt-4 text-xs text-muted-foreground" data-testid="lunch-allergen-key">
+                  {ALLERGENS.map((code) => `${code} = ${t(`lunchAllergen.${code}`)}`).join(' · ')}
+                </p>
+              )}
+
+              <p className="mt-2 text-xs text-muted-foreground" data-testid="lunch-updated">
                 {t('lunchUpdatedAt', { date: formatUpdatedAt(display.updatedAt) })}
               </p>
             </>
@@ -114,7 +131,7 @@ export default async function LunchThisWeek() {
           <Separator className="mt-10" />
 
           <p className="mt-6 text-sm text-muted-foreground">
-            {t('lunchHoursAndPriceNote')}
+            {t('lunchHoursAndPriceNote', formatLunchHours(locale))}
           </p>
 
           <div className="mt-6">

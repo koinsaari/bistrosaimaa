@@ -11,10 +11,13 @@ vi.mock('@/db', async (importOriginal) => {
   return { ...actual, getDb: () => chain };
 });
 
-const { resolveLunchDisplay, formatUpdatedAt, getLunchRecord } = await import('@/lib/lunch');
+const { resolveLunchDisplay, formatLunchHours, formatUpdatedAt, getLunchRecord } = await import('@/lib/lunch');
 import type { LunchRecord } from '@/lib/lunch';
+import type { Allergen } from '@/lib/allergens';
 
 const updatedAt = '2026-09-29T10:00:00.000Z';
+const WEEK = { isoYear: 2026, isoWeek: 40 };
+const dish = (name: string, allergens: Allergen[] = []) => ({ name, allergens });
 
 describe('resolveLunchDisplay', () => {
   it('returns fallback when there is no published week', () => {
@@ -25,25 +28,25 @@ describe('resolveLunchDisplay', () => {
     const record: LunchRecord = {
       updatedAt,
       days: {
-        monday: { dishes: ['Lohikeitto', 'Kievin kana'], note: null },
+        monday: { dishes: [dish('Lohikeitto'), dish('Kievin kana')], note: null },
         tuesday: { dishes: [], note: 'Vain huomautus' },
-        wednesday: { dishes: ['Kasvispata'], note: 'Sisältää pähkinää' },
+        wednesday: { dishes: [dish('Kasvispata')], note: 'Sisältää pähkinää' },
       },
     };
     const result = resolveLunchDisplay(record);
     if (result.status !== 'available') throw new Error('expected available');
     expect(result.updatedAt).toBe(updatedAt);
     expect(result.days.slice(0, 3)).toEqual([
-      { day: 'monday', status: 'content', dishes: ['Lohikeitto', 'Kievin kana'], note: null },
+      { day: 'monday', status: 'content', dishes: [dish('Lohikeitto'), dish('Kievin kana')], note: null },
       { day: 'tuesday', status: 'content', dishes: [], note: 'Vain huomautus' },
-      { day: 'wednesday', status: 'content', dishes: ['Kasvispata'], note: 'Sisältää pähkinää' },
+      { day: 'wednesday', status: 'content', dishes: [dish('Kasvispata')], note: 'Sisältää pähkinää' },
     ]);
   });
 
   it('shows a placeholder for a day with no dishes and no note, or missing entirely', () => {
     const record: LunchRecord = {
       updatedAt,
-      days: { monday: { dishes: [], note: '   ' }, tuesday: { dishes: ['Lohikeitto'], note: null } },
+      days: { monday: { dishes: [], note: '   ' }, tuesday: { dishes: [dish('Lohikeitto')], note: null } },
     };
     const result = resolveLunchDisplay(record);
     if (result.status !== 'available') throw new Error('expected available');
@@ -83,28 +86,28 @@ describe('getLunchRecord', () => {
     const error = new Error('network error');
     const logSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
     rowsMock.mockRejectedValueOnce(error);
-    await expect(getLunchRecord()).resolves.toBeNull();
+    await expect(getLunchRecord(WEEK)).resolves.toBeNull();
     expect(logSpy).toHaveBeenCalledWith(expect.any(String), error);
     logSpy.mockRestore();
   });
 
   it('returns null when the current week is missing or unpublished', async () => {
     rowsMock.mockResolvedValueOnce([]);
-    await expect(getLunchRecord()).resolves.toBeNull();
+    await expect(getLunchRecord(WEEK)).resolves.toBeNull();
   });
 
   it('groups joined rows into days with dishes in position order', async () => {
     const weekUpdatedAt = new Date(updatedAt);
     rowsMock.mockResolvedValueOnce([
-      { updatedAt: weekUpdatedAt, day: 1, note: null, dish: 'Lohikeitto' },
-      { updatedAt: weekUpdatedAt, day: 1, note: null, dish: 'Kievin kana' },
+      { updatedAt: weekUpdatedAt, day: 1, note: null, dish: 'Lohikeitto', allergens: ['L', 'G'] },
+      { updatedAt: weekUpdatedAt, day: 1, note: null, dish: 'Kievin kana', allergens: [] },
       { updatedAt: weekUpdatedAt, day: 2, note: 'Vain huomautus', dish: null },
       { updatedAt: weekUpdatedAt, day: null, note: null, dish: null },
     ]);
-    await expect(getLunchRecord()).resolves.toEqual({
+    await expect(getLunchRecord(WEEK)).resolves.toEqual({
       updatedAt,
       days: {
-        monday: { dishes: ['Lohikeitto', 'Kievin kana'], note: null },
+        monday: { dishes: [dish('Lohikeitto', ['G', 'L']), dish('Kievin kana')], note: null },
         tuesday: { dishes: [], note: 'Vain huomautus' },
       },
     });
@@ -112,6 +115,13 @@ describe('getLunchRecord', () => {
 
   it('returns an empty week when it is published but has no days yet', async () => {
     rowsMock.mockResolvedValueOnce([{ updatedAt: new Date(updatedAt), day: null, note: null, dish: null }]);
-    await expect(getLunchRecord()).resolves.toEqual({ updatedAt, days: {} });
+    await expect(getLunchRecord(WEEK)).resolves.toEqual({ updatedAt, days: {} });
+  });
+});
+
+describe('formatLunchHours', () => {
+  it("uses each locale's clock format", () => {
+    expect(formatLunchHours('fi')).toEqual({ opens: '11.00', closes: '15.00' });
+    expect(formatLunchHours('en')).toEqual({ opens: '11:00', closes: '15:00' });
   });
 });

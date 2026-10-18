@@ -4,7 +4,7 @@ import { AdminDishesPage } from './pages/AdminDishesPage';
 import { AdminLoginPage } from './pages/AdminLoginPage';
 import { AdminLunchPage } from './pages/AdminLunchPage';
 import { FIXTURE_DISHES, NEXT_WEEK, RETIRED_DISH } from './fixtures/lunch';
-import { addWeeks, currentIsoWeek, formatWeekLabel } from '../src/lib/isoWeek';
+import { addWeeks, formatWeekLabel, shownLunchWeek } from '../src/lib/isoWeek';
 
 const [LOHIKEITTO, JAUHELIHA, KASVISPATA] = FIXTURE_DISHES;
 const MONDAY = 1;
@@ -146,7 +146,7 @@ test.describe('Admin lunch composer', () => {
   });
 
   test('the week selector loads the chosen week', async () => {
-    const next = addWeeks(currentIsoWeek(new Date(), 'Europe/Helsinki'), 1);
+    const next = addWeeks(shownLunchWeek(new Date()), 1);
     const label = formatWeekLabel(next);
     await lunch.goto();
     await lunch.selectWeek(label);

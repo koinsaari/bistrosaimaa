@@ -69,13 +69,21 @@
     "placeStripCabinetBody": "Kabinetti- ja saunatilat juhliin ja tilaisuuksiin ravintolan yhteydessä.",
     "placeStripCall": "Soita",
     "placeStripQuote": "Kysy tarjous",
-    "lunchEyebrow": "Tällä viikolla",
+    "lunchEyebrow": "Lounaslista",
     "lunchHeading": "Viikon lounas",
-    "lunchHoursAndPriceNote": "Lounas tarjoillaan klo 10.30-14.00. Hinta 13,50 €.",
+    "lunchWeek": "Viikko {week} · {dates}",
+    "lunchHoursAndPriceNote": "Lounas tarjoillaan klo {opens}–{closes}. Hinta 13,50 €.",
     "lunchFacebookCta": "Katso lounas Facebookissa",
     "lunchPlaceholder": "Lista tulossa pian",
     "lunchFallback": "Viikon lounaslista päivittyy pian tänne. Katso tämän hetken lounas Facebookista.",
     "lunchUpdatedAt": "Päivitetty {date}",
+    "lunchAllergen": {
+      "G": "gluteeniton",
+      "L": "laktoositon",
+      "VL": "vähälaktoosinen",
+      "M": "maidoton",
+      "Veg": "vegaaninen"
+    },
     "lunchDay": {
       "monday": "Maanantai",
       "tuesday": "Tiistai",
