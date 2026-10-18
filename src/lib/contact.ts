@@ -4,6 +4,9 @@ import { z } from 'zod';
 export const CONTACT_SUBJECTS = ['general', 'eventRoom', 'catering'] as const;
 export type ContactSubject = (typeof CONTACT_SUBJECTS)[number];
 
+// browsers autofill fields named like website or url, which would drop real messages
+export const HONEYPOT_FIELD = 'field_x7q';
+
 export const NAME_MAX_LENGTH = 100;
 export const PHONE_MAX_LENGTH = 25;
 export const MESSAGE_MAX_LENGTH = 2000;

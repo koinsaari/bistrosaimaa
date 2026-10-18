@@ -9,6 +9,8 @@ if (!process.env.DATABASE_URL && existsSync('.env.e2e')) {
 // Throwaway credentials for the E2E server only. They override the shell and .env.local, so tests never use real ones.
 process.env.ADMIN_PASSWORD = 'e2e-admin-password';
 process.env.SESSION_SECRET = 'e2e-session-secret';
+// The contact form never sends real mail from tests.
+process.env.CONTACT_MAIL_TRANSPORT = 'log';
 
 // Own port so a running `npm run dev` (dev DB) is never reused.
 const PORT = 3100;

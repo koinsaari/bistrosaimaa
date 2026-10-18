@@ -1,180 +1,103 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, type BaseSyntheticEvent } from 'react';
 import { motion } from 'framer-motion';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-import { Send, CheckCircle, AlertCircle } from 'lucide-react';
+import { useForm, useWatch, type FieldErrors, type Resolver } from 'react-hook-form';
+import { Send, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
+import { Link } from '@/i18n/navigation';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
-import { useTranslations } from 'next-intl';
+import { BUSINESS } from '@/lib/business';
+import {
+  CONTACT_SUBJECTS,
+  HONEYPOT_FIELD,
+  MESSAGE_MAX_LENGTH,
+  NAME_MAX_LENGTH,
+  PHONE_MAX_LENGTH,
+  contactSchema,
+  type ContactField,
+  type ContactInput,
+  type ContactMessage,
+  type ContactSubject,
+} from '@/lib/contact';
+import { sendContactMessage } from './actions';
 
-interface ContactFormProps {
-  initialSubject?: string;
-  className?: string;
-  onSubmitSuccess?: () => void;
-}
+const SUBJECT_LABEL_KEYS: Record<ContactSubject, string> = {
+  general: 'subjectGeneral',
+  eventRoom: 'subjectCabinetReservation',
+  catering: 'subjectCatering',
+};
 
-const MESSAGE_MAX_LENGTH = 1000;
-const NAME_MAX_LENGTH = 50;
-const PHONE_MAX_LENGTH = 25;
+const EMPTY_FORM: ContactInput = {
+  name: '',
+  email: '',
+  phone: '',
+  subject: 'general',
+  message: '',
+  privacy: false,
+};
 
-const createFormSchema = (t: (key: string) => string) =>
-  z.object({
-    name: z
-      .string()
-      .min(1, t('validation.nameRequired'))
-      .max(NAME_MAX_LENGTH, t('validation.nameTooLong'))
-      .refine((value) => !/^\d+$/.test(value), t('validation.nameOnlyNumbers'))
-      .refine(
-        (value) => /^[\p{L}\p{M}\s\-']+$/u.test(value),
-        t('validation.nameInvalidCharacters')
-      ),
+const baseResolver = zodResolver(contactSchema);
 
-    email: z
-      .string()
-      .min(1, t('validation.emailRequired'))
-      .regex(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, t('validation.emailInvalid')),
+type Status = { kind: 'idle' } | { kind: 'success' } | { kind: 'error'; messageKey: 'formError' | 'formInvalid' };
 
-    phone: z
-      .string()
-      .optional()
-      .refine((value) => !value || value.length <= PHONE_MAX_LENGTH, t('validation.phoneTooLong'))
-      .refine(
-        (value) => !value || /^[0-9+\-() .]+$/.test(value),
-        t('validation.phoneInvalidCharacters')
-      )
-      .refine((value) => !value || /[0-9]/.test(value), t('validation.phoneNeedsNumbers')),
-
-    subject: z.string().min(1, t('validation.subjectRequired')),
-
-    message: z
-      .string()
-      .min(1, t('validation.messageRequired'))
-      .max(MESSAGE_MAX_LENGTH, t('validation.messageTooLong')),
-
-    privacy: z.boolean().refine((value) => value === true, t('validation.privacyRequired')),
-  });
-
-type FormData = z.infer<ReturnType<typeof createFormSchema>>;
-
-export default function ContactForm({
-  initialSubject,
-  className = 'lg:w-3/5',
-  onSubmitSuccess,
-}: ContactFormProps) {
+export default function ContactForm({ className = 'lg:w-3/5' }: { className?: string }) {
   const t = useTranslations('ContactPage');
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
-  const [submitMessage, setSubmitMessage] = useState('');
+  const [status, setStatus] = useState<Status>({ kind: 'idle' });
 
-  const formSchema = createFormSchema(t);
-  const defaultSubject = initialSubject || t('subjectGeneral');
+  const translateError = (key: string) => t(`validation.${key}`);
 
-  const form = useForm<FormData>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: '',
-      email: '',
-      phone: '',
-      subject: defaultSubject,
-      message: '',
-      privacy: false,
-    },
-  });
-
-  // Update form when language changes
-  useEffect(() => {
-    if (!initialSubject) {
-      form.setValue('subject', t('subjectGeneral'));
+  // The schema's messages are keys, so translate them before react-hook-form shows them.
+  const resolver: Resolver<ContactInput, unknown, ContactMessage> = async (values, context, options) => {
+    const result = await baseResolver(values, context, options);
+    const errors = result.errors as FieldErrors<ContactInput>;
+    for (const error of Object.values(errors)) {
+      if (error?.message) error.message = translateError(error.message);
     }
-  }, [t, form, initialSubject]);
-
-  const handleSubmit = async (values: FormData) => {
-    setIsSubmitting(true);
-    setSubmitStatus('idle');
-
-    let finnishSubject = values.subject;
-    if (values.subject === 'Event Room Reservation') {
-      finnishSubject = 'Kabinettivaraus';
-    } else if (values.subject === 'Catering') {
-      finnishSubject = 'Pitopalvelut';
-    } else if (values.subject === 'General Inquiry') {
-      finnishSubject = 'Yleinen kysely';
-    }
-
-    try {
-      const response = await fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          access_key: 'ba8420e9-f50a-4313-97c9-b38988041269',
-          name: values.name,
-          email: values.email,
-          phone: values.phone || 'Ei annettu',
-          subject: `Yhteydenotto: ${finnishSubject}`,
-          message: values.message,
-          from_name: values.email,
-        }),
-      });
-
-      const data = await response.json();
-
-      if (data.success) {
-        setSubmitStatus('success');
-        setSubmitMessage(t('formSuccess'));
-
-        form.reset({
-          name: '',
-          email: '',
-          phone: '',
-          subject: defaultSubject,
-          message: '',
-          privacy: false,
-        });
-
-        // Force re-render
-        setTimeout(() => {
-          form.setValue('subject', defaultSubject);
-        }, 0);
-
-        if (onSubmitSuccess) {
-          onSubmitSuccess();
-        }
-      } else {
-        throw new Error(data.message || t('formError'));
-      }
-    } catch (error) {
-      console.error('Form submission error:', error);
-      setSubmitStatus('error');
-      setSubmitMessage(error instanceof Error ? error.message : t('formError'));
-    } finally {
-      setIsSubmitting(false);
-    }
+    return result;
   };
 
-  const messageLength = form.watch('message')?.length || 0;
+  const form = useForm<ContactInput, unknown, ContactMessage>({ resolver, defaultValues: EMPTY_FORM });
+
+  const handleSubmit = async (values: ContactMessage, event?: BaseSyntheticEvent) => {
+    setStatus({ kind: 'idle' });
+    const formElement = event?.target instanceof HTMLFormElement ? event.target : null;
+    const trap = formElement?.elements.namedItem(HONEYPOT_FIELD);
+    const trapInput = trap instanceof HTMLInputElement ? trap : null;
+
+    let result;
+    try {
+      result = await sendContactMessage({ ...values, [HONEYPOT_FIELD]: trapInput?.value ?? '' });
+    } catch {
+      setStatus({ kind: 'error', messageKey: 'formError' });
+      return;
+    }
+
+    if (result.ok) {
+      setStatus({ kind: 'success' });
+      form.reset(EMPTY_FORM);
+      if (trapInput) trapInput.value = '';
+      return;
+    }
+    if (result.error === 'invalid') {
+      for (const [field, key] of Object.entries(result.fieldErrors)) {
+        form.setError(field as ContactField, { message: translateError(key) });
+      }
+      setStatus({ kind: 'error', messageKey: 'formInvalid' });
+      return;
+    }
+    setStatus({ kind: 'error', messageKey: 'formError' });
+  };
+
+  const messageLength = useWatch({ control: form.control, name: 'message' })?.length ?? 0;
+  const isSubmitting = form.formState.isSubmitting;
 
   return (
     <motion.div
@@ -197,7 +120,7 @@ export default function ContactForm({
         </CardHeader>
         <CardContent>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
+            <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6" noValidate>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <FormField
                   control={form.control}
@@ -208,6 +131,7 @@ export default function ContactForm({
                       <FormControl>
                         <Input
                           placeholder={t('formName')}
+                          autoComplete="name"
                           {...field}
                           maxLength={NAME_MAX_LENGTH}
                           className="border-border/60 bg-background/30"
@@ -227,6 +151,7 @@ export default function ContactForm({
                         <Input
                           type="email"
                           placeholder={t('formEmail')}
+                          autoComplete="email"
                           {...field}
                           className="border-border/60 bg-background/30"
                         />
@@ -247,6 +172,7 @@ export default function ContactForm({
                       <Input
                         type="tel"
                         placeholder="+358 50 123 4567"
+                        autoComplete="tel"
                         {...field}
                         maxLength={PHONE_MAX_LENGTH}
                         className="border-border/60 bg-background/30"
@@ -263,25 +189,18 @@ export default function ContactForm({
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>{t('formSubject')} *</FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      value={field.value}
-                      defaultValue={field.value}
-                    >
+                    <Select onValueChange={field.onChange} value={field.value}>
                       <FormControl>
                         <SelectTrigger className="border-border/60 bg-background/30 min-w-[150px]">
-                          <SelectValue
-                            placeholder={`${t('formSubject')}...`}
-                            className="text-foreground"
-                          />
+                          <SelectValue placeholder={`${t('formSubject')}...`} className="text-foreground" />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value={t('subjectGeneral')}>{t('subjectGeneral')}</SelectItem>
-                        <SelectItem value={t('subjectCabinetReservation')}>
-                          {t('subjectCabinetReservation')}
-                        </SelectItem>
-                        <SelectItem value={t('subjectCatering')}>{t('subjectCatering')}</SelectItem>
+                        {CONTACT_SUBJECTS.map((subject) => (
+                          <SelectItem key={subject} value={subject}>
+                            {t(SUBJECT_LABEL_KEYS[subject])}
+                          </SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -296,13 +215,7 @@ export default function ContactForm({
                   <FormItem>
                     <div className="flex justify-between items-center">
                       <FormLabel>{t('formMessage')} *</FormLabel>
-                      <span
-                        className={`text-xs ${
-                          messageLength > MESSAGE_MAX_LENGTH
-                            ? 'text-destructive font-medium'
-                            : 'text-muted-foreground'
-                        }`}
-                      >
+                      <span className="text-xs text-muted-foreground">
                         {messageLength}/{MESSAGE_MAX_LENGTH}
                       </span>
                     </div>
@@ -311,6 +224,7 @@ export default function ContactForm({
                         placeholder={t('formMessage')}
                         rows={5}
                         {...field}
+                        maxLength={MESSAGE_MAX_LENGTH}
                         className="border-border/60 bg-background/30"
                       />
                     </FormControl>
@@ -319,6 +233,10 @@ export default function ContactForm({
                 )}
               />
 
+              <div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">
+                <Input name={HONEYPOT_FIELD} type="text" tabIndex={-1} autoComplete="off" defaultValue="" />
+              </div>
+
               <FormField
                 control={form.control}
                 name="privacy"
@@ -326,18 +244,14 @@ export default function ContactForm({
                   <FormItem>
                     <div className="flex flex-row items-start space-x-2">
                       <FormControl>
-                        <Checkbox
-                          checked={field.value}
-                          onCheckedChange={field.onChange}
-                          className="mt-0.5"
-                        />
+                        <Checkbox checked={field.value} onCheckedChange={field.onChange} className="mt-0.5" />
                       </FormControl>
                       <FormLabel className="text-sm font-normal cursor-pointer !text-foreground">
                         {t('privacyAccept')}{' '}
                         <Button variant="link" asChild className="h-auto p-0 text-sm">
-                          <a href="/privacy" target="_blank" rel="noopener noreferrer">
+                          <Link href="/privacy" target="_blank" rel="noopener noreferrer">
                             {t('privacyPolicy')}
-                          </a>
+                          </Link>
                         </Button>
                       </FormLabel>
                     </div>
@@ -346,34 +260,38 @@ export default function ContactForm({
                 )}
               />
 
-              {submitStatus === 'success' && (
+              {status.kind === 'success' && !form.formState.isDirty && (
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
+                  role="status"
                   data-testid="form-success"
                   className="flex items-center space-x-2 text-green-600 bg-green-50 border border-green-200 rounded-md p-3"
                 >
-                  <CheckCircle className="h-5 w-5" />
-                  <span>{submitMessage}</span>
+                  <CheckCircle className="h-5 w-5 flex-shrink-0" />
+                  <span>{t('formSuccess')}</span>
                 </motion.div>
               )}
 
-              {submitStatus === 'error' && (
+              {status.kind === 'error' && (
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
+                  role="alert"
                   data-testid="form-error"
                   className="flex items-center space-x-2 text-red-600 bg-red-50 border border-red-200 rounded-md p-3"
                 >
-                  <AlertCircle className="h-5 w-5" />
-                  <span>{submitMessage}</span>
+                  <AlertCircle className="h-5 w-5 flex-shrink-0" />
+                  <span>
+                    {t(status.messageKey, { phone: BUSINESS.phone.international, email: BUSINESS.email })}
+                  </span>
                 </motion.div>
               )}
 
               <Button data-testid="form-submit" type="submit" disabled={isSubmitting} className="w-full" size="lg">
                 {isSubmitting ? (
                   <>
-                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2" />
+                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
                     {t('formSending')}
                   </>
                 ) : (
