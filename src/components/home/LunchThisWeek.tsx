@@ -8,7 +8,7 @@ import WaterLine from '@/components/WaterLine';
 import Reveal from '@/components/Reveal';
 import { ALLERGENS } from '@/lib/allergens';
 import { formatWeekDates, shownLunchWeek } from '@/lib/isoWeek';
-import { getLunchDisplay, formatLunchHours, formatUpdatedAt, DAY_KEYS, type DayKey } from '@/lib/lunch';
+import { getLunchDisplay, formatLunchInfo, formatUpdatedAt, DAY_KEYS, type DayKey } from '@/lib/lunch';
 
 const DAY_MESSAGE_KEYS: Record<DayKey, string> = {
   monday: 'lunchDay.monday',
@@ -131,7 +131,7 @@ export default async function LunchThisWeek() {
           <Separator className="mt-10" />
 
           <p className="mt-6 text-sm text-muted-foreground">
-            {t('lunchHoursAndPriceNote', formatLunchHours(locale))}
+            {t('lunchHoursAndPriceNote', formatLunchInfo(locale))}
           </p>
           <p data-testid="lunch-disclaimer" className="mt-2 text-sm text-muted-foreground">
             {t('lunchDisclaimer')}

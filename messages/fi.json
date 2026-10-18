@@ -72,7 +72,7 @@
     "lunchEyebrow": "Lounaslista",
     "lunchHeading": "Viikon lounas",
     "lunchWeek": "Viikko {week} · {dates}",
-    "lunchHoursAndPriceNote": "Lounas tarjoillaan klo {opens}–{closes}. Hinta 13,50 €.",
+    "lunchHoursAndPriceNote": "Lounas tarjoillaan päivittäin klo {opens}–{closes}. Hinta ma–pe {weekdayPrice}, la–su {weekendPrice}.",
     "lunchDisclaimer": "Lisätietoja allergeeneista saat henkilökunnalta. Pidätämme oikeuden muutoksiin lounaslistassa ja hinnoissa.",
     "lunchFacebookCta": "Katso lounas Facebookissa",
     "lunchPlaceholder": "Lista tulossa pian",

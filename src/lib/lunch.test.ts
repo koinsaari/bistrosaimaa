@@ -11,7 +11,7 @@ vi.mock('@/db', async (importOriginal) => {
   return { ...actual, getDb: () => chain };
 });
 
-const { resolveLunchDisplay, formatLunchHours, formatUpdatedAt, getLunchRecord } = await import('@/lib/lunch');
+const { resolveLunchDisplay, formatLunchInfo, formatUpdatedAt, getLunchRecord } = await import('@/lib/lunch');
 import type { LunchRecord } from '@/lib/lunch';
 import type { Allergen } from '@/lib/allergens';
 
@@ -119,9 +119,10 @@ describe('getLunchRecord', () => {
   });
 });
 
-describe('formatLunchHours', () => {
-  it("uses each locale's clock format", () => {
-    expect(formatLunchHours('fi')).toEqual({ opens: '11.00', closes: '15.00' });
-    expect(formatLunchHours('en')).toEqual({ opens: '11:00', closes: '15:00' });
+describe('formatLunchInfo', () => {
+  // Intl separates the Finnish amount and € with a no-break space (U+00A0).
+  it("uses each locale's clock and currency format", () => {
+    expect(formatLunchInfo('fi')).toEqual({ opens: '11.00', closes: '15.00', weekdayPrice: '13,20\u00a0€', weekendPrice: '14,20\u00a0€' });
+    expect(formatLunchInfo('en')).toEqual({ opens: '11:00', closes: '15:00', weekdayPrice: '€13.20', weekendPrice: '€14.20' });
   });
 });

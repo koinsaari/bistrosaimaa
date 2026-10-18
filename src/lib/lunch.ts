@@ -22,10 +22,17 @@ export type LunchDisplay =
   | { status: 'fallback' }
   | { status: 'available'; updatedAt: string; days: DayDisplay[] };
 
-export function formatLunchHours(locale: string): { opens: string; closes: string } {
-  const format = new Intl.DateTimeFormat(locale, { hour: '2-digit', minute: '2-digit', hourCycle: 'h23', timeZone: 'UTC' });
-  const at = ({ hour, minute }: { hour: number; minute: number }) => format.format(Date.UTC(2000, 0, 1, hour, minute));
-  return { opens: at(BUSINESS.lunch.opens), closes: at(BUSINESS.lunch.closes) };
+export function formatLunchInfo(locale: string) {
+  const time = new Intl.DateTimeFormat(locale, { hour: '2-digit', minute: '2-digit', hourCycle: 'h23', timeZone: 'UTC' });
+  const at = ({ hour, minute }: { hour: number; minute: number }) => time.format(Date.UTC(2000, 0, 1, hour, minute));
+  const price = new Intl.NumberFormat(locale, { style: 'currency', currency: 'EUR' });
+  const { opens, closes, price: prices } = BUSINESS.lunch;
+  return {
+    opens: at(opens),
+    closes: at(closes),
+    weekdayPrice: price.format(prices.weekday),
+    weekendPrice: price.format(prices.weekend),
+  };
 }
 
 export function resolveLunchDisplay(record: LunchRecord | null): LunchDisplay {

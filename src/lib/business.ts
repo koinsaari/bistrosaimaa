@@ -12,7 +12,11 @@ export const BUSINESS = {
     locality: 'Ristiina',
     country: 'FI',
   },
-  lunch: { opens: { hour: 11, minute: 0 }, closes: { hour: 15, minute: 0 } },
+  lunch: {
+    opens: { hour: 11, minute: 0 },
+    closes: { hour: 15, minute: 0 },
+    price: { weekday: 13.2, weekend: 14.2 },
+  },
   mapsUrl: 'https://maps.google.com/?q=Bistro+Saimaa+Ristiina',
 } as const;
 
