@@ -28,7 +28,7 @@ export function LunchSkeleton() {
           <Skeleton className="h-3 w-28" />
           <Skeleton className="h-10 w-64" />
         </div>
-        <div className="mx-auto max-w-3xl divide-y divide-border/60">
+        <div className="mx-auto max-w-4xl divide-y divide-border/60">
           {DAY_KEYS.map((day) => (
             <div key={day} className="flex flex-col gap-2 py-5 md:flex-row md:gap-8 md:py-6">
               <Skeleton className="h-5 w-28 shrink-0" />
@@ -65,9 +65,9 @@ export default async function LunchThisWeek() {
           </p>
         </header>
 
-        <div className="mx-auto max-w-3xl">
+        <div className="mx-auto max-w-4xl">
           {display.status === 'fallback' ? (
-            <p data-testid="lunch-fallback" className="text-[15px] leading-relaxed text-foreground/85">
+            <p data-testid="lunch-fallback" className="text-lg leading-relaxed text-foreground/85">
               {t('lunchFallback')}
             </p>
           ) : (
@@ -79,21 +79,21 @@ export default async function LunchThisWeek() {
                     <li
                       key={day}
                       data-testid={`lunch-day-${day}`}
-                      className="flex flex-col gap-1 py-5 md:flex-row md:items-baseline md:gap-8 md:py-6"
+                      className="flex flex-col gap-2 py-5 md:flex-row md:items-baseline md:gap-8 md:py-6"
                     >
-                      <span className="w-36 shrink-0 font-serif italic text-[15px] text-ink">
+                      <span className="w-40 shrink-0 font-serif italic text-xl text-ink">
                         {t(DAY_MESSAGE_KEYS[day])}
                       </span>
                       {dayDisplay.status === 'content' ? (
-                        <div className="text-[15px] leading-relaxed text-foreground/85">
+                        <div className="space-y-2.5 text-lg leading-snug text-foreground/90">
                           {dayDisplay.dishes.length > 0 && (
-                            <ul>
+                            <ul className="space-y-2.5">
                               {dayDisplay.dishes.map((dish, i) => (
                                 <li key={i} data-testid="lunch-dish">
                                   <span data-testid="lunch-dish-name">{dish.name}</span>
                                   {dish.allergens.length > 0 && (
-                                    <span data-testid="lunch-dish-allergens" className="block text-xs text-muted-foreground">
-                                      {dish.allergens.join(', ')}
+                                    <span data-testid="lunch-dish-allergens" className="ml-1.5 whitespace-nowrap text-sm text-muted-foreground">
+                                      ({dish.allergens.join(', ')})
                                     </span>
                                   )}
                                 </li>
@@ -107,7 +107,7 @@ export default async function LunchThisWeek() {
                           )}
                         </div>
                       ) : (
-                        <span data-testid="lunch-placeholder" className="text-[15px] leading-relaxed text-foreground/85">
+                        <span data-testid="lunch-placeholder" className="text-lg text-muted-foreground">
                           {t('lunchPlaceholder')}
                         </span>
                       )}
@@ -117,12 +117,12 @@ export default async function LunchThisWeek() {
               </ul>
 
               {display.days.some((d) => d.status === 'content' && d.dishes.some((dish) => dish.allergens.length)) && (
-                <p className="mt-4 text-xs text-muted-foreground" data-testid="lunch-allergen-key">
+                <p className="mt-6 text-sm text-muted-foreground" data-testid="lunch-allergen-key">
                   {ALLERGENS.map((code) => `${code} = ${t(`lunchAllergen.${code}`)}`).join(' · ')}
                 </p>
               )}
 
-              <p className="mt-2 text-xs text-muted-foreground" data-testid="lunch-updated">
+              <p className="mt-2 text-sm text-muted-foreground" data-testid="lunch-updated">
                 {t('lunchUpdatedAt', { date: formatUpdatedAt(display.updatedAt) })}
               </p>
             </>
@@ -132,6 +132,9 @@ export default async function LunchThisWeek() {
 
           <p className="mt-6 text-sm text-muted-foreground">
             {t('lunchHoursAndPriceNote', formatLunchHours(locale))}
+          </p>
+          <p data-testid="lunch-disclaimer" className="mt-2 text-sm text-muted-foreground">
+            {t('lunchDisclaimer')}
           </p>
 
           <div className="mt-6">

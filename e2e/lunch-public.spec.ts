@@ -65,7 +65,7 @@ test.describe('Lunch section', () => {
       const lunch = new LunchSectionPage(page);
       await lunch.goto();
       // The fixture gives every active dish L and G; they show in the fixed G, L, VL, M, Veg order.
-      await lunch.expectDishAllergens('monday', CURRENT_WEEK.monday!.dishes[0], 'G, L');
+      await lunch.expectDishAllergens('monday', CURRENT_WEEK.monday!.dishes[0], '(G, L)');
       await lunch.expectAllergenKey('G = gluteeniton · L = laktoositon · VL = vähälaktoosinen · M = maidoton · Veg = vegaaninen');
       await lunch.goto('/en');
       await lunch.expectAllergenKey('G = gluten-free · L = lactose-free · VL = low-lactose · M = dairy-free · Veg = vegan');
