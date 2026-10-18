@@ -59,6 +59,14 @@ Two pages behind one shared password: `/admin/lunch` (week composer: pick an ISO
 - **Dishes:** unique name is case-insensitive (`dishes_name_lower_idx`); category names are case-sensitively unique. Retire with `is_active`, never delete. The composer's picker only offers active dishes, but a week that already uses a since-retired dish keeps rendering it. Deleting a category leaves its dishes uncategorized.
 - **Weeks:** `saveWeek` replaces a week's days and dishes in one `db.batch` and sets `updated_at` explicitly (`$onUpdate` doesn't fire for child-only changes), which drives the public "Päivitetty" date. Publish only flips the saved week. A published week with no content on any day shows the fallback sentence. ISO-week maths uses `luxon` (`lib/isoWeek.ts`); don't hand-roll it.
 
+## Contact form (`/contact`)
+
+`ContactForm.tsx` validates with the shared Zod schema in `src/lib/contact.ts` (messages are keys under `ContactPage.validation`, translated in the form's resolver), then calls the `sendContactMessage` server action (`contact/actions.ts`), which validates again and sends through `src/lib/mailer.ts` (Resend). Subjects are the enum `general | eventRoom | catering`; the staff email is plain text and always Finnish. No database, no stored messages.
+
+- **Mail:** from `noreply@bistrosaimaa.fi` (domain verified in Resend, DNS at Zoner) to `CONTACT_TO_EMAIL`, `replyTo` = the customer. `CONTACT_MAIL_TRANSPORT=log` sends nothing (development, and `playwright.config.ts` sets it for E2E). Otherwise a missing `RESEND_API_KEY`/`CONTACT_TO_EMAIL` throws and the user sees the error banner. Never log message content.
+- **Spam:** only a honeypot (`HONEYPOT_FIELD`, deliberately not autofill-like); a hit returns fake success. There is no rate limit yet.
+- **Business details** (phone, email, address, maps link) come from `src/lib/business.ts`; don't hard-code them in components or messages (pass them as ICU parameters).
+
 ## Database
 
 Lunch data lives in **Neon Postgres** (Vercel Marketplace) via **Drizzle ORM**. Tables in `src/db/schema.ts`: `categories`, `dishes`, `lunch_weeks`, `lunch_days`, `lunch_dishes`. A week references dishes by id, so fixing a dish name fixes every week. Dishes in use can't be deleted (`on delete restrict`); retire them with `is_active`.
@@ -111,6 +119,7 @@ This is a **public repo** — anything that reaches a GitHub Actions log or an u
 
 - Never reuse a `production`-target secret value for `preview`/`development` — set each target separately (`vercel env add <NAME> <target>`), not one `vercel env add <NAME>` call selecting all three.
 - `DATABASE_URL` is a Vercel **Secret** in production and preview, so `vercel pull` doesn't fetch it — that's why the deploy job uses the `DATABASE_URL_PRODUCTION` GH secret, and why previews migrate inside the Vercel build. Development is a plain value so `vercel env pull` writes the dev branch URL to `.env.local`.
+- Contact mail: `RESEND_API_KEY` (Secret, a separate sending-only key per target), `CONTACT_TO_EMAIL` (production `bistrosaimaa@gmail.com`, preview a developer inbox), `CONTACT_MAIL_TRANSPORT=log` in development. CI needs none of them.
 - GH Actions secrets: `DATABASE_URL_CI` (Neon ci branch), `DATABASE_URL_PRODUCTION` (deploy-job migrations only). Never reuse production values in CI.
 
 <!-- BEGIN:nextjs-agent-rules -->
