@@ -8,35 +8,17 @@ updates:
       time: "03:00"
     open-pull-requests-limit: 10
     groups:
-      react:
-        patterns:
-          - "react"
-          - "react-dom"
-          - "@types/react"
-          - "@types/react-dom"
-      next:
-        patterns:
-          - "next"
-          - "next-intl"
-          - "eslint-config-next"
-      radix-ui:
-        patterns:
-          - "@radix-ui/*"
-      tailwind:
-        patterns:
-          - "tailwindcss"
-          - "@tailwindcss/*"
-          - "tailwind-*"
-          - "tw-animate-css"
-      playwright:
-        patterns:
-          - "@playwright/*"
-      everything-else:
+      npm-minor-and-patch:
+        applies-to: version-updates
         patterns:
           - "*"
-        exclude-patterns:
-          - "eslint"
-          - "typescript"
+        update-types:
+          - "minor"
+          - "patch"
+      npm-security:
+        applies-to: security-updates
+        patterns:
+          - "*"
 
   - package-ecosystem: "github-actions"
     directory: "/"
@@ -44,3 +26,7 @@ updates:
       interval: "weekly"
       day: "saturday"
       time: "03:00"
+    groups:
+      actions:
+        patterns:
+          - "*"
