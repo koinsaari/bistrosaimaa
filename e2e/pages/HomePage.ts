@@ -3,6 +3,7 @@ import { Page, expect } from '@playwright/test';
 export class HomePage {
   private hero = this.page.locator('[data-testid="home-hero"]');
   private placeStrip = this.page.locator('[data-testid="home-place-strip"]');
+  private fathersDay = this.page.locator('[data-testid="home-fathers-day"]');
   private reviews = this.page.locator('[data-testid="home-reviews"]');
 
   constructor(private page: Page) {}
@@ -42,6 +43,15 @@ export class HomePage {
   async clickQuoteCta() {
     await this.placeStrip.scrollIntoViewIfNeeded();
     await this.placeStrip.locator('[data-testid="place-strip-quote"]').click();
+  }
+
+  async expectFathersDayMenuVisible() {
+    await this.fathersDay.scrollIntoViewIfNeeded();
+    await expect(this.fathersDay.getByRole('heading', { level: 2 })).toBeVisible();
+    await expect(this.fathersDay.locator('[data-testid="fathers-day-call"]')).toHaveAttribute(
+      'href',
+      'tel:+358504499322',
+    );
   }
 
   async expectReviewsSectionVisible() {

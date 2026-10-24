@@ -41,6 +41,13 @@ test.describe('Home Page', () => {
     await expect(page).toHaveURL('/contact');
   });
 
+  test('father\'s day menu is shown until the event ends', async ({ page }) => {
+    test.skip(Date.now() >= Date.parse('2026-11-08T16:00:00+02:00'), 'event over');
+    const home = new HomePage(page);
+    await home.goto();
+    await home.expectFathersDayMenuVisible();
+  });
+
   test('reviews section is visible', async ({ page }) => {
     const home = new HomePage(page);
     await home.goto();
