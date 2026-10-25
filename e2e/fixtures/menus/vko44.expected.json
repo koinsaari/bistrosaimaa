@@ -1,0 +1,34 @@
+{
+  "isoWeek": 44,
+  "dateRange": { "start": "2026-10-26", "end": "2026-11-01" },
+  "prices": { "weekdayCents": 1320, "weekendCents": 1420 },
+  "days": {
+    "monday": { "dishes": [
+      { "name": "Jauhelihakastiketta", "allergens": ["G", "L"] },
+      { "name": "Hovimestarin broileria", "allergens": ["G", "L"] }
+    ] },
+    "tuesday": { "dishes": [
+      { "name": "Koskenlaskijan kinkkukiusausta", "allergens": ["G", "L"] },
+      { "name": "Punaviinipossua", "allergens": ["G", "L"] }
+    ] },
+    "wednesday": { "dishes": [
+      { "name": "Lihapullat & BBQ-kastike", "allergens": ["G", "L"] },
+      { "name": "Rapeat kalarullat & tilli-remoulade", "allergens": ["VL"] }
+    ] },
+    "thursday": { "dishes": [
+      { "name": "Broilerin koipireisiä & sweet chili-kastiketta", "allergens": ["G", "L"] },
+      { "name": "Pekoni-uunimakkaraa", "allergens": ["G", "L"] }
+    ] },
+    "friday": { "dishes": [
+      { "name": "Taco & tortilla buffet", "allergens": [] }
+    ] },
+    "saturday": { "dishes": [
+      { "name": "Kananpojan hawaijinleikkeet", "allergens": ["G", "L"] },
+      { "name": "Porsaanfileetä sinappi-kermakastikkeessa", "allergens": ["G", "L"] }
+    ] },
+    "sunday": { "dishes": [
+      { "name": "Sitruunaista smetanalohta", "allergens": ["G", "L"] },
+      { "name": "Tirripaisti & muusi", "allergens": ["G", "L"] }
+    ] }
+  }
+}
