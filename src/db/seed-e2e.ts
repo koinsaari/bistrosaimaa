@@ -27,7 +27,9 @@ async function insertWeek(week: IsoWeek, published: boolean, content: FixtureWee
 }
 
 async function main() {
-  await db.execute(sql`truncate table lunch_weeks`);
+  const { rows } = await db.execute(sql`select tablename from pg_tables where schemaname = 'public' and tablename like 'bot\_%'`);
+  const botTables = rows.map((r) => `"${r.tablename}"`);
+  await db.execute(sql.raw(`truncate table "lunch_weeks"${botTables.map((t) => `, ${t}`).join('')} cascade`));
 
   const shown = shownLunchWeek(new Date());
   await insertWeek(shown, true, CURRENT_WEEK, CURRENT_WEEK_UPDATED_AT, CURRENT_WEEK_PRICES);

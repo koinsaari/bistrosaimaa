@@ -15,7 +15,7 @@ Marketing website for Bistro Saimaa, a restaurant in Ristiina, Mikkeli. Built wi
 - Run a single spec: `npx playwright test e2e/menu.spec.ts`
 - Run a single project: `npx playwright test --project=desktop` (or `mobile`)
 
-Playwright has two parallel projects: `desktop` (Chrome) ignores `navigation-mobile.spec.ts`; `mobile` (Pixel 5) ignores `navigation.spec.ts`. Keep this split in mind when adding navigation tests.
+Playwright has two parallel projects: `desktop` (Chrome) ignores `navigation-mobile.spec.ts`; `mobile` (Pixel 5) ignores `navigation.spec.ts`. Keep this split in mind when adding navigation tests. A third project, `bot` (`**/bot*.spec.ts`), runs alone after both because the bot specs edit the shown lunch week that the public specs read; each spec puts the fixture week back (`TelegramBot.restoreFixtureWeek()`). `desktop`/`mobile` ignore `bot*.spec.ts`.
 
 ## UI components & styling
 
@@ -66,6 +66,21 @@ Lunch data lives in **Neon Postgres** (Vercel Marketplace) via **Drizzle ORM**. 
 - Schema change: edit `schema.ts`, `npm run db:generate`, commit the SQL. Migrations must stay compatible with the code that's still live until the deploy finishes.
 
 Three Neon branches: **production** (real data), **dev** (local `npm run dev` + preview deployments), **ci** (E2E fixture, truncated every run). Never point E2E or `db:seed:e2e` at dev or production.
+
+## Telegram bot (`/api/telegram`)
+
+Staff edit the lunch week by chatting with a Telegram bot in Finnish: free-text edits, plus import of the weekly list from a photo or PDF. Production only: the route answers 404 when `TELEGRAM_BOT_TOKEN` is unset, so previews and local dev have no bot. Code is in `src/lib/bot/`, the route is `src/app/api/telegram/route.ts` (`src/proxy.ts` already skips `api`).
+
+- **Webhook:** check `X-Telegram-Bot-Api-Secret-Token` against `TELEGRAM_WEBHOOK_SECRET` (constant time, 401), insert the update into `bot_updates` (`update_id` primary key; duplicate = 200 no-op; DB failure = 500 so Telegram retries), answer 200, then `after()` drains the chat. Every handled error still ends in 200.
+- **Ordering:** `drainChat` takes a per-chat lock row (`bot_chat_locks`, one atomic upsert-with-condition, 5 min expiry), processes the chat's unprocessed updates in `update_id` order, marks each processed, releases, then looks again for updates that arrived meanwhile (lost wake-up).
+- **Who:** `TELEGRAM_ALLOWED_USER_IDS` (comma-separated numeric ids, parsed strictly); everyone on it may do everything, anyone else is ignored silently.
+- **Text path = agent:** `generateText` (AI SDK v7, max 8 steps) with `lunch_get_week`, `lunch_update_week`, `lunch_undo` over `lib/lunchWeek.ts`. Model `anthropic/claude-sonnet-5-5` through the Vercel AI Gateway (OIDC on Vercel, `AI_GATEWAY_API_KEY` locally). A new week made by text is published at once; an existing week keeps its flag unless `published` is given. Past weeks are refused (`checks.ts`).
+- **Image import = fixed workflow, not an agent** (`importMenu.ts`): a photo (largest size) or a document (PDF/JPG/PNG, at most 20 MB, `attachment.ts`) gets "Luen listaa…" at once, then one `generateText` call with `Output.object` (the file goes in as a file part, PDFs too) returns `isLunchMenu`, `isoWeek`, `dateRange`, `prices | null`, `days`. Checks, all before anything is saved: schema (`checkDocument`), week number matches the date range and the range is Monday to Sunday (`checkWeekRange`, ISO year from the range), week not past. A passing week is saved **and published**, overwriting an existing week ("Vko 44 korvattu"); the reply lists every day, names price changes ("Hinta muuttui 13,20 → 13,50 € (ma–pe)") and has the Kumoa button. Not a lunch menu: says so, changes nothing. Dish names stay as printed (the prompt repairs Canva letter-spacing artefacts); with no printed prices the latest earlier week's are copied. Each album image is its own update.
+- **Memory:** `bot_messages` keeps the user texts and final replies; the model sees the last 20 within 72 h, older rows are deleted on write. The DB week is read fresh every message.
+- **Undo:** a `bot_changes` row (before/after) is written before every change. **Kumoa** (`undo:<changeId>`) and `lunch_undo` restore `before` only while that change is the latest non-undone change of its week.
+- **Logs never contain message content** (`describeError` prints error names and status codes only). Keep it that way.
+- **Dependencies:** the route reads the environment once (`botEnv()`) and `createBotDeps` (`deps.ts`) builds the Telegram client, both models and the allowlist; everything below takes them as a `deps` argument. Nothing below the route reads `process.env`. The database stays `getDb()`.
+- **Test seams** (set only in `playwright.config.ts`, with `TELEGRAM_BOT_TOKEN=e2e-token`, `TELEGRAM_WEBHOOK_SECRET=e2e-secret`, `TELEGRAM_ALLOWED_USER_IDS=1001`): `BOT_MODEL=fixture` replaces the model with a scripted mock (`fixtureModel.ts`): the user message is JSON `{"calls":[{"tool":"lunch_update_week","input":{...}}],"reply":"Valmis"}`, emitted one tool call per step, then the reply; any other text gets the out-of-scope sentence. `TELEGRAM_TRANSPORT=log` logs the Telegram method name only and returns a stub. Image path: under `BOT_MODEL=fixture` the **caption** of the image message is the structured output as JSON (`TelegramBot.extraction(week)` builds one relative to now), and `downloadFile` reads `e2e/fixtures/menus/<file_id>` (`stub.png`). Specs post updates to the route and read replies from `bot_messages` (`e2e/pages/TelegramBot.ts`). The `bot` project has `workers: 1`: `bot.spec.ts` and `bot-import.spec.ts` both overwrite the shown week.
 
 ## Fonts
 
