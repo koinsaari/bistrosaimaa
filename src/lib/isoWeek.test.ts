@@ -1,5 +1,15 @@
 import { describe, expect, it } from 'vitest';
-import { addWeeks, currentIsoWeek, formatWeekDates, formatWeekLabel, shownLunchWeek, weekRange, weeksInIsoYear } from '@/lib/isoWeek';
+import {
+  addWeeks,
+  currentIsoWeek,
+  formatWeekDates,
+  formatWeekLabel,
+  isLaterWeek,
+  shownLunchWeek,
+  shownWeekSwitchLabel,
+  weekRange,
+  weeksInIsoYear,
+} from '@/lib/isoWeek';
 
 const HELSINKI = 'Europe/Helsinki';
 
@@ -111,6 +121,21 @@ describe('shownLunchWeek', () => {
   it('rolls over into the next ISO year', () => {
     // Sunday 3.1.2027 ends week 53 of 2026.
     expect(shownLunchWeek(new Date('2027-01-03T16:00:00+02:00'))).toEqual({ isoYear: 2027, isoWeek: 1 });
+  });
+});
+
+describe('shownWeekSwitchLabel', () => {
+  it('names the moment shownLunchWeek moves on: Sunday, 30 minutes after lunch closes', () => {
+    expect(shownWeekSwitchLabel()).toBe('sunnuntaina klo 15.30');
+  });
+});
+
+describe('isLaterWeek', () => {
+  it('compares year first, then week', () => {
+    expect(isLaterWeek({ isoYear: 2026, isoWeek: 44 }, { isoYear: 2026, isoWeek: 43 })).toBe(true);
+    expect(isLaterWeek({ isoYear: 2027, isoWeek: 1 }, { isoYear: 2026, isoWeek: 53 })).toBe(true);
+    expect(isLaterWeek({ isoYear: 2026, isoWeek: 43 }, { isoYear: 2026, isoWeek: 43 })).toBe(false);
+    expect(isLaterWeek({ isoYear: 2026, isoWeek: 42 }, { isoYear: 2026, isoWeek: 43 })).toBe(false);
   });
 });
 

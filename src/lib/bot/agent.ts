@@ -2,6 +2,7 @@ import { generateText, stepCountIs, type LanguageModel, type ModelMessage } from
 import { ALLERGENS } from '@/lib/allergens';
 import { loadMessages } from '@/lib/bot/memory';
 import { contextWeeks, createTools, describeWeek } from '@/lib/bot/tools';
+import { shownWeekSwitchLabel } from '@/lib/isoWeek';
 import { getWeek } from '@/lib/lunchWeek';
 
 export const MAX_STEPS = 8;
@@ -47,7 +48,7 @@ Säännöt:
 - Lue viikko työkalulla, jos tarvitset muutakin kuin yllä olevan viikon sisällön.
 - Jos työkalu palauttaa virheen (ok: false), kerro virhe käyttäjälle äläkä väitä muutoksen onnistuneen.
 - Muutoksen jälkeen kerro lyhyesti, mitä muuttui. Hinnan muutos kerrotaan näin: "Hinta muuttui 13,20 → 13,50 €".
-- Muokatut viikot ovat heti julkisella verkkosivulla.`;
+- Verkkosivu näyttää aina yllä olevan "sivulla näkyvän viikon". Sen muutokset näkyvät sivulla heti. Seuraava viikko tulee sivulle automaattisesti ${shownWeekSwitchLabel()}, joten sen muutokset näkyvät vasta silloin. Kerro tämä, kun muutat tulevaa viikkoa.`;
 }
 
 export type AgentResult = { reply: string; changeIds: string[] };

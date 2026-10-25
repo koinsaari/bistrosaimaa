@@ -9,7 +9,7 @@ import { abandonChange, finalizeChange, recordChange } from '@/lib/bot/changes';
 import { checkDocument, checkWeekEditable, checkWeekRange } from '@/lib/bot/checks';
 import type { BotDeps } from '@/lib/bot/deps';
 import { DAY_NAMES_FI, formatEuros } from '@/lib/bot/tools';
-import { formatWeekLabel } from '@/lib/isoWeek';
+import { formatWeekLabel, isLaterWeek, shownLunchWeek, shownWeekSwitchLabel } from '@/lib/isoWeek';
 import { DAY_KEYS, type DayKey, type LunchPrices } from '@/lib/lunch';
 import { getWeek, saveWeek, type WeekDocument } from '@/lib/lunchWeek';
 
@@ -177,6 +177,7 @@ export async function importMenu(
 
   const reply = [
     `${formatWeekLabel(week)} julkaistu.${stored ? ` Vko ${week.isoWeek} korvattu.` : ''}`,
+    ...(isLaterWeek(week, shownLunchWeek(now)) ? [`Näkyy sivulla ${shownWeekSwitchLabel()} alkaen.`] : []),
     ...summarizeDays(after.days),
     ...describePrices(before?.prices ?? null, after.prices),
   ].join('\n');

@@ -46,6 +46,17 @@ export function shownLunchWeek(now: Date): IsoWeek {
   return pastSundayLunch ? addWeeks(current, 1) : current;
 }
 
+/** When `shownLunchWeek` moves on to the next week, in Finnish: "sunnuntaina klo 15.30". */
+export function shownWeekSwitchLabel(): string {
+  const { hour, minute } = BUSINESS.lunch.closes;
+  const at = DateTime.fromObject({ hour, minute }, { zone: 'utc' }).plus({ minutes: ROLLOVER_AFTER_CLOSE_MINUTES });
+  return `sunnuntaina klo ${at.toFormat('H.mm')}`;
+}
+
+export function isLaterWeek(a: IsoWeek, b: IsoWeek): boolean {
+  return a.isoYear !== b.isoYear ? a.isoYear > b.isoYear : a.isoWeek > b.isoWeek;
+}
+
 /** "Viikko 41 (5.–11.10.)": the week number and its Monday–Sunday span. */
 export function formatWeekLabel(week: IsoWeek): string {
   const monday = mondayOf(week);
