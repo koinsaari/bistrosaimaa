@@ -48,6 +48,7 @@ export default async function LunchThisWeek() {
   const t = await getTranslations({ locale, namespace: 'HomePage' });
   const week = shownLunchWeek(new Date());
   const display = await getLunchDisplay(week);
+  const info = formatLunchInfo(locale, display.status === 'available' ? display.prices : null);
 
   return (
     <section className="relative bg-muted/40 py-20 md:py-28">
@@ -130,8 +131,10 @@ export default async function LunchThisWeek() {
 
           <Separator className="mt-10" />
 
-          <p className="mt-6 text-sm text-muted-foreground">
-            {t('lunchHoursAndPriceNote', formatLunchInfo(locale))}
+          <p data-testid="lunch-hours-note" className="mt-6 text-sm text-muted-foreground">
+            {info.prices
+              ? t('lunchHoursAndPriceNote', { opens: info.opens, closes: info.closes, ...info.prices })
+              : t('lunchHoursNote', { opens: info.opens, closes: info.closes })}
           </p>
           <p data-testid="lunch-disclaimer" className="mt-2 text-sm text-muted-foreground">
             {t('lunchDisclaimer')}

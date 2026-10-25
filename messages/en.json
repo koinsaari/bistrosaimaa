@@ -81,6 +81,7 @@
     "lunchHeading": "Weekly lunch",
     "lunchWeek": "Week {week} · {dates}",
     "lunchHoursAndPriceNote": "Lunch is served daily {opens}–{closes}. Price Mon–Fri {weekdayPrice}, Sat–Sun {weekendPrice}.",
+    "lunchHoursNote": "Lunch is served daily {opens}–{closes}.",
     "lunchDisclaimer": "Ask our staff for more information about allergens. We reserve the right to change the menu and prices.",
     "lunchFacebookCta": "See the lunch on Facebook",
     "lunchPlaceholder": "Menu coming soon",

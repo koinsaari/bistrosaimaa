@@ -7,7 +7,7 @@ vi.mock('@/db', async (importOriginal) => {
   const chain: Record<string, unknown> = {
     then: (resolve: (v: unknown) => unknown, reject: (e: unknown) => unknown) => rowsMock().then(resolve, reject),
   };
-  for (const method of ['select', 'from', 'leftJoin', 'where', 'orderBy']) chain[method] = () => chain;
+  for (const method of ['select', 'from', 'where', 'limit']) chain[method] = () => chain;
   return { ...actual, getDb: () => chain };
 });
 
@@ -16,6 +16,7 @@ import type { LunchRecord } from '@/lib/lunch';
 import type { Allergen } from '@/lib/allergens';
 
 const updatedAt = '2026-09-29T10:00:00.000Z';
+const PRICES = { weekdayCents: 1320, weekendCents: 1420 };
 const WEEK = { isoYear: 2026, isoWeek: 40 };
 const dish = (name: string, allergens: Allergen[] = []) => ({ name, allergens });
 
@@ -27,6 +28,7 @@ describe('resolveLunchDisplay', () => {
   it('shows dishes only, note only, and both', () => {
     const record: LunchRecord = {
       updatedAt,
+      prices: PRICES,
       days: {
         monday: { dishes: [dish('Lohikeitto'), dish('Kievin kana')], note: null },
         tuesday: { dishes: [], note: 'Vain huomautus' },
@@ -36,6 +38,7 @@ describe('resolveLunchDisplay', () => {
     const result = resolveLunchDisplay(record);
     if (result.status !== 'available') throw new Error('expected available');
     expect(result.updatedAt).toBe(updatedAt);
+    expect(result.prices).toEqual(PRICES);
     expect(result.days.slice(0, 3)).toEqual([
       { day: 'monday', status: 'content', dishes: [dish('Lohikeitto'), dish('Kievin kana')], note: null },
       { day: 'tuesday', status: 'content', dishes: [], note: 'Vain huomautus' },
@@ -46,6 +49,7 @@ describe('resolveLunchDisplay', () => {
   it('shows a placeholder for a day with no dishes and no note, or missing entirely', () => {
     const record: LunchRecord = {
       updatedAt,
+      prices: null,
       days: { monday: { dishes: [], note: '   ' }, tuesday: { dishes: [dish('Lohikeitto')], note: null } },
     };
     const result = resolveLunchDisplay(record);
@@ -54,9 +58,15 @@ describe('resolveLunchDisplay', () => {
     expect(result.days.filter((d) => d.status === 'placeholder')).toHaveLength(6);
   });
 
+  it('carries null prices through when the week has none', () => {
+    const result = resolveLunchDisplay({ updatedAt, prices: null, days: { monday: { dishes: [dish('A')], note: null } } });
+    if (result.status !== 'available') throw new Error('expected available');
+    expect(result.prices).toBeNull();
+  });
+
   it('falls back when no day has any content', () => {
-    expect(resolveLunchDisplay({ updatedAt, days: {} })).toEqual({ status: 'fallback' });
-    expect(resolveLunchDisplay({ updatedAt, days: { monday: { dishes: [], note: '  ' } } })).toEqual({
+    expect(resolveLunchDisplay({ updatedAt, prices: PRICES, days: {} })).toEqual({ status: 'fallback' });
+    expect(resolveLunchDisplay({ updatedAt, prices: PRICES, days: { monday: { dishes: [], note: '  ' } } })).toEqual({
       status: 'fallback',
     });
   });
@@ -96,16 +106,21 @@ describe('getLunchRecord', () => {
     await expect(getLunchRecord(WEEK)).resolves.toBeNull();
   });
 
-  it('groups joined rows into days with dishes in position order', async () => {
+  it('maps the stored document, ordering allergens and keeping prices', () => {
     const weekUpdatedAt = new Date(updatedAt);
     rowsMock.mockResolvedValueOnce([
-      { updatedAt: weekUpdatedAt, day: 1, note: null, dish: 'Lohikeitto', allergens: ['L', 'G'] },
-      { updatedAt: weekUpdatedAt, day: 1, note: null, dish: 'Kievin kana', allergens: [] },
-      { updatedAt: weekUpdatedAt, day: 2, note: 'Vain huomautus', dish: null },
-      { updatedAt: weekUpdatedAt, day: null, note: null, dish: null },
+      {
+        updatedAt: weekUpdatedAt,
+        prices: PRICES,
+        days: {
+          monday: { dishes: [{ name: 'Lohikeitto', allergens: ['L', 'G'] }, dish('Kievin kana')], note: null },
+          tuesday: { dishes: [], note: 'Vain huomautus' },
+        },
+      },
     ]);
-    await expect(getLunchRecord(WEEK)).resolves.toEqual({
+    return expect(getLunchRecord(WEEK)).resolves.toEqual({
       updatedAt,
+      prices: PRICES,
       days: {
         monday: { dishes: [dish('Lohikeitto', ['G', 'L']), dish('Kievin kana')], note: null },
         tuesday: { dishes: [], note: 'Vain huomautus' },
@@ -113,16 +128,28 @@ describe('getLunchRecord', () => {
     });
   });
 
-  it('returns an empty week when it is published but has no days yet', async () => {
-    rowsMock.mockResolvedValueOnce([{ updatedAt: new Date(updatedAt), day: null, note: null, dish: null }]);
-    await expect(getLunchRecord(WEEK)).resolves.toEqual({ updatedAt, days: {} });
+  it('returns an empty week with null prices when the document is empty', async () => {
+    rowsMock.mockResolvedValueOnce([{ updatedAt: new Date(updatedAt), prices: null, days: {} }]);
+    await expect(getLunchRecord(WEEK)).resolves.toEqual({ updatedAt, prices: null, days: {} });
   });
 });
 
 describe('formatLunchInfo', () => {
   // Intl separates the Finnish amount and € with a no-break space (U+00A0).
   it("uses each locale's clock and currency format", () => {
-    expect(formatLunchInfo('fi')).toEqual({ opens: '11.00', closes: '15.00', weekdayPrice: '13,20\u00a0€', weekendPrice: '14,20\u00a0€' });
-    expect(formatLunchInfo('en')).toEqual({ opens: '11:00', closes: '15:00', weekdayPrice: '€13.20', weekendPrice: '€14.20' });
+    expect(formatLunchInfo('fi', PRICES)).toEqual({
+      opens: '11.00',
+      closes: '15.00',
+      prices: { weekdayPrice: '13,20\u00a0€', weekendPrice: '14,20\u00a0€' },
+    });
+    expect(formatLunchInfo('en', PRICES)).toEqual({
+      opens: '11:00',
+      closes: '15:00',
+      prices: { weekdayPrice: '€13.20', weekendPrice: '€14.20' },
+    });
+  });
+
+  it('has no prices when the week has none', () => {
+    expect(formatLunchInfo('fi', null)).toEqual({ opens: '11.00', closes: '15.00', prices: null });
   });
 });

@@ -1,138 +1,181 @@
-import { and, asc, eq, sql } from 'drizzle-orm';
-import type { BatchItem } from 'drizzle-orm/batch';
+import { and, desc, eq, isNotNull, lt, or, sql } from 'drizzle-orm';
+import { DateTime } from 'luxon';
 import { z } from 'zod';
-import { getDb, lunchDays, lunchDishes, lunchWeeks } from '@/db';
-import { isForeignKeyViolation } from '@/lib/dbErrors';
-import { weeksInIsoYear } from '@/lib/isoWeek';
+import { getDb, lunchWeeks } from '@/db';
+import { ALLERGENS } from '@/lib/allergens';
+import { weeksInIsoYear, type IsoWeek } from '@/lib/isoWeek';
+import { DAY_KEYS, type LunchDay, type LunchPrices } from '@/lib/lunch';
 
-const WEEK_ERROR = 'Virheellinen viikko';
-const DAY_ERROR = 'Virheellinen päivä';
 const MAX_DISHES_PER_DAY = 15;
+const DISH_NAME_MAX = 120;
 const NOTE_MAX = 300;
+const PRICE_MAX_CENTS = 10000;
+const LUNCH_TIME_ZONE = 'Europe/Helsinki';
 
-const digits = (pattern: RegExp, error: string) => z.string({ error }).trim().regex(pattern, error).transform(Number);
+const dishSchema = z.object({
+  name: z
+    .string({ error: 'Ruoan nimi puuttuu' })
+    .trim()
+    .min(1, 'Ruoan nimi puuttuu')
+    .max(DISH_NAME_MAX, `Ruoan nimi on liian pitkä (enintään ${DISH_NAME_MAX} merkkiä)`),
+  allergens: z
+    .array(z.enum(ALLERGENS, { error: `Tuntematon allergeenikoodi (sallitut: ${ALLERGENS.join(', ')})` }), {
+      error: 'Virheelliset allergeenit',
+    })
+    .default([])
+    .transform((codes) => ALLERGENS.filter((code) => codes.includes(code))),
+});
 
 const daySchema = z.object({
-  day: digits(/^[1-7]$/, DAY_ERROR),
-  dishIds: z
-    .array(z.uuid('Ruokaa ei löytynyt'), { error: 'Ruokaa ei löytynyt' })
-    .max(MAX_DISHES_PER_DAY, 'Päivällä on liian monta ruokaa')
-    .superRefine((ids, ctx) => {
-      if (new Set(ids).size !== ids.length) ctx.addIssue({ code: 'custom', message: 'Sama ruoka on päivällä kahdesti' });
-    }),
+  dishes: z
+    .array(dishSchema, { error: 'Virheelliset ruoat' })
+    .max(MAX_DISHES_PER_DAY, `Päivällä voi olla enintään ${MAX_DISHES_PER_DAY} ruokaa`)
+    .default([]),
   note: z
-    .string()
+    .string({ error: 'Virheellinen huomautus' })
     .trim()
-    .max(NOTE_MAX, 'Huomautus on liian pitkä')
+    .max(NOTE_MAX, `Huomautus on liian pitkä (enintään ${NOTE_MAX} merkkiä)`)
     .nullish()
     .transform((value) => value || null),
 });
 
-const weekInputSchema = z
-  .object({
-    isoYear: digits(/^\d{4}$/, WEEK_ERROR).refine((year) => year >= 2000 && year <= 2100, WEEK_ERROR),
-    isoWeek: digits(/^\d{1,2}$/, WEEK_ERROR).refine((week) => week >= 1, WEEK_ERROR),
-    days: z
-      .array(daySchema, { error: DAY_ERROR })
-      .max(7, DAY_ERROR)
-      .superRefine((days, ctx) => {
-        if (new Set(days.map((d) => d.day)).size !== days.length) {
-          ctx.addIssue({ code: 'custom', message: 'Sama päivä on listalla kahdesti' });
-        }
-      })
-      // Empty days have no row: the public page shows a placeholder for them anyway.
-      .transform((days) => days.filter((d) => d.dishIds.length || d.note).sort((a, b) => a.day - b.day)),
-  })
-  // Zod still runs this when a field failed (with the raw value), and Luxon throws on junk.
-  .refine((week) => !Number.isInteger(week.isoYear) || week.isoWeek <= weeksInIsoYear(week.isoYear), {
-    message: WEEK_ERROR,
-  });
+const priceCents = z
+  .number({ error: 'Hinta on virheellinen' })
+  .int('Hinnan pitää olla kokonaisluku senttejä')
+  .min(0, 'Hinta ei voi olla negatiivinen')
+  .max(PRICE_MAX_CENTS, 'Hinta on liian suuri');
 
-export type WeekInput = z.output<typeof weekInputSchema>;
-export type WeekResult = { ok: true } | { ok: false; error: string };
+const pricesSchema = z.object(
+  { weekdayCents: priceCents, weekendCents: priceCents },
+  { error: 'Hinnat ovat virheelliset' },
+);
 
-export function parseWeek(input: {
-  isoYear: unknown;
-  isoWeek: unknown;
-  days: unknown;
-}): { ok: true; data: WeekInput } | { ok: false; error: string } {
-  const result = weekInputSchema.safeParse(input);
+export const weekDocumentSchema = z.object({
+  days: z
+    .partialRecord(z.enum(DAY_KEYS, { error: 'Virheellinen päivä' }), daySchema, { error: 'Virheelliset päivät' })
+    // Empty days are not stored: the public page shows a placeholder for them anyway.
+    .transform((days) => {
+      const kept: Partial<Record<(typeof DAY_KEYS)[number], LunchDay>> = {};
+      for (const key of DAY_KEYS) {
+        const day = days[key];
+        if (day && (day.dishes.length || day.note)) kept[key] = day;
+      }
+      return kept;
+    }),
+  prices: pricesSchema.nullable(),
+});
+
+export type WeekDocument = z.output<typeof weekDocumentSchema>;
+export type WeekDocumentResult = { ok: true; data: WeekDocument } | { ok: false; error: string };
+
+/** Input is `unknown`: it comes from a model or a chat message. The error is a Finnish sentence. */
+export function parseWeekDocument(input: unknown): WeekDocumentResult {
+  const result = weekDocumentSchema.safeParse(input);
   return result.success ? { ok: true, data: result.data } : { ok: false, error: result.error.issues[0].message };
+}
+
+export function isValidIsoWeek({ isoYear, isoWeek }: IsoWeek): boolean {
+  return (
+    Number.isInteger(isoYear) &&
+    Number.isInteger(isoWeek) &&
+    isoYear >= 2000 &&
+    isoYear <= 2100 &&
+    isoWeek >= 1 &&
+    isoWeek <= weeksInIsoYear(isoYear)
+  );
+}
+
+/** Given prices win, then the week's own stored prices, then the latest earlier week's. */
+export function resolvePrices(
+  given: LunchPrices | null,
+  own: LunchPrices | null,
+  previous: LunchPrices | null,
+): LunchPrices | null {
+  return given ?? own ?? previous ?? null;
+}
+
+/** True once the week's Sunday has ended in Helsinki. */
+export function isPastWeek(week: IsoWeek, now: Date): boolean {
+  const nextMonday = DateTime.fromObject(
+    { weekYear: week.isoYear, weekNumber: week.isoWeek, weekday: 1 },
+    { zone: LUNCH_TIME_ZONE },
+  ).plus({ weeks: 1 });
+  return now.getTime() >= nextMonday.toMillis();
 }
 
 export type StoredWeek = {
   published: boolean;
   updatedAt: Date;
-  days: { day: number; note: string | null; dishIds: string[] }[];
+  days: WeekDocument['days'];
+  prices: LunchPrices | null;
 };
 
-export async function getWeek(isoYear: number, isoWeek: number): Promise<StoredWeek | null> {
-  const rows = await getDb()
+export async function getWeek(week: IsoWeek): Promise<StoredWeek | null> {
+  const [row] = await getDb()
     .select({
       published: lunchWeeks.published,
       updatedAt: lunchWeeks.updatedAt,
-      day: lunchDays.day,
-      note: lunchDays.note,
-      dishId: lunchDishes.dishId,
+      days: lunchWeeks.days,
+      prices: lunchWeeks.prices,
     })
     .from(lunchWeeks)
-    .leftJoin(lunchDays, eq(lunchDays.weekId, lunchWeeks.id))
-    .leftJoin(lunchDishes, and(eq(lunchDishes.weekId, lunchDays.weekId), eq(lunchDishes.day, lunchDays.day)))
-    .where(and(eq(lunchWeeks.isoYear, isoYear), eq(lunchWeeks.isoWeek, isoWeek)))
-    .orderBy(asc(lunchDays.day), asc(lunchDishes.position));
-  if (rows.length === 0) return null;
-
-  const days: StoredWeek['days'] = [];
-  for (const row of rows) {
-    if (row.day === null) continue;
-    let entry = days.at(-1);
-    if (entry?.day !== row.day) {
-      entry = { day: row.day, note: row.note, dishIds: [] };
-      days.push(entry);
-    }
-    if (row.dishId !== null) entry.dishIds.push(row.dishId);
-  }
-  return { published: rows[0].published, updatedAt: rows[0].updatedAt, days };
+    .where(and(eq(lunchWeeks.isoYear, week.isoYear), eq(lunchWeeks.isoWeek, week.isoWeek)))
+    .limit(1);
+  return row ?? null;
 }
 
-/** Replaces the week's days and dishes. Publish state is left alone. */
-export async function saveWeek(input: WeekInput): Promise<WeekResult> {
-  const db = getDb();
+async function previousPrices(week: IsoWeek): Promise<LunchPrices | null> {
+  const [row] = await getDb()
+    .select({ prices: lunchWeeks.prices })
+    .from(lunchWeeks)
+    .where(
+      and(
+        isNotNull(lunchWeeks.prices),
+        or(
+          lt(lunchWeeks.isoYear, week.isoYear),
+          and(eq(lunchWeeks.isoYear, week.isoYear), lt(lunchWeeks.isoWeek, week.isoWeek)),
+        ),
+      ),
+    )
+    .orderBy(desc(lunchWeeks.isoYear), desc(lunchWeeks.isoWeek))
+    .limit(1);
+  return row?.prices ?? null;
+}
 
-  // No-op update so a new week and an existing one both hand back their id.
-  const [week] = await db
+/**
+ * Callers pass the document through `parseWeekDocument` first: this doesn't validate again.
+ */
+export async function saveWeek(
+  week: IsoWeek,
+  doc: WeekDocument,
+  opts: { published?: boolean } = {},
+): Promise<{ prices: LunchPrices | null }> {
+  let prices = doc.prices;
+  if (!prices) {
+    const own = (await getWeek(week))?.prices ?? null;
+    prices = resolvePrices(null, own, own ? null : await previousPrices(week));
+  }
+  const published = opts.published;
+  await getDb()
     .insert(lunchWeeks)
-    .values({ isoYear: input.isoYear, isoWeek: input.isoWeek })
-    .onConflictDoUpdate({ target: [lunchWeeks.isoYear, lunchWeeks.isoWeek], set: { isoYear: input.isoYear } })
-    .returning({ id: lunchWeeks.id });
-
-  const dayRows = input.days.map((d) => ({ weekId: week.id, day: d.day, note: d.note }));
-  const dishRows = input.days.flatMap((d) =>
-    d.dishIds.map((dishId, position) => ({ weekId: week.id, day: d.day, dishId, position })),
-  );
-
-  // neon-http has no interactive transactions, so one batch keeps the replace atomic.
-  // `$onUpdate` doesn't fire for child-only changes, hence the explicit updated_at.
-  const rest: BatchItem<'pg'>[] = [
-    ...(dayRows.length ? [db.insert(lunchDays).values(dayRows)] : []),
-    ...(dishRows.length ? [db.insert(lunchDishes).values(dishRows)] : []),
-    db.update(lunchWeeks).set({ updatedAt: sql`now()` }).where(eq(lunchWeeks.id, week.id)),
-  ];
-  try {
-    await db.batch([db.delete(lunchDays).where(eq(lunchDays.weekId, week.id)), ...rest]);
-  } catch (err) {
-    // A dish id that doesn't exist (the picker only offers real ones, so this is a stale or forged request).
-    if (isForeignKeyViolation(err)) return { ok: false, error: 'Ruokaa ei löytynyt' };
-    throw err;
-  }
-  return { ok: true };
+    .values({ ...week, days: doc.days, prices, published: published ?? false })
+    .onConflictDoUpdate({
+      target: [lunchWeeks.isoYear, lunchWeeks.isoWeek],
+      set: {
+        days: doc.days,
+        prices,
+        updatedAt: sql`now()`,
+        ...(published === undefined ? {} : { published }),
+      },
+    });
+  return { prices };
 }
 
-export async function setWeekPublished(isoYear: number, isoWeek: number, published: boolean): Promise<WeekResult> {
-  const updated = await getDb()
+export async function setWeekPublished(week: IsoWeek, published: boolean): Promise<boolean> {
+  const rows = await getDb()
     .update(lunchWeeks)
-    .set({ published, updatedAt: sql`now()` })
-    .where(and(eq(lunchWeeks.isoYear, isoYear), eq(lunchWeeks.isoWeek, isoWeek)))
-    .returning({ id: lunchWeeks.id });
-  return updated.length ? { ok: true } : { ok: false, error: 'Tallenna viikko ennen julkaisua' };
+    .set({ published })
+    .where(and(eq(lunchWeeks.isoYear, week.isoYear), eq(lunchWeeks.isoWeek, week.isoWeek)))
+    .returning({ isoYear: lunchWeeks.isoYear });
+  return rows.length > 0;
 }

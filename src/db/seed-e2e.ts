@@ -1,9 +1,9 @@
 import { existsSync } from 'node:fs';
 import { sql } from 'drizzle-orm';
-import { CURRENT_WEEK, CURRENT_WEEK_UPDATED_AT, FIXTURE_CATEGORY, FIXTURE_DISHES, NEXT_WEEK, RETIRED_DISH, type FixtureWeek } from '../../e2e/fixtures/lunch';
-import { DAY_KEYS } from '../lib/lunch';
+import { CURRENT_WEEK, CURRENT_WEEK_PRICES, CURRENT_WEEK_UPDATED_AT, NEXT_WEEK, type FixtureWeek } from '../../e2e/fixtures/lunch';
+import { DAY_KEYS, type LunchPrices } from '../lib/lunch';
 import { addWeeks, shownLunchWeek, type IsoWeek } from '../lib/isoWeek';
-import { categories, dishes, getDb, lunchDays, lunchDishes, lunchWeeks } from './index';
+import { getDb, lunchWeeks } from './index';
 
 // Wipes every table. Only ever loads .env.e2e (ci branch), never .env.local, and needs an explicit opt-in outside CI.
 if (process.env.CI !== 'true' && process.env.ALLOW_DB_TRUNCATE !== '1') {
@@ -16,51 +16,22 @@ if (!process.env.DATABASE_URL && existsSync('.env.e2e')) {
 
 const db = getDb();
 
-async function insertWeek(
-  week: IsoWeek,
-  published: boolean,
-  content: FixtureWeek,
-  dishIdByName: Map<string, string>,
-  updatedAt?: Date,
-) {
-  const [{ id: weekId }] = await db
-    .insert(lunchWeeks)
-    .values({ ...week, published, updatedAt })
-    .returning({ id: lunchWeeks.id });
-
-  for (const [i, dayKey] of DAY_KEYS.entries()) {
-    const entry = content[dayKey];
-    if (!entry) continue;
-    const day = i + 1;
-    await db.insert(lunchDays).values({ weekId, day, note: entry.note ?? null });
-    if (entry.dishes.length) {
-      await db.insert(lunchDishes).values(
-        entry.dishes.map((name, position) => ({ weekId, day, position, dishId: dishIdByName.get(name)! })),
-      );
-    }
-  }
+async function insertWeek(week: IsoWeek, published: boolean, content: FixtureWeek, updatedAt?: Date, prices: LunchPrices | null = null) {
+  const days = Object.fromEntries(
+    DAY_KEYS.flatMap((key) => {
+      const entry = content[key];
+      return entry ? [[key, { dishes: entry.dishes, note: entry.note ?? null }]] : [];
+    }),
+  );
+  await db.insert(lunchWeeks).values({ ...week, published, days, prices, updatedAt });
 }
 
 async function main() {
-  await db.execute(sql`truncate table lunch_dishes, lunch_days, lunch_weeks, dishes, categories, login_attempts, admin_state cascade`);
-
-  const [{ id: categoryId }] = await db
-    .insert(categories)
-    .values({ name: FIXTURE_CATEGORY })
-    .returning({ id: categories.id });
-
-  const inserted = await db
-    .insert(dishes)
-    .values([
-      ...FIXTURE_DISHES.map((name) => ({ name, categoryId, allergens: ['L', 'G'] })),
-      { name: RETIRED_DISH, categoryId, isActive: false },
-    ])
-    .returning({ id: dishes.id, name: dishes.name });
-  const dishIdByName = new Map(inserted.map((d) => [d.name, d.id]));
+  await db.execute(sql`truncate table lunch_weeks`);
 
   const shown = shownLunchWeek(new Date());
-  await insertWeek(shown, true, CURRENT_WEEK, dishIdByName, CURRENT_WEEK_UPDATED_AT);
-  await insertWeek(addWeeks(shown, 1), false, NEXT_WEEK, dishIdByName);
+  await insertWeek(shown, true, CURRENT_WEEK, CURRENT_WEEK_UPDATED_AT, CURRENT_WEEK_PRICES);
+  await insertWeek(addWeeks(shown, 1), false, NEXT_WEEK);
 
   console.log('e2e fixture seeded');
 }

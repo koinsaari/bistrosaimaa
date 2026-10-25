@@ -26,6 +26,21 @@ export class LunchSectionPage {
     await expect(dish.getByTestId('lunch-dish-allergens')).toHaveText(allergens);
   }
 
+  async expectNoDishAllergens(day: DayKey, name: string) {
+    const dish = this.day(day).locator('[data-testid="lunch-dish"]', { hasText: name });
+    await expect(dish.getByTestId('lunch-dish-allergens')).toHaveCount(0);
+  }
+
+  async expectHoursNote(text: string) {
+    await expect(this.page.getByTestId('lunch-hours-note')).toContainText(text);
+  }
+
+  async expectHoursNoteWithoutPrices() {
+    const note = this.page.getByTestId('lunch-hours-note');
+    await expect(note).toContainText('Lounas tarjoillaan päivittäin');
+    await expect(note).not.toContainText('Hinta');
+  }
+
   async expectAllergenKey(text: string) {
     await expect(this.page.getByTestId('lunch-allergen-key')).toHaveText(text);
   }

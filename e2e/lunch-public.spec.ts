@@ -1,7 +1,10 @@
 import { test } from '@playwright/test';
 import { LunchSectionPage } from './pages/LunchSectionPage';
 import { CURRENT_WEEK, NEXT_WEEK } from './fixtures/lunch';
+import type { FixtureDish } from './fixtures/lunch';
 import { formatWeekDates, shownLunchWeek } from '../src/lib/isoWeek';
+
+const names = (dishes: FixtureDish[]) => dishes.map((d) => d.name);
 
 test.describe('Lunch section', () => {
   test.describe('without a published week', () => {
@@ -11,6 +14,7 @@ test.describe('Lunch section', () => {
       const lunch = new LunchSectionPage(page);
       await lunch.goto();
       await lunch.expectFallback();
+      await lunch.expectHoursNoteWithoutPrices();
     });
   });
 
@@ -20,7 +24,7 @@ test.describe('Lunch section', () => {
     test('shows dishes in order', async ({ page }) => {
       const lunch = new LunchSectionPage(page);
       await lunch.goto();
-      await lunch.expectDayDishes('monday', CURRENT_WEEK.monday!.dishes);
+      await lunch.expectDayDishes('monday', names(CURRENT_WEEK.monday!.dishes));
       await lunch.expectNoNote('monday');
     });
 
@@ -29,7 +33,7 @@ test.describe('Lunch section', () => {
       await lunch.goto();
       await lunch.expectDayDishes('tuesday', []);
       await lunch.expectNote('tuesday', CURRENT_WEEK.tuesday!.note!);
-      await lunch.expectDayDishes('wednesday', CURRENT_WEEK.wednesday!.dishes);
+      await lunch.expectDayDishes('wednesday', names(CURRENT_WEEK.wednesday!.dishes));
       await lunch.expectNote('wednesday', CURRENT_WEEK.wednesday!.note!);
     });
 
@@ -39,17 +43,26 @@ test.describe('Lunch section', () => {
       await lunch.expectPlaceholder('thursday');
     });
 
-    test('still shows a retired dish in a week that uses it', async ({ page }) => {
+    test('shows a dish without allergens and no allergen marker for it', async ({ page }) => {
       const lunch = new LunchSectionPage(page);
       await lunch.goto();
-      await lunch.expectDayDishes('friday', CURRENT_WEEK.friday!.dishes);
+      await lunch.expectDayDishes('friday', names(CURRENT_WEEK.friday!.dishes));
+      await lunch.expectNoDishAllergens('friday', CURRENT_WEEK.friday!.dishes[0].name);
+    });
+
+    test("shows the week's prices in the hours note, in both languages", async ({ page }) => {
+      const lunch = new LunchSectionPage(page);
+      await lunch.goto();
+      await lunch.expectHoursNote('Hinta ma–pe 13,20\u00a0€, la–su 14,20\u00a0€');
+      await lunch.goto('/en');
+      await lunch.expectHoursNote('Price Mon–Fri €13.20, Sat–Sun €14.20');
     });
 
     test('never shows the unpublished next week', async ({ page }) => {
       const lunch = new LunchSectionPage(page);
       await lunch.goto();
-      await lunch.expectDayDishes('monday', CURRENT_WEEK.monday!.dishes);
-      for (const name of NEXT_WEEK.monday!.dishes) await lunch.expectDishNowhere(name);
+      await lunch.expectDayDishes('monday', names(CURRENT_WEEK.monday!.dishes));
+      for (const name of names(NEXT_WEEK.monday!.dishes)) await lunch.expectDishNowhere(name);
     });
 
     test('labels the shown week with its number and dates, in both languages', async ({ page }) => {
@@ -64,8 +77,7 @@ test.describe('Lunch section', () => {
     test("shows each dish's allergens and explains the codes", async ({ page }) => {
       const lunch = new LunchSectionPage(page);
       await lunch.goto();
-      // The fixture gives every active dish L and G; they show in the fixed G, L, VL, M, Veg order.
-      await lunch.expectDishAllergens('monday', CURRENT_WEEK.monday!.dishes[0], '(G, L)');
+      await lunch.expectDishAllergens('monday', names(CURRENT_WEEK.monday!.dishes)[0], '(G, L)');
       await lunch.expectAllergenKey('G = gluteeniton · L = laktoositon · VL = vähälaktoosinen · M = maidoton · Veg = vegaaninen');
       await lunch.goto('/en');
       await lunch.expectAllergenKey('G = gluten-free · L = lactose-free · VL = low-lactose · M = dairy-free · Veg = vegan');
@@ -74,7 +86,7 @@ test.describe('Lunch section', () => {
     test('English shows the same Finnish dishes', async ({ page }) => {
       const lunch = new LunchSectionPage(page);
       await lunch.goto('/en');
-      await lunch.expectDayDishes('monday', CURRENT_WEEK.monday!.dishes);
+      await lunch.expectDayDishes('monday', names(CURRENT_WEEK.monday!.dishes));
     });
   });
 });
