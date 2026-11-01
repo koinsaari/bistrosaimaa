@@ -3,10 +3,10 @@ import { z } from 'zod';
 import type { WeekSnapshot } from '@/db';
 import { ALLERGENS } from '@/lib/allergens';
 import { abandonChange, finalizeChange, recordChange, undoLatestForChat } from '@/lib/bot/changes';
-import { checkDocument, checkWeekEditable } from '@/lib/bot/checks';
-import { addWeeks, formatWeekLabel, shownLunchWeek, type IsoWeek } from '@/lib/isoWeek';
+import { checkWeekEditable } from '@/lib/bot/checks';
+import { addWeeks, formatWeekLabel, isLaterWeek, shownLunchWeek, shownWeekSwitchLabel, type IsoWeek } from '@/lib/isoWeek';
 import { DAY_KEYS, type DayKey, type LunchDay, type LunchPrices } from '@/lib/lunch';
-import { getWeek, isValidIsoWeek, saveWeek, type StoredWeek } from '@/lib/lunchWeek';
+import { getWeek, isValidIsoWeek, parseWeekDocument, saveWeek, type StoredWeek } from '@/lib/lunchWeek';
 
 export const DAY_NAMES_FI: Record<DayKey, string> = {
   monday: 'maanantai',
@@ -99,9 +99,13 @@ export type ToolContext = {
   chatId: number;
   userId: number;
   now: Date;
-  /** Filled in as the agent writes: ids of the changes made during this message, oldest first. */
-  changeIds: string[];
 };
+
+/** When a saved week shows on the site, for the agent to relay. */
+export function visibilityNote(week: IsoWeek, published: boolean, now: Date): string {
+  if (!published) return 'ei näy sivulla (piilotettu)';
+  return isLaterWeek(week, shownLunchWeek(now)) ? `näkyy sivulla ${shownWeekSwitchLabel()} alkaen` : 'näkyy sivulla heti';
+}
 
 function applyDayChanges(
   current: StoredWeek['days'],
@@ -149,15 +153,28 @@ export function createTools(ctx: ToolContext) {
 
     lunch_update_week: tool({
       description:
-        'Muuttaa yhtä lounasviikkoa osittain: vain annetut päivät, hinnat ja julkaisutila muuttuvat. Luo viikon, jos sitä ei ole (uusi viikko julkaistaan heti). Mennyttä viikkoa ei voi muuttaa.',
-      inputSchema: z.object({ week: weekInput, changes: changesInput }),
-      execute: async ({ week, changes }) => {
+        'Muuttaa yhtä lounasviikkoa: oletuksena osittain (vain annetut päivät, hinnat ja julkaisutila muuttuvat), replace: true korvaa koko viikon sisällön. Luo viikon, jos sitä ei ole (uusi viikko julkaistaan heti). Mennyttä viikkoa ei voi muuttaa. Tulos kertoo, milloin muutos näkyy sivulla.',
+      inputSchema: z.object({
+        week: weekInput,
+        changes: changesInput,
+        replace: z
+          .boolean()
+          .optional()
+          .describe(
+            'true = viikon sisältö korvataan kokonaan annetulla: päivät, joita ei anneta, poistetaan. Käytä, kun tallennat kuvasta tai PDF:stä luetun koko listan. Oletus false (vain annetut päivät muuttuvat).',
+          ),
+      }),
+      execute: async ({ week, changes, replace }) => {
         const editable = checkWeekEditable(week, ctx.now);
         if (!editable.ok) return { ok: false, virhe: editable.error };
 
         const stored = await getWeek(week);
         const prices = changes.prices ? { ...stored?.prices, ...changes.prices } : (stored?.prices ?? null);
-        const document = checkDocument({ days: applyDayChanges(stored?.days ?? {}, changes.days), prices });
+        const days = applyDayChanges(replace ? {} : (stored?.days ?? {}), changes.days);
+        if (replace && !DAY_KEYS.some((key) => days[key]?.dishes.length)) {
+          return { ok: false, virhe: 'Korvaava lista ei sisällä yhtään ruokaa, ei muutettu.' };
+        }
+        const document = parseWeekDocument({ days, prices });
         if (!document.ok) {
           const missingPrice = changes.prices && (prices?.weekdayCents === undefined || prices?.weekendCents === undefined);
           return {
@@ -175,7 +192,13 @@ export function createTools(ctx: ToolContext) {
           published: changes.published ?? stored?.published ?? true,
         };
         if (before && JSON.stringify(before) === JSON.stringify(after)) {
-          return { ok: true, muutettu: false, huomio: 'Viikko on jo sellainen, ei muutettu.', viikko: describeWeek(week, stored) };
+          return {
+            ok: true,
+            muutettu: false,
+            huomio: 'Viikko on jo sellainen, ei muutettu.',
+            näkyvyys: visibilityNote(week, after.published, ctx.now),
+            viikko: describeWeek(week, stored),
+          };
         }
 
         const changeId = await recordChange({ chatId: ctx.chatId, userId: ctx.userId, week, before, after });
@@ -187,7 +210,6 @@ export function createTools(ctx: ToolContext) {
           await abandonChange(changeId).catch(() => undefined);
           throw error;
         }
-        ctx.changeIds.push(changeId);
 
         const fresh = describeWeek(week, { ...after, updatedAt: ctx.now });
         const changedNames = DAY_KEYS.filter((key) => changes.days?.[key]).map((key) => DAY_NAMES_FI[key]);
@@ -195,7 +217,9 @@ export function createTools(ctx: ToolContext) {
           ok: true,
           muutettu: true,
           muutosId: changeId,
-          muutetutPäivät: changedNames,
+          korvattu: replace && before ? true : undefined,
+          näkyvyys: visibilityNote(week, after.published, ctx.now),
+          muutetutPäivät: replace ? 'koko viikko korvattu' : changedNames,
           hintamuutokset: describePriceChange(before?.prices ?? null, after.prices),
           viikonTila: fresh,
           huomio: before ? undefined : 'Viikko luotiin ja julkaistiin.',
@@ -209,10 +233,6 @@ export function createTools(ctx: ToolContext) {
       inputSchema: z.object({}),
       execute: async () => {
         const result = await undoLatestForChat(ctx.chatId);
-        if (result.ok) {
-          const index = ctx.changeIds.indexOf(result.changeId);
-          if (index >= 0) ctx.changeIds.splice(index, 1);
-        }
         return result.ok
           ? { ok: true, viikko: result.week.isoWeek, huomio: result.removed ? 'Viikko poistettiin (sitä ei ollut ennen muutosta).' : 'Muutos kumottu.' }
           : { ok: false, virhe: result.error };

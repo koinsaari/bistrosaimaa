@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { parseAllowedUserIds, secretMatches } from '@/lib/bot/env';
+import { parseAllowedUserIds } from '@/lib/bot/env';
 
 describe('parseAllowedUserIds', () => {
   it('parses a comma-separated list of numeric ids, ignoring spaces', () => {
@@ -19,19 +19,5 @@ describe('parseAllowedUserIds', () => {
 
   it('rejects ids beyond the safe integer range', () => {
     expect(() => parseAllowedUserIds('99999999999999999999')).toThrow();
-  });
-});
-
-describe('secretMatches', () => {
-  it('accepts the exact secret', () => {
-    expect(secretMatches('e2e-secret', 'e2e-secret')).toBe(true);
-  });
-
-  it('rejects a different, shorter, longer, empty or missing secret', () => {
-    expect(secretMatches('e2e-secreT', 'e2e-secret')).toBe(false);
-    expect(secretMatches('e2e', 'e2e-secret')).toBe(false);
-    expect(secretMatches('e2e-secret-and-more', 'e2e-secret')).toBe(false);
-    expect(secretMatches('', 'e2e-secret')).toBe(false);
-    expect(secretMatches(null, 'e2e-secret')).toBe(false);
   });
 });

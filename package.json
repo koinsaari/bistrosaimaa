@@ -16,10 +16,11 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:seed:e2e": "tsx src/db/seed-e2e.ts",
-    "bot:eval": "tsx scripts/bot-eval.ts",
     "bot:set-webhook": "tsx scripts/bot-set-webhook.ts"
   },
   "dependencies": {
+    "@chat-adapter/state-pg": "^4.42.0",
+    "@chat-adapter/telegram": "^4.42.0",
     "@fontsource-variable/fraunces": "^5.3.0",
     "@hookform/resolvers": "^5.9.1",
     "@neondatabase/serverless": "^1.1.0",
@@ -30,7 +31,9 @@
     "@radix-ui/react-separator": "^1.1.15",
     "@radix-ui/react-slot": "^1.3.3",
     "@vercel/analytics": "^2.0.1",
+    "@vercel/functions": "^3.10.5",
     "ai": "^7.0.152",
+    "chat": "^4.42.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "drizzle-orm": "^0.45.3",
@@ -43,6 +46,7 @@
     "luxon": "^3.7.2",
     "next": "^16.4.3",
     "next-intl": "^4.14.8",
+    "pg": "^8.23.1",
     "radix-ui": "^1.6.7",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
@@ -52,11 +56,11 @@
     "zod": "^4.6.7"
   },
   "devDependencies": {
-    "@grammyjs/types": "^5.0.0",
     "@playwright/test": "^1.63.0",
     "@tailwindcss/postcss": "^4",
     "@types/luxon": "^3.7.6",
     "@types/node": "^26",
+    "@types/pg": "^8.23.1",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "drizzle-kit": "^0.31.11",
