@@ -1,7 +1,6 @@
 import { Suspense } from 'react';
 import Hero from './Hero';
 import PlaceStrip from './PlaceStrip';
-import FathersDayMenu from './FathersDayMenu';
 import LunchThisWeek, { LunchSkeleton } from './LunchThisWeek';
 import GalleryPreview from './GalleryPreview';
 import Reviews from './Reviews';
@@ -11,9 +10,6 @@ export default function HomePage() {
   return (
     <div className="font-sans bg-background">
       <Hero />
-      <Suspense fallback={null}>
-        <FathersDayMenu />
-      </Suspense>
       <PlaceStrip />
       <Suspense fallback={<LunchSkeleton />}>
         <LunchThisWeek />
